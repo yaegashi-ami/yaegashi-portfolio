@@ -1,122 +1,136 @@
 import Image from "next/image";
-import Sidebar from "@/components/Sidebar";
-import ExperienceYears from "@/components/ExperienceYears";
-import { tools, taskApps, chatApps } from "@/data/site";
+import Link from "next/link";
+import ContactCard from "@/components/ContactCard";
+import SocialIcons from "@/components/SocialIcons";
+import { services, policy } from "@/data/site";
+import { works, thumbOf } from "@/data/works";
+
+const sideNav = [
+  { label: "Works", href: "/works" },
+  { label: "Other", href: "/other" },
+  { label: "Profile", href: "/profile" },
+];
 
 export default function Page() {
   return (
-    <main className="mx-auto flex w-full max-w-[1400px] flex-1 flex-col lg:h-screen lg:flex-row lg:overflow-hidden">
-      <Sidebar />
-
-      <div className="flex w-full flex-col gap-6 bg-profile p-8 lg:h-full lg:overflow-y-auto lg:p-12">
-        <div className="border-b border-ink/20 pb-1">
-          <h3 className="text-sm font-semibold tracking-widest">▼Tools</h3>
+    <main className="mx-auto flex w-full max-w-[1280px] flex-1 flex-col gap-10 py-12 pl-3 pr-5 md:flex-row">
+      {/* 左：署名＋ナビ（追従） */}
+      <aside className="flex shrink-0 flex-col gap-8 md:sticky md:top-6 md:h-fit md:w-56">
+        <div className="w-fit max-w-[220px]">
+          <Image
+            src="/images/signature.svg"
+            alt="ami yaegashi"
+            width={928}
+            height={200}
+            priority
+            className="h-auto w-full"
+          />
         </div>
-
-        <div className="grid h-fit grid-cols-1 gap-4 md:grid-cols-2">
-          {tools.map((tool) => (
-            <div
-              key={tool.name}
-              className="relative grid h-fit grid-cols-[auto_1fr] gap-4 rounded-2xl bg-white p-4 shadow-[0_0_8px_rgba(0,0,0,0.05)]"
+        <nav className="flex flex-row gap-6 md:flex-col">
+          {sideNav.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="text-xl font-bold tracking-widest transition-colors hover:text-main"
             >
-              <span className="absolute right-4 top-4 flex w-5">
-                <Image
-                  src={tool.icon}
-                  alt=""
-                  width={20}
-                  height={20}
-                  className="h-5 w-5"
-                />
-              </span>
-              <Image
-                src={tool.image}
-                alt={tool.alt}
-                width={64}
-                height={64}
-                className="h-16 w-16"
-              />
-              <div>
-                <h2 className="text-lg font-semibold tracking-wider">
-                  {tool.name}
-                </h2>
-                <p className="text-xs leading-relaxed">{tool.description}</p>
-                <p className="text-xs text-muted">
-                  {tool.experienceText ??
-                    (tool.startDate ? (
-                      <>
-                        利用歴/
-                        <ExperienceYears start={tool.startDate} />年
-                      </>
-                    ) : null)}
-                </p>
-              </div>
-            </div>
+              {item.label}
+            </Link>
           ))}
-        </div>
+        </nav>
+        <SocialIcons />
+      </aside>
 
-        <div className="flex flex-col gap-2">
-          <div className="border-b border-ink/20 pb-1">
-            <h3 className="text-sm font-semibold tracking-widest">
-              ▼タスク管理
-            </h3>
-          </div>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            {taskApps.map((app) => (
-              <div
-                key={app.name}
-                className="grid grid-cols-[auto_1fr] items-center gap-3 rounded-xl bg-white p-3 shadow-[0_0_8px_rgba(0,0,0,0.05)]"
+      {/* 右：中身 */}
+      <div className="flex flex-1 flex-col gap-10">
+        <section className="flex flex-col gap-4">
+          <h2 className="text-2xl font-bold tracking-wider text-main">
+            SERVICE
+          </h2>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {services.map((s) => (
+              <article
+                key={s.title}
+                className="flex flex-col gap-2 rounded-2xl border-[0.5px] border-main bg-white p-6"
               >
-                <Image
-                  src={app.image}
-                  alt=""
-                  width={40}
-                  height={40}
-                  className="h-10 w-10 rounded-md"
-                />
-                <h3 className="text-sm font-semibold tracking-wider">
-                  {app.name}
+                <h3 className="text-base font-bold tracking-[0.15rem]">
+                  {s.en}
                 </h3>
-              </div>
+                <p className="text-sm leading-6">{s.body}</p>
+              </article>
             ))}
           </div>
-        </div>
+        </section>
 
-        <div className="flex flex-col gap-2">
-          <div className="border-b border-ink/20 pb-1">
-            <h3 className="text-sm font-semibold tracking-widest">
-              ▼チャットツール
-            </h3>
+        {/* Policy */}
+        <section className="flex flex-col gap-3 rounded-2xl border-[0.5px] border-main bg-white p-8 md:p-12">
+          <p className="text-2xl font-bold tracking-wider text-main">
+            {policy.heading.toUpperCase()}
+          </p>
+          <h2 className="text-xl font-bold leading-relaxed tracking-wider md:text-2xl">
+            {policy.statement}
+          </h2>
+          <p className="text-sm leading-6">{policy.body}</p>
+        </section>
+
+        {/* Works digest */}
+        <section className="flex flex-col gap-4">
+          <div className="flex items-end justify-between">
+            <p className="text-2xl font-bold tracking-wider text-main">
+              WORKS
+            </p>
+            <Link
+              href="/works"
+              className="text-xs font-bold tracking-widest text-main hover:underline"
+            >
+              すべて見る →
+            </Link>
           </div>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            {chatApps.map((app) => (
-              <div
-                key={app.name}
-                className="grid grid-cols-[auto_1fr] items-center gap-3 rounded-xl bg-white p-3 shadow-[0_0_8px_rgba(0,0,0,0.05)]"
-              >
-                <Image
-                  src={app.image}
-                  alt=""
-                  width={40}
-                  height={40}
-                  className="h-10 w-10 rounded-md"
-                />
-                <h3 className="text-sm font-semibold tracking-widest">
-                  {app.name}
-                </h3>
-              </div>
-            ))}
+          <div className="grid grid-cols-3 gap-4">
+            {works.slice(0, 3).map((work) => {
+              const cover = work.gallery[0]?.images[0]?.src;
+              const thumb = cover ? thumbOf(cover) : undefined;
+              return (
+                <Link
+                  key={work.slug}
+                  href={`/works/${work.slug}`}
+                  aria-label={work.title}
+                  className="group block overflow-hidden rounded-xl border-[0.5px] border-main bg-white"
+                  style={{ backgroundColor: work.bg }}
+                >
+                  {thumb ? (
+                    <Image
+                      src={thumb}
+                      alt=""
+                      width={600}
+                      height={450}
+                      className="aspect-[4/3] h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  ) : null}
+                </Link>
+              );
+            })}
           </div>
-        </div>
+        </section>
+
+        {/* About digest */}
+        <section className="flex flex-col gap-4 rounded-2xl border-[0.5px] border-main bg-white p-8 md:p-10">
+          <p className="text-2xl font-bold tracking-wider text-main">ABOUT</p>
+          <h2 className="text-2xl font-bold tracking-wider">八重樫 亜実</h2>
+          <p className="text-sm leading-6">
+            桑沢デザイン研究所卒。
+            Adobe
+            CCを中心に、近年はFigmaを主に利用。WordPressのテーマ編集や軽微なコーディングも対応します。詳しい道具・経歴はプロフィールページへ。
+          </p>
+          <Link
+            href="/profile"
+            className="w-fit text-xs font-bold tracking-widest text-main hover:underline"
+          >
+            Profile を見る →
+          </Link>
+        </section>
+
+        <ContactCard />
       </div>
-
-      <footer className="flex items-end justify-between p-8 text-xs tracking-widest text-main lg:hidden">
-        <h3 className="font-semibold leading-tight">
-          AMI
-          <br />
-          YAEGASHI
-        </h3>
-        <p>PORTFORIO</p>
-      </footer>
     </main>
   );
 }

@@ -3,8 +3,28 @@ export type WorkTag = {
   kind: "web" | "dtp" | "illust" | "date";
 };
 
+export const itemTags = [
+  "フライヤー・ポスター・DTP",
+  "LP",
+  "パンフレット",
+  "ロゴ",
+  "カード",
+  "ステッカー",
+  "イラスト",
+  "Tシャツ",
+  "WEBサイト",
+  "バナー",
+] as const;
+
+export type ItemTag = (typeof itemTags)[number];
+
+export type GalleryImage = {
+  src: string;
+  item: ItemTag;
+};
+
 export type GalleryGroup = {
-  images: string[];
+  images: GalleryImage[];
   columns: 1 | 2 | 3 | 4;
 };
 
@@ -43,39 +63,39 @@ export const works: Work[] = [
       {
         columns: 3,
         images: [
-          "/images/pinokio1.png",
-          "/images/pinokio2.png",
-          "/images/pinokio3.png",
-          "/images/pinokio4.png",
-          "/images/pinokio5.png",
-          "/images/pinokio6.png",
-          "/images/pinokio7.png",
-          "/images/pinokio8.png",
-          "/images/pinokio9.png",
-          "/images/pinokio10.png",
-          "/images/pinokio11.png",
-          "/images/pinokio12.png",
+          { src: "/images/pinokio1.png", item: "フライヤー・ポスター・DTP" },
+          { src: "/images/pinokio2.png", item: "フライヤー・ポスター・DTP" },
+          { src: "/images/pinokio3.png", item: "フライヤー・ポスター・DTP" },
+          { src: "/images/pinokio4.png", item: "フライヤー・ポスター・DTP" },
+          { src: "/images/pinokio5.png", item: "フライヤー・ポスター・DTP" },
+          { src: "/images/pinokio6.png", item: "フライヤー・ポスター・DTP" },
+          { src: "/images/pinokio7.png", item: "フライヤー・ポスター・DTP" },
+          { src: "/images/pinokio8.png", item: "フライヤー・ポスター・DTP" },
+          { src: "/images/pinokio9.png", item: "フライヤー・ポスター・DTP" },
+          { src: "/images/pinokio10.png", item: "フライヤー・ポスター・DTP" },
+          { src: "/images/pinokio11.png", item: "バナー" },
+          { src: "/images/pinokio12.png", item: "フライヤー・ポスター・DTP" },
         ],
       },
       {
         columns: 4,
         images: [
-          "/images/pinokio-book1.png",
-          "/images/pinokio-book2.png",
-          "/images/pinokio-book3.png",
-          "/images/pinokio-book4.png",
-          "/images/pinokio-book5.png",
-          "/images/pinokio-book6.png",
-          "/images/pinokio-book7.png",
-          "/images/pinokio-book8.png",
-          "/images/pinokio-book9.png",
-          "/images/pinokio-book10.png",
-          "/images/pinokio-book11.png",
-          "/images/pinokio-book12.png",
-          "/images/pinokio-book13.png",
-          "/images/pinokio-book14.png",
-          "/images/pinokio-book15.png",
-          "/images/pinokio-book16.png",
+          { src: "/images/pinokio-book1.png", item: "パンフレット" },
+          { src: "/images/pinokio-book2.png", item: "パンフレット" },
+          { src: "/images/pinokio-book3.png", item: "パンフレット" },
+          { src: "/images/pinokio-book4.png", item: "パンフレット" },
+          { src: "/images/pinokio-book5.png", item: "パンフレット" },
+          { src: "/images/pinokio-book6.png", item: "パンフレット" },
+          { src: "/images/pinokio-book7.png", item: "パンフレット" },
+          { src: "/images/pinokio-book8.png", item: "パンフレット" },
+          { src: "/images/pinokio-book9.png", item: "パンフレット" },
+          { src: "/images/pinokio-book10.png", item: "パンフレット" },
+          { src: "/images/pinokio-book11.png", item: "パンフレット" },
+          { src: "/images/pinokio-book12.png", item: "パンフレット" },
+          { src: "/images/pinokio-book13.png", item: "パンフレット" },
+          { src: "/images/pinokio-book14.png", item: "パンフレット" },
+          { src: "/images/pinokio-book15.png", item: "パンフレット" },
+          { src: "/images/pinokio-book16.png", item: "パンフレット" },
         ],
       },
     ],
@@ -97,11 +117,11 @@ export const works: Work[] = [
       {
         columns: 4,
         images: [
-          "/images/lp_furisode-lental@2x.png",
-          "/images/lp_w-seijin@2x.png",
-          "/images/lp_furisode@2x.png",
-          "/images/lp_family@2x.png",
-          "/images/lp_furisode-rental-wf@2x.png",
+          { src: "/images/lp_furisode-lental@2x.png", item: "LP" },
+          { src: "/images/lp_w-seijin@2x.png", item: "LP" },
+          { src: "/images/lp_furisode@2x.png", item: "LP" },
+          { src: "/images/lp_family@2x.png", item: "LP" },
+          { src: "/images/lp_furisode-rental-wf@2x.png", item: "LP" },
         ],
       },
     ],
@@ -130,11 +150,11 @@ export const works: Work[] = [
       {
         columns: 2,
         images: [
-          "/images/franny1.png",
-          "/images/franny2.png",
-          "/images/franny3.png",
-          "/images/franny4.png",
-          "/images/franny5.png",
+          { src: "/images/franny1.png", item: "ロゴ" },
+          { src: "/images/franny2.png", item: "フライヤー・ポスター・DTP" },
+          { src: "/images/franny3.png", item: "カード" },
+          { src: "/images/franny4.png", item: "ステッカー" },
+          { src: "/images/franny5.png", item: "フライヤー・ポスター・DTP" },
         ],
       },
     ],
@@ -157,12 +177,12 @@ export const works: Work[] = [
       {
         columns: 2,
         images: [
-          "/images/FADSTARt_Sticker_5.png",
-          "/images/FADSTARt_Sticker_2.png",
-          "/images/FADSTARt_Sticker_1.png",
-          "/images/FADSTARt_Sticker_4.png",
-          "/images/FADSTARt_Sticker_3.png",
-          "/images/FADSTARt_Sticker_6.png",
+          { src: "/images/FADSTARt_Sticker_5.png", item: "ステッカー" },
+          { src: "/images/FADSTARt_Sticker_2.png", item: "ステッカー" },
+          { src: "/images/FADSTARt_Sticker_1.png", item: "ステッカー" },
+          { src: "/images/FADSTARt_Sticker_4.png", item: "ステッカー" },
+          { src: "/images/FADSTARt_Sticker_3.png", item: "ステッカー" },
+          { src: "/images/FADSTARt_Sticker_6.png", item: "ステッカー" },
         ],
       },
     ],
@@ -186,11 +206,11 @@ export const works: Work[] = [
       {
         columns: 1,
         images: [
-          "/images/vivotree1.png",
-          "/images/vivotree2.png",
-          "/images/vivotree3.png",
-          "/images/vivotree4.png",
-          "/images/vivotree5.png",
+          { src: "/images/vivotree1.png", item: "ロゴ" },
+          { src: "/images/vivotree2.png", item: "パンフレット" },
+          { src: "/images/vivotree3.png", item: "パンフレット" },
+          { src: "/images/vivotree4.png", item: "パンフレット" },
+          { src: "/images/vivotree5.png", item: "パンフレット" },
         ],
       },
     ],
@@ -212,18 +232,18 @@ export const works: Work[] = [
       {
         columns: 3,
         images: [
-          "/images/panasonicbeauty1.png",
-          "/images/panasonicbeauty2.png",
-          "/images/panasonicbeauty6.png",
-          "/images/panasonicbeauty7.png",
+          { src: "/images/panasonicbeauty1.png", item: "イラスト" },
+          { src: "/images/panasonicbeauty2.png", item: "イラスト" },
+          { src: "/images/panasonicbeauty6.png", item: "イラスト" },
+          { src: "/images/panasonicbeauty7.png", item: "イラスト" },
         ],
       },
       {
         columns: 3,
         images: [
-          "/images/panasonicbeauty3.png",
-          "/images/panasonicbeauty4.png",
-          "/images/panasonicbeauty5.png",
+          { src: "/images/panasonicbeauty3.png", item: "イラスト" },
+          { src: "/images/panasonicbeauty4.png", item: "イラスト" },
+          { src: "/images/panasonicbeauty5.png", item: "イラスト" },
         ],
       },
     ],
@@ -245,11 +265,11 @@ export const works: Work[] = [
       {
         columns: 2,
         images: [
-          "/images/garbpintino5.png",
-          "/images/garbpintino3.png",
-          "/images/garbpintino4.png",
-          "/images/garbpintino1.png",
-          "/images/garbpintino2.png",
+          { src: "/images/garbpintino5.png", item: "フライヤー・ポスター・DTP" },
+          { src: "/images/garbpintino3.png", item: "カード" },
+          { src: "/images/garbpintino4.png", item: "カード" },
+          { src: "/images/garbpintino1.png", item: "カード" },
+          { src: "/images/garbpintino2.png", item: "カード" },
         ],
       },
     ],
@@ -266,7 +286,12 @@ export const works: Work[] = [
     description: [
       "コーポレートサイトのリデザインコンペに参加しました。工務店とマルチな制作という組み合わせを表現するため、ポップでありながら規則性の強いデザインに仕上げました。特にファーストビューではロゴマークを模ったパネルを浮遊させることで、軽やかで先進的な雰囲気を演出しました。",
     ],
-    gallery: [{ columns: 1, images: ["/images/socoage_top.png"] }],
+    gallery: [
+      {
+        columns: 1,
+        images: [{ src: "/images/socoage_top.png", item: "WEBサイト" }],
+      },
+    ],
     bg: "lightsteelblue",
   },
   {
@@ -279,12 +304,12 @@ export const works: Work[] = [
       {
         columns: 2,
         images: [
-          "/images/t-shirt_1.png",
-          "/images/t-shirt_2.png",
-          "/images/t-shirt_3.png",
-          "/images/t-shirt_4.png",
-          "/images/t-shirt_5.png",
-          "/images/t-shirt_6.png",
+          { src: "/images/t-shirt_1.png", item: "Tシャツ" },
+          { src: "/images/t-shirt_2.png", item: "Tシャツ" },
+          { src: "/images/t-shirt_3.png", item: "Tシャツ" },
+          { src: "/images/t-shirt_4.png", item: "Tシャツ" },
+          { src: "/images/t-shirt_5.png", item: "Tシャツ" },
+          { src: "/images/t-shirt_6.png", item: "Tシャツ" },
         ],
       },
     ],
@@ -295,4 +320,70 @@ export const works: Work[] = [
 
 export function getWork(slug: string): Work | undefined {
   return works.find((w) => w.slug === slug);
+}
+
+/** カード表示用の軽量サムネパス（*-thumb.jpg） */
+export function thumbOf(src: string): string {
+  return src.replace(/\.[^.]+$/, "-thumb.jpg");
+}
+
+export type LPDetail = {
+  id: string;
+  src: string;
+  title: string;
+  client: string;
+  description: string[];
+};
+
+/** LP個別ページ用（タイトル・説明はたたき。本人修正前提） */
+export const lpDetails: LPDetail[] = [
+  {
+    id: "furisode-rental",
+    src: "/images/lp_furisode-lental@2x.png",
+    title: "振袖レンタル キャンペーンLP",
+    client: "写真館ピノキオ",
+    description: [
+      "振袖レンタルのキャンペーンページ。\nデザイン・コーディング・CMS更新まで一貫して担当。",
+    ],
+  },
+  {
+    id: "w-seijin",
+    src: "/images/lp_w-seijin@2x.png",
+    title: "成人式 WキャンペーンLP",
+    client: "写真館ピノキオ",
+    description: [
+      "成人式向けキャンペーンページ。デザイン・コーディング・CMS更新まで一貫して担当。（説明文たたき）",
+    ],
+  },
+  {
+    id: "furisode",
+    src: "/images/lp_furisode@2x.png",
+    title: "振袖 キャンペーンLP",
+    client: "写真館ピノキオ",
+    description: [
+      "振袖のキャンペーンページ。デザイン・コーディング・CMS更新まで一貫して担当。（説明文たたき）",
+    ],
+  },
+  {
+    id: "family",
+    src: "/images/lp_family@2x.png",
+    title: "ファミリー キャンペーンLP",
+    client: "写真館ピノキオ",
+    description: [
+      "ファミリー向けキャンペーンページ。デザイン・コーディング・CMS更新まで一貫して担当。（説明文たたき）",
+    ],
+  },
+  {
+    id: "furisode-rental-wf",
+    src: "/images/lp_furisode-rental-wf@2x.png",
+    title: "振袖レンタル LP",
+    client: "写真館ピノキオ",
+    description: [
+      "振袖レンタルのキャンペーンページ。デザイン・コーディング・CMS更新まで一貫して担当。（説明文たたき）",
+    ],
+  },
+];
+
+export function getLPDetail(id: string): LPDetail | undefined {
+  return lpDetails.find((d) => d.id === id);
 }

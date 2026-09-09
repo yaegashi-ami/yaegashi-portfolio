@@ -9,14 +9,28 @@ const notoSans = Noto_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "AMI YAEGASHI PORTFORIO",
+  title: "AMI YAEGASHI PORTFOLIO",
   description: "八重樫亜実のポートフォリオ",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="ja" className={`${notoSans.variable} h-full`}>
-      <body className="flex min-h-full flex-col">{children}</body>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="flex min-h-full flex-col">
+        <div className="flex flex-1 flex-col">{children}</div>
+      </body>
     </html>
   );
 }

@@ -1,69 +1,122 @@
 import Image from "next/image";
+import Sidebar from "@/components/Sidebar";
+import ExperienceYears from "@/components/ExperienceYears";
+import { tools, taskApps, chatApps } from "@/data/site";
 
-export default function Home() {
+export default function Page() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="mx-auto flex w-full max-w-[1400px] flex-1 flex-col lg:h-screen lg:flex-row lg:overflow-hidden">
+      <Sidebar />
+
+      <div className="flex w-full flex-col gap-6 bg-profile p-8 lg:h-full lg:overflow-y-auto lg:p-12">
+        <div className="border-b border-ink/20 pb-1">
+          <h3 className="text-sm font-semibold tracking-widest">▼Tools</h3>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="grid h-fit grid-cols-1 gap-4 md:grid-cols-2">
+          {tools.map((tool) => (
+            <div
+              key={tool.name}
+              className="relative grid h-fit grid-cols-[auto_1fr] gap-4 rounded-2xl bg-white p-4 shadow-[0_0_8px_rgba(0,0,0,0.05)]"
+            >
+              <span className="absolute right-4 top-4 flex w-5">
+                <Image
+                  src={tool.icon}
+                  alt=""
+                  width={20}
+                  height={20}
+                  className="h-5 w-5"
+                />
+              </span>
+              <Image
+                src={tool.image}
+                alt={tool.alt}
+                width={64}
+                height={64}
+                className="h-16 w-16"
+              />
+              <div>
+                <h2 className="text-lg font-semibold tracking-wider">
+                  {tool.name}
+                </h2>
+                <p className="text-xs leading-relaxed">{tool.description}</p>
+                <p className="text-xs text-muted">
+                  {tool.experienceText ??
+                    (tool.startDate ? (
+                      <>
+                        利用歴/
+                        <ExperienceYears start={tool.startDate} />年
+                      </>
+                    ) : null)}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
-      </main>
-    </div>
+
+        <div className="flex flex-col gap-2">
+          <div className="border-b border-ink/20 pb-1">
+            <h3 className="text-sm font-semibold tracking-widest">
+              ▼タスク管理
+            </h3>
+          </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            {taskApps.map((app) => (
+              <div
+                key={app.name}
+                className="grid grid-cols-[auto_1fr] items-center gap-3 rounded-xl bg-white p-3 shadow-[0_0_8px_rgba(0,0,0,0.05)]"
+              >
+                <Image
+                  src={app.image}
+                  alt=""
+                  width={40}
+                  height={40}
+                  className="h-10 w-10 rounded-md"
+                />
+                <h3 className="text-sm font-semibold tracking-wider">
+                  {app.name}
+                </h3>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <div className="border-b border-ink/20 pb-1">
+            <h3 className="text-sm font-semibold tracking-widest">
+              ▼チャットツール
+            </h3>
+          </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            {chatApps.map((app) => (
+              <div
+                key={app.name}
+                className="grid grid-cols-[auto_1fr] items-center gap-3 rounded-xl bg-white p-3 shadow-[0_0_8px_rgba(0,0,0,0.05)]"
+              >
+                <Image
+                  src={app.image}
+                  alt=""
+                  width={40}
+                  height={40}
+                  className="h-10 w-10 rounded-md"
+                />
+                <h3 className="text-sm font-semibold tracking-widest">
+                  {app.name}
+                </h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <footer className="flex items-end justify-between p-8 text-xs tracking-widest text-main lg:hidden">
+        <h3 className="font-semibold leading-tight">
+          AMI
+          <br />
+          YAEGASHI
+        </h3>
+        <p>PORTFORIO</p>
+      </footer>
+    </main>
   );
 }

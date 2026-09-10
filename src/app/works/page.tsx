@@ -5,7 +5,14 @@ import Image from "next/image";
 import Link from "next/link";
 import WorkCard from "@/components/WorkCard";
 import SubNav from "@/components/SubNav";
-import { works, itemTags, lpDetails, thumbOf, type ItemTag } from "@/data/works";
+import {
+  works,
+  itemTags,
+  lpDetails,
+  thumbOf,
+  hiddenItemSrcs,
+  type ItemTag,
+} from "@/data/works";
 
 const genreFilters = [
   { key: "all", label: "すべて" },
@@ -36,7 +43,9 @@ export default function Page() {
 
   const itemImages = works.flatMap((work) =>
     work.gallery.flatMap((group, gi) =>
-      group.images.map((img) => ({ work, gi, img })),
+      group.images
+        .filter((img) => !hiddenItemSrcs.includes(img.src))
+        .map((img) => ({ work, gi, img })),
     ),
   );
   const visibleItems =
@@ -215,7 +224,7 @@ export default function Page() {
                     alt=""
                     width={600}
                     height={800}
-                    className="h-auto w-full transition-transform duration-300 group-hover:scale-105"
+                    className="h-auto max-h-[70vh] w-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </span>
               </Link>

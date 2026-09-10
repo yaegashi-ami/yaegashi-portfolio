@@ -113,33 +113,43 @@ export default async function Page({
                   className={`grid h-fit gap-4 ${gridCols[group.columns]}`}
                 >
                   {group.images.map((img) => {
-                    const lp = lpDetails.find((d) => d.src === img.src);
+                    const lp =
+                      lpDetails.find((d) => d.src === img.src) ??
+                      lpDetails.find((d) => d.comp?.src === img.src);
+                    const target = lp
+                      ? { id: lp.id, title: lp.title }
+                      : undefined;
                     const image = (
                       <Image
                         key={img.src}
                         src={img.src}
-                        alt={lp?.title ?? ""}
+                        alt={target?.title ?? ""}
                         width={800}
                         height={600}
-                        className="h-auto w-full"
+                        className="h-auto max-h-[70vh] w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
                       />
                     );
-                    return lp ? (
+                    const frame = (
+                      <span className="block w-full overflow-hidden">
+                        {image}
+                      </span>
+                    );
+                    return target ? (
                       <Link
                         key={img.src}
-                        href={`/works/lp/${lp.id}?from=${slug}`}
-                        aria-label={`${lp.title}のページへ`}
+                        href={`/works/lp/${target.id}?from=${slug}`}
+                        aria-label={`${target.title}のページへ`}
                         className="group block"
                       >
-                        <span className="block transition-transform duration-300 group-hover:scale-[1.02]">
-                          {image}
-                        </span>
+                        {frame}
                         <span className="mt-1 block text-xs text-main group-hover:underline">
-                          {lp.title} →
+                          {target.title} →
                         </span>
                       </Link>
                     ) : (
-                      image
+                      <span key={img.src} className="block">
+                        {frame}
+                      </span>
                     );
                   })}
                 </div>

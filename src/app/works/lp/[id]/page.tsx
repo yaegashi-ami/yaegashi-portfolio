@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import SubNav from "@/components/SubNav";
 import LpMock from "@/components/LpMock";
+import LpTabs from "@/components/LpTabs";
 import BackLink from "@/components/BackLink";
 import { lpDetails, getLPDetail } from "@/data/works";
 
@@ -55,7 +56,14 @@ export default async function Page({
             </p>
           ))}
         </section>
-        <LpMock src={detail.src} title={detail.title} />
+        {detail.comp ? (
+          <LpTabs
+            main={{ src: detail.src, title: detail.title }}
+            comp={detail.comp}
+          />
+        ) : (
+          <LpMock src={detail.src} title={detail.title} />
+        )}
       </div>
     </main>
   );

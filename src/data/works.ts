@@ -121,7 +121,6 @@ export const works: Work[] = [
           { src: "/images/lp_w-seijin@2x.png", item: "LP" },
           { src: "/images/lp_furisode@2x.png", item: "LP" },
           { src: "/images/lp_family@2x.png", item: "LP" },
-          { src: "/images/lp_furisode-rental-wf@2x.png", item: "LP" },
         ],
       },
     ],
@@ -333,6 +332,8 @@ export type LPDetail = {
   title: string;
   client: string;
   description: string[];
+  /** カンプ（タブ切替で表示） */
+  comp?: { src: string; label: string };
 };
 
 /** LP個別ページ用（タイトル・説明はたたき。本人修正前提） */
@@ -345,6 +346,10 @@ export const lpDetails: LPDetail[] = [
     description: [
       "振袖レンタルのキャンペーンページ。\nデザイン・コーディング・CMS更新まで一貫して担当。",
     ],
+    comp: {
+      src: "/images/lp_furisode-rental-wf@2x.png",
+      label: "カンプ",
+    },
   },
   {
     id: "w-seijin",
@@ -373,17 +378,13 @@ export const lpDetails: LPDetail[] = [
       "ファミリー向けキャンペーンページ。デザイン・コーディング・CMS更新まで一貫して担当。（説明文たたき）",
     ],
   },
-  {
-    id: "furisode-rental-wf",
-    src: "/images/lp_furisode-rental-wf@2x.png",
-    title: "振袖レンタル LP",
-    client: "写真館ピノキオ",
-    description: [
-      "振袖レンタルのキャンペーンページ。デザイン・コーディング・CMS更新まで一貫して担当。（説明文たたき）",
-    ],
-  },
 ];
 
 export function getLPDetail(id: string): LPDetail | undefined {
   return lpDetails.find((d) => d.id === id);
 }
+
+/** 一覧・マソナリーに出さない画像（カンプ等） */
+export const hiddenItemSrcs: string[] = lpDetails.flatMap((d) =>
+  d.comp ? [d.comp.src] : [],
+);

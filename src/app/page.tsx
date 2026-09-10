@@ -118,8 +118,7 @@ export default function Page() {
           <h2 className="text-2xl font-bold tracking-wider">八重樫 亜実</h2>
           <p className="text-sm leading-6">
             桑沢デザイン研究所卒。
-            Adobe
-            CCを中心に、近年はFigmaを主に利用。WordPressのテーマ編集や軽微なコーディングも対応します。詳しい道具・経歴はプロフィールページへ。
+            WEB、コーディング、DTP経験者の器用貧乏です。WordPressのテーマ編集や軽微なコーディングも対応します！
           </p>
           <Link
             href="/profile"

@@ -101,6 +101,30 @@ export const tools: Tool[] = [
     alt: "VSCode",
     startDate: "2022-04-01",
   },
+  {
+    name: "GitHub",
+    description: "このサイトやWordPressテーマ、拡張機能のコードの管理に利用",
+    icon: "/images/icon-code.svg",
+    image: "/images/GitHub_Invertocat_Black.svg",
+    alt: "GitHub",
+    startDate: "2024-05-01",
+  },
+  {
+    name: "WordPress",
+    description: "サイト更新が中心。ここ半年はテーマ編集も対応",
+    icon: "/images/icon-code.svg",
+    image: "/images/tools-WordPress.svg",
+    alt: "WordPress",
+    experienceText: "利用歴/2年",
+  },
+  {
+    name: "RCMS",
+    description: "過去案件のサイト更新で利用",
+    icon: "/images/icon-code.svg",
+    image: "/images/tools-RCMS.png",
+    alt: "RCMS",
+    experienceText: "利用歴/1年半",
+  },
 ];
 
 export type AppLink = { name: string; image: string };
@@ -175,8 +199,8 @@ export type OtherItem = {
 export const otherItems: OtherItem[] = [
   {
     title: "Now Playing Music - Retro Player",
-    subtitle: "Chrome拡張機能（自作・公開中）",
-    body: "YouTube MusicやSpotify、SoundCloudの再生中曲を、平成レトロなプレイヤーで常時表示する拡張機能。前・再生/停止・次ボタン、タブ移動、6色カラー、ドラッグ移動付き。デザインもコードも自分で書いています。",
+    subtitle: "Chrome拡張機能",
+    body: "YouTube MusicやSpotify、SoundCloudの再生中曲を、平成レトロなプレイヤーで常時表示する拡張機能。前・再生/停止・次ボタン、タブ移動、6色カラー、ドラッグ移動付き。デザイン/コーディング",
     links: [
       {
         label: "Chromeウェブストアで見る →",

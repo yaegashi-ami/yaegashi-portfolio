@@ -8,10 +8,11 @@ export default function Page() {
   return (
     <main className="mx-auto flex w-full max-w-[1100px] flex-1 flex-col gap-12 px-5 pb-12 pt-6">
       <SubNav />
-      <section className="flex flex-col gap-4">
-        <p className="text-sm font-bold tracking-[0.2rem] text-main">
+      <section className="flex flex-col gap-8">
+        <p className="text-3xl font-bold tracking-[0.2rem] text-main">
           PROFILE
         </p>
+        <section className="flex flex-col gap-4">
         <h1 className="text-3xl font-bold tracking-wider">八重樫 亜実</h1>
         <p className="text-sm leading-6">
           桑沢デザイン研究所卒。
@@ -24,10 +25,11 @@ export default function Page() {
           趣味：ローグライクゲーム、麻雀、ソフビ集め、勘料理 <br />
           好きなもの：鰻、コーラ、お湯、タオルケット
         </p>
+        </section>
       </section>
 
-      <section className="flex flex-col gap-4">
-        <h2 className="border-b border-ink/20 pb-1 text-sm font-semibold tracking-widest">
+      <section className="flex flex-col gap-8">
+        <h2 className="border-b border-ink/20 pb-3 text-m font-semibold tracking-widest">
           ▼Tools
         </h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -73,7 +75,7 @@ export default function Page() {
       </section>
 
       <section className="flex flex-col gap-4">
-        <h2 className="border-b border-ink/20 pb-1 text-sm font-semibold tracking-widest">
+        <h2 className="border-b border-ink/20 pb-3 text-sm font-semibold tracking-widest">
           ▼タスク管理
         </h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -98,7 +100,7 @@ export default function Page() {
       </section>
 
       <section className="flex flex-col gap-4">
-        <h2 className="border-b border-ink/20 pb-1 text-sm font-semibold tracking-widest">
+        <h2 className="border-b border-ink/20 pb-3 text-sm font-semibold tracking-widest">
           ▼チャットツール
         </h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">

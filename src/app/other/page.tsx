@@ -8,13 +8,7 @@ export default function Page() {
     <main className="mx-auto flex w-full max-w-[1100px] flex-1 flex-col gap-12 px-5 pb-12 pt-6">
       <SubNav />
       <div>
-        <p className="text-sm font-bold tracking-[0.2rem] text-main">OTHER</p>
-        <h1 className="mt-1 text-3xl font-bold tracking-wider">
-          その他のアウトプット
-        </h1>
-        <p className="mt-2 text-sm leading-6 text-muted">
-          受託制作のほかにも、手を動かして作ったもの置き場。
-        </p>
+        <p className="text-3xl font-bold tracking-[0.2rem] text-main">OTHER</p>
       </div>
 
       <div className="flex flex-col gap-4">

@@ -1,1 +1,0 @@
-# yaegashi-ami.github.io

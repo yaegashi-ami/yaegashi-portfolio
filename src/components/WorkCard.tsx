@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { thumbOf, type Work } from "@/data/works";
+import { thumbOf, flatImages, type Work } from "@/data/works";
 
 const tagStyles: Record<string, string> = {
   web: "bg-[#faff81]",
@@ -9,18 +9,32 @@ const tagStyles: Record<string, string> = {
   date: "bg-white",
 };
 
-export default function WorkCard({ work }: { work: Work }) {
-  const cover = work.gallery[0]?.images[0]?.src;
+export default function WorkCard({
+  work,
+  href,
+  coverSrc,
+  caption,
+}: {
+  work: Work;
+  href?: string;
+  coverSrc?: string;
+  caption?: string;
+}) {
+  const cover =
+    coverSrc ??
+    (work.gallery[0]
+      ? flatImages(work.gallery[0].images)[0]?.src
+      : undefined);
   const thumb = cover ? thumbOf(cover) : undefined;
 
   return (
     <Link
-      href={`/works/${work.slug}`}
-      className="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-[0_0_8px_rgba(0,0,0,0.05)] transition-transform hover:-translate-y-1"
+      href={href ?? `/works/${work.slug}`}
+      className="group flex flex-col overflow-hidden rounded-2xl border-[0.5px] border-main bg-white transition-transform hover:-translate-y-1"
     >
       {thumb ? (
         <span
-          className="block aspect-[4/3] w-full overflow-hidden"
+          className="block aspect-[16/10] w-full overflow-hidden"
           style={{ backgroundColor: work.bg }}
         >
           <Image
@@ -36,17 +50,23 @@ export default function WorkCard({ work }: { work: Work }) {
         <span className="text-base font-semibold tracking-wider">
           {work.title}
         </span>
-        <span className="text-xs text-muted">{work.subtitle}</span>
-        <span className="flex flex-wrap gap-1">
-          {work.tags.map((tag) => (
-            <span
-              key={tag.label}
-              className={`rounded-full border px-2 py-0.5 text-[11px] ${tagStyles[tag.kind] ?? "bg-white"}`}
-            >
-              {tag.label}
+        {caption ? (
+          <span className="text-xs text-muted">{caption}</span>
+        ) : (
+          <>
+            <span className="text-xs text-muted">{work.subtitle}</span>
+            <span className="flex flex-wrap gap-1">
+              {work.tags.map((tag) => (
+                <span
+                  key={tag.label}
+                  className={`rounded-full border px-2 py-0.5 text-[11px] ${tagStyles[tag.kind] ?? "bg-white"}`}
+                >
+                  {tag.label}
+                </span>
+              ))}
             </span>
-          ))}
-        </span>
+          </>
+        )}
       </span>
     </Link>
   );

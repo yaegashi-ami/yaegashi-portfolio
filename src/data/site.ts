@@ -24,7 +24,6 @@ export const workLinks: WorkLink[] = [
   },
   { slug: "yaegashi", label: "自主制作", href: "/works/yaegashi" },
 ];
-
 export type Tool = {
   name: string;
   description: string;
@@ -111,7 +110,7 @@ export const tools: Tool[] = [
   },
   {
     name: "WordPress",
-    description: "サイト更新が中心。ここ半年はテーマ編集も対応",
+    description: "サイト更新が中心、ここ半年はテーマ編集も対応",
     icon: "/images/icon-code.svg",
     image: "/images/tools-WordPress.svg",
     alt: "WordPress",
@@ -144,33 +143,35 @@ export const chatApps: AppLink[] = [
 export type Strength = {
   title: string;
   en: string;
+  icon: string;
   body: string;
 };
 
-/** できること3分割（u-d-l式。文言はたたき台） */
 export const services: Strength[] = [
   {
     title: "WEBデザイン",
     en: "WEB DESIGN",
-    body: "LP・バナー・SNS告知画像をFigma中心に制作。使う人が迷わない、目的を達成できるデザインを心がけています。",
+    icon: "web",
+    body: "LP・バナー・UIデザインをFigma中心に制作。写真のレタッチやイラストも。\n使う人が迷わず、目的を達成できるデザインを心がけています。",
   },
   {
     title: "コーディング・運用",
     en: "CODING & OPERATION",
-    body: "HTML/CSSでのコーディング、WordPressテーマ編集、CMS更新、キャンペーンの運用更新。作ったあとの「回し続けるところ」までやります。Chrome拡張機能の自作・公開経験あり。",
+    icon: "code",
+    body: "HTML/CSSのコーディング、WordPressテーマ編集・更新。\nFigmaを便利に使うプラグインの作成などをしています。",
   },
   {
     title: "DTP",
     en: "DTP",
-    body: "チラシ・パンフレット・名刺・ショップカード・ステッカー・ロゴ。印刷・納品まで一貫して対応します。",
+    icon: "print",
+    body: "チラシ・パンフレット・カード・ステッカー・ロゴなど。同人誌頒布経験あり。\n企画・印刷・納品まで一貫して対応できます。",
   },
 ];
 
-/** 軸・ポリシー（たたき台） */
 export const policy = {
   heading: "Policy",
   statement: "任された範囲を、確実に、最後まで。",
-  body: "紙でもwebでも、手を動かすのが好きです。言われたものをそのまま作るのではなく、使う人のことを考えて作ります。納品して終わりにせず、更新や運用まで面倒を見ます。まるっとでも、一部の作業だけでも。声をかけてもらえたらうれしいです。",
+  body: "紙でもwebでも、手を動かすのが好きです。まるっとでも、一部の作業だけでも。\n使う人のことを考えて作ります。納品して終わりにせず、更新や運用まで責任を持ちます。",
 };
 
 /** 連絡先 */
@@ -192,18 +193,33 @@ export type OtherItem = {
   subtitle: string;
   body: string;
   image?: string;
+  gallery: {
+    columns: number;
+    images: { src: string }[];
+  }[];
   links: { label: string; href: string }[];
 };
 
-/** Otherページ用（たたき台） */
 export const otherItems: OtherItem[] = [
   {
     title: "Now Playing Music - Retro Player",
     subtitle: "Chrome拡張機能",
     body: "YouTube MusicやSpotify、SoundCloudの再生中曲を、平成レトロなプレイヤーで常時表示する拡張機能。前・再生/停止・次ボタン、タブ移動、6色カラー、ドラッグ移動付き。デザイン/コーディング",
+    image: "/images/icon128.png",
+    gallery: [
+      {
+        columns: 1,
+        images: [
+          { src: "/images/screenshot01.png"},
+          { src: "/images/screenshot02.png" },
+          { src: "/images/screenshot03.png" },
+          { src: "/images/screenshot04.png" },
+        ],
+      },
+    ],
     links: [
       {
-        label: "Chromeウェブストアで見る →",
+        label: "Chromeウェブストア",
         href: "https://chromewebstore.google.com/detail/now-playing-music-retro-p/holmmjmgkebncmfcigodefkneobbejbp",
       },
     ],

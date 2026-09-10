@@ -57,10 +57,12 @@ export default async function Page({
           ))}
         </section>
         {detail.comp ? (
-          <LpTabs
-            main={{ src: detail.src, title: detail.title }}
-            comp={detail.comp}
-          />
+          <Suspense>
+            <LpTabs
+              main={{ src: detail.src, title: detail.title }}
+              comp={detail.comp}
+            />
+          </Suspense>
         ) : (
           <LpMock src={detail.src} title={detail.title} />
         )}

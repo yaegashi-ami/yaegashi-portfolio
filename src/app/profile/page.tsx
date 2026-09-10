@@ -10,7 +10,7 @@ export default function Page() {
       <SubNav />
       <section className="flex flex-col gap-8">
         <p className="text-3xl font-bold tracking-[0.2rem] text-main">
-          PROFILE
+          Profile
         </p>
         <section className="flex flex-col gap-4">
         <h1 className="text-3xl font-bold tracking-wider">八重樫 亜実</h1>

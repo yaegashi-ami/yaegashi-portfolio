@@ -1,12 +1,19 @@
 import type { Metadata } from "next";
-import { Noto_Sans } from "next/font/google";
+import { Alata, Noto_Sans } from "next/font/google";
 import "./globals.css";
 
+
+
+const alataFont = Alata({
+  variable: "--font-alata",
+  subsets: ["latin"],
+  weight: ["400"],
+});
 const notoSans = Noto_Sans({
-  variable: "--font-sans",
+  variable: "--font-noto-sans",
   subsets: ["latin"],
   weight: ["400", "600", "700"],
-});
+}); 
 
 export const metadata: Metadata = {
   title: "AMI YAEGASHI PORTFOLIO",
@@ -15,7 +22,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="ja" className={`${notoSans.variable} h-full`}>
+    <html lang="ja" className={`${notoSans.variable} h-full scroll-smooth`}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link

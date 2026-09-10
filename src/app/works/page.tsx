@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import WorkCard from "@/components/WorkCard";
@@ -8,10 +9,12 @@ import SubNav from "@/components/SubNav";
 import {
   works,
   itemTags,
-  lpDetails,
+  pamphletDetails,
   thumbOf,
+  flatImages,
   hiddenItemSrcs,
   type ItemTag,
+  type GalleryImage,
 } from "@/data/works";
 
 const genreFilters = [
@@ -32,9 +35,74 @@ const pill = (isActive: boolean) =>
   }`;
 
 export default function Page() {
-  const [view, setView] = useState<View>("client");
-  const [genre, setGenre] = useState<GenreKey>("all");
-  const [item, setItem] = useState<ItemTag | "all">("all");
+  return (
+    <Suspense>
+      <WorksInner />
+    </Suspense>
+  );
+}
+
+function WorksInner() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const validView = (v: string | null): View =>
+    v === "item" ? "item" : "client";
+  const validGenre = (g: string | null): GenreKey =>
+    genreFilters.some((f) => f.key === g) ? (g as GenreKey) : "all";
+  const validItem = (t: string | null): ItemTag | "all" =>
+    t === "all" || itemTags.some((tag) => tag === t)
+      ? (t as ItemTag | "all")
+      : "all";
+
+  const [view, setView] = useState<View>(() =>
+    validView(searchParams.get("view")),
+  );
+  const [genre, setGenre] = useState<GenreKey>(() =>
+    validGenre(searchParams.get("genre")),
+  );
+  const [item, setItem] = useState<ItemTag | "all">(() =>
+    validItem(searchParams.get("item")),
+  );
+
+  const changeView = (v: View) => {
+    setView(v);
+    syncUrl(v, genre, item);
+    rememberFilter(v, genre, item);
+  };
+  const changeGenre = (g: GenreKey) => {
+    setGenre(g);
+    syncUrl(view, g, item);
+    rememberFilter(view, g, item);
+  };
+  const changeItem = (t: ItemTag | "all") => {
+    setItem(t);
+    syncUrl(view, genre, t);
+    rememberFilter(view, genre, t);
+  };
+
+  const rememberFilter = (v: View, g: GenreKey, t: ItemTag | "all") => {
+    try {
+      sessionStorage.setItem(
+        "works-filter",
+        JSON.stringify({ view: v, genre: g, item: t }),
+      );
+    } catch {
+      /* private mode等は無視 */
+    }
+  };
+
+  const syncUrl = (v: View, g: GenreKey, t: ItemTag | "all") => {
+    const params = new URLSearchParams();
+    if (v !== "client") params.set("view", v);
+    if (g !== "all") params.set("genre", g);
+    if (t !== "all") params.set("item", t);
+    const query = params.toString();
+    router.replace(`${pathname}${query ? `?${query}` : ""}`, {
+      scroll: false,
+    });
+  };
 
   const clientWorks =
     genre === "all"
@@ -43,26 +111,46 @@ export default function Page() {
 
   const itemImages = works.flatMap((work) =>
     work.gallery.flatMap((group, gi) =>
-      group.images
+      flatImages(group.images)
         .filter((img) => !hiddenItemSrcs.includes(img.src))
         .map((img) => ({ work, gi, img })),
     ),
   );
-  const visibleItems =
-    item === "all"
-      ? itemImages
-      : itemImages.filter((entry) => entry.img.item === item);
+  const seenBooklets = new Set<string>();
+  const visibleItems = (
+    item === "all" ? itemImages : itemImages.filter((entry) => entry.img.item === item)
+  )
+    .filter((entry) => {
+      if (entry.img.item !== "パンフレット") return true;
+      const key = `${entry.work.slug}#${entry.gi}`;
+      if (seenBooklets.has(key)) return false;
+      seenBooklets.add(key);
+      return true;
+    })
+    .map((entry) => {
+      // 同一グループ内のネスト（表裏セット）は代表1枚だけ出す
+      const group = entry.work.gallery[entry.gi];
+      const nested = group.images.find(
+        (e): e is GalleryImage[] =>
+          Array.isArray(e) && e.some((im) => im.src === entry.img.src),
+      );
+      if (nested) return nested[0].src === entry.img.src ? { ...entry, img2: undefined } : null;
+      return { ...entry, img2: undefined };
+    })
+    .filter((entry) => entry !== null);
 
   const booklets =
     item === "パンフレット"
       ? works.flatMap((work) =>
           work.gallery
             .map((group, gi) => ({ work, gi, group }))
-            .filter(
-              ({ group }) =>
-                group.images.length > 2 &&
-                group.images.every((img) => img.item === "パンフレット"),
-            ),
+            .filter(({ group }) => {
+              const flat = flatImages(group.images);
+              return (
+                flat.length > 2 &&
+                flat.every((img) => img.item === "パンフレット")
+              );
+            }),
         )
       : [];
 
@@ -70,9 +158,9 @@ export default function Page() {
     <main className="mx-auto flex w-full max-w-[1100px] flex-1 flex-col px-5 pb-12 pt-6">
       <SubNav />
       <div className="mt-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-        <div>
+        <div className="flex gap-2 items-center">
           <p className="text-3xl font-bold tracking-[0.2rem] text-main">
-            WORKS
+            Works
           </p>
           <p className="mt-1 text-base font-medium tracking-widest text-muted">
             実績一覧
@@ -81,15 +169,15 @@ export default function Page() {
         <div className="flex shrink-0 flex-wrap gap-2">
           <button
             type="button"
-            onClick={() => setView("client")}
+            onClick={() => changeView("client")}
             aria-pressed={view === "client"}
             className={pill(view === "client")}
           >
-            企業で見る
+            企業/ジャンルで見る
           </button>
           <button
             type="button"
-            onClick={() => setView("item")}
+            onClick={() => changeView("item")}
             aria-pressed={view === "item"}
             className={pill(view === "item")}
           >
@@ -106,7 +194,7 @@ export default function Page() {
                 <button
                   key={f.key}
                   type="button"
-                  onClick={() => setGenre(f.key)}
+                  onClick={() => changeGenre(f.key)}
                   aria-pressed={genre === f.key}
                   className={pill(genre === f.key)}
                 >
@@ -115,7 +203,7 @@ export default function Page() {
               ))}
             </div>
           </div>
-          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {clientWorks.map((work) => (
               <WorkCard key={work.slug} work={work} />
             ))}
@@ -123,11 +211,11 @@ export default function Page() {
         </>
       ) : (
         <>
-          <div className="mt-[20px] border-t-[0.5px] border-main pt-4">
-            <div className="flex flex-wrap gap-2">
+          <div className="mt-4 mb-4 border-t-[0.5px] border-main pt-4">
+            <div className="flex flex-wrap gap-1.5">
               <button
                 type="button"
-                onClick={() => setItem("all")}
+                onClick={() => changeItem("all")}
                 aria-pressed={item === "all"}
                 className={pill(item === "all")}
               >
@@ -137,7 +225,7 @@ export default function Page() {
                 <button
                   key={tag}
                   type="button"
-                  onClick={() => setItem(tag)}
+                  onClick={() => changeItem(tag)}
                   aria-pressed={item === tag}
                   className={pill(item === tag)}
                 >
@@ -146,87 +234,52 @@ export default function Page() {
               ))}
             </div>
           </div>
-          <p className="mt-4 text-xs text-muted">{visibleItems.length}点</p>
-          {item === "LP" ? (
-            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {lpDetails.map((lp) => (
-                <Link
-                  key={lp.id}
-                  href={`/works/lp/${lp.id}`}
-                  className="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-[0_0_8px_rgba(0,0,0,0.05)] transition-transform hover:-translate-y-1"
-                >
-                  <span className="block aspect-[3/4] w-full overflow-hidden border-b-[0.5px] border-main">
-                    <Image
-                      src={thumbOf(lp.src)}
-                      alt=""
-                      width={600}
-                      height={800}
-                      className="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
-                    />
-                  </span>
-                  <span className="flex flex-col gap-1 p-4">
-                    <span className="text-base font-semibold tracking-wider">
-                      {lp.title}
-                    </span>
-                    <span className="text-xs text-muted">
-                      {lp.description[0]}
-                    </span>
-                  </span>
-                </Link>
-              ))}
-            </div>
-          ) : item === "パンフレット" ? (
-            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {booklets.map(({ work, gi, group }) => (
-                <Link
-                  key={work.slug + gi}
-                  href={`/works/${work.slug}#gallery-${gi}`}
-                  className="group flex items-center gap-4 rounded-2xl bg-white p-4 shadow-[0_0_8px_rgba(0,0,0,0.05)] transition-transform hover:-translate-y-1"
-                >
-                  <span
-                    className="block w-24 shrink-0 overflow-hidden border-[0.5px] border-main"
+          {item === "パンフレット" ? (
+            <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
+              {booklets.map(({ work, gi, group }) => {
+                const pages = flatImages(group.images);
+                const pamphlet = pamphletDetails.find(
+                  (p) => p.workSlug === work.slug && p.gi === gi,
+                );
+                return (
+                  <Link
+                    key={work.slug + gi}
+                    href={
+                      pamphlet
+                        ? `/works/pamphlet/${pamphlet.id}`
+                        : `/works/${work.slug}#gallery-${gi}`
+                    }
+                    aria-label={`${work.title} パンフレット`}
+                    className="group block overflow-hidden rounded-xl border-[0.5px] border-main"
                     style={{ backgroundColor: work.bg }}
                   >
                     <Image
-                      src={thumbOf(group.images[0].src)}
+                      src={thumbOf(pages[0]?.src ?? "")}
                       alt=""
-                      width={200}
-                      height={280}
-                      className="h-auto w-full"
+                      width={600}
+                      height={600}
+                      className="aspect-square h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
-                  </span>
-                  <span className="flex flex-col gap-1">
-                    <span className="text-base font-semibold tracking-wider">
-                      {work.title} パンフレット
-                    </span>
-                    <span className="text-xs text-muted">
-                      全{group.images.length}ページ・読む →
-                    </span>
-                  </span>
-                </Link>
-              ))}
+                  </Link>
+                );
+              })}
             </div>
           ) : (
-          <div className="mt-6 columns-2 gap-4 lg:columns-4">
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
             {visibleItems.map(({ work, img }) => (
               <Link
                 key={work.slug + img.src}
                 href={`/works/${work.slug}`}
-                className="group mb-4 block break-inside-avoid"
+                className="group block overflow-hidden rounded-xl border-[0.5px] border-main"
                 aria-label={`${work.title}（${img.item}）へ`}
               >
-                <span
-                  className="block overflow-hidden border-[0.5px] border-main"
-                  style={{ backgroundColor: work.bg }}
-                >
-                  <Image
-                    src={img.src}
-                    alt=""
-                    width={600}
-                    height={800}
-                    className="h-auto max-h-[70vh] w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                </span>
+                <Image
+                  src={img.src}
+                  alt=""
+                  width={600}
+                  height={600}
+                  className="aspect-square h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
               </Link>
             ))}
           </div>

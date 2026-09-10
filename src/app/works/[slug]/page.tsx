@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import SubNav from "@/components/SubNav";
-import Pager from "@/components/Pager";
-import { works, getWork, lpDetails } from "@/data/works";
+import FlipBook from "@/components/FlipBook";
+import { works, getWork, lpDetails, flatImages, thumbOf } from "@/data/works";
 
 export const dynamicParams = false;
 
@@ -36,7 +37,7 @@ const tagStyles: Record<string, string> = {
 const gridCols: Record<number, string> = {
   1: "grid-cols-1",
   2: "grid-cols-1 md:grid-cols-2",
-  3: "grid-cols-1 md:grid-cols-2 xl:grid-cols-3",
+  3: "grid-cols-1 md:grid-cols-3 xl:grid-cols-3",
   4: "grid-cols-2 xl:grid-cols-4",
 };
 
@@ -95,24 +96,108 @@ export default async function Page({
         ))}
       </section>
 
-      <section className="flex flex-col gap-4 rounded-2xl border-[0.5px] border-main bg-white p-5 md:p-8">
-        {work.gallery.map((group, gi) => {
-          const isBooklet =
-            group.images.length > 2 &&
-            group.images.every((img) => img.item === "パンフレット");
-          return (
-            <div key={gi} id={`gallery-${gi}`} className="scroll-mt-24">
-              {isBooklet ? (
-                <Pager
-                  images={group.images.map((img) => img.src)}
-                  title={`${work.title} パンフレット`}
-                  spread={group.images.length > 6}
-                />
-              ) : (
+      {work.gallery.some(
+        (group) =>
+          !(
+            flatImages(group.images).length > 2 &&
+            flatImages(group.images).every(
+              (img) => img.item === "パンフレット",
+            )
+          ),
+      ) && (
+        <section className="flex flex-col gap-4 rounded-2xl border-[0.5px] border-main bg-white p-5 md:p-8">
+          {work.gallery.map((group, gi) => {
+            const isBooklet =
+              flatImages(group.images).length > 2 &&
+              flatImages(group.images).every(
+                (img) => img.item === "パンフレット",
+              );
+            if (isBooklet) return null;
+            const flat = flatImages(group.images);
+            const isLPGroup =
+              flat.length > 0 && flat.every((img) => img.item === "WEBサイト");
+            if (group.scrollView) {
+              return (
                 <div
-                  className={`grid h-fit gap-4 ${gridCols[group.columns]}`}
+                  key={gi}
+                  className="h-[70vh] overflow-y-auto border-[0.5px] border-main bg-white"
                 >
-                  {group.images.map((img) => {
+                  {flat.map((img) => (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      key={img.src}
+                      src={img.src}
+                      alt=""
+                      loading="lazy"
+                      className="h-auto w-full"
+                    />
+                  ))}
+                </div>
+              );
+            }
+            if (isLPGroup) {
+              return (
+                <div key={gi} className="grid grid-cols-2 gap-4">
+                  {flat.map((img) => {
+                    const lp = lpDetails.find((d) => d.src === img.src);
+                    if (!lp) return null;
+                    return (
+                      <Link
+                        key={img.src}
+                        href={`/works/lp/${lp.id}?from=${slug}`}
+                        aria-label={`${lp.title}のページへ`}
+                        className="group block overflow-hidden rounded-xl border-[0.5px] border-main"
+                      >
+                        <Image
+                          src={thumbOf(img.src)}
+                          alt=""
+                          width={600}
+                          height={600}
+                          className="aspect-square h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                        />
+                        <span className="block bg-white p-3 text-sm font-semibold tracking-wider">
+                          {lp.title}
+                        </span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              );
+            }
+            return (
+              <div key={gi}>
+                <div
+                  className={
+                    work.naturalGallery
+                      ? "grid h-fit grid-cols-3 items-center gap-4"
+                      : `grid h-fit gap-4 ${gridCols[group.columns]}`
+                  }
+                >
+                  {group.images.map((entry) => {
+                    if (Array.isArray(entry)) {
+                      return (
+                        <div
+                          key={entry.map((e) => e.src).join("+")}
+                          className={
+                            group.stackDir === "col"
+                              ? "mx-auto flex w-[80%] flex-col gap-4"
+                              : "grid grid-cols-2 gap-4"
+                          }
+                        >
+                          {entry.map((img) => (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img
+                              key={img.src}
+                              src={img.src}
+                              alt=""
+                              loading="lazy"
+                              className="h-auto w-full"
+                            />
+                          ))}
+                        </div>
+                      );
+                    }
+                    const img = entry;
                     const lp =
                       lpDetails.find((d) => d.src === img.src) ??
                       lpDetails.find((d) => d.comp?.src === img.src);
@@ -120,13 +205,19 @@ export default async function Page({
                       ? { id: lp.id, title: lp.title }
                       : undefined;
                     const image = (
-                      <Image
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
                         key={img.src}
                         src={img.src}
                         alt={target?.title ?? ""}
-                        width={800}
-                        height={600}
-                        className="h-auto max-h-[70vh] w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                        loading="lazy"
+                        className={
+                          work.naturalGallery
+                            ? "h-auto w-full transition-transform duration-300 group-hover:scale-[1.02]"
+                            : target
+                              ? "aspect-square h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.02]"
+                              : "h-auto max-h-[70vh] w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                        }
                       />
                     );
                     const frame = (
@@ -153,11 +244,35 @@ export default async function Page({
                     );
                   })}
                 </div>
-              )}
-            </div>
-          );
-        })}
-      </section>
+              </div>
+            );
+          })}
+        </section>
+      )}
+
+      {work.gallery.map((group, gi) => {
+        const flat = flatImages(group.images);
+        const isBooklet =
+          flat.length > 2 && flat.every((img) => img.item === "パンフレット");
+        if (!isBooklet) return null;
+        return (
+          <section
+            key={gi}
+            id={`gallery-${gi}`}
+            className="flex scroll-mt-24 flex-col gap-4 rounded-2xl border-[0.5px] border-main bg-white p-5 md:p-8"
+          >
+            <Suspense>
+              <FlipBook
+                images={flat.map((img) => img.src)}
+                title={`${work.title} パンフレット`}
+                order={group.order}
+                pageWidth={group.bookSize?.[0] ?? 550}
+                pageHeight={group.bookSize?.[1] ?? 777}
+              />
+            </Suspense>
+          </section>
+        );
+      })}
     </main>
   );
 }

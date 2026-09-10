@@ -1,16 +1,39 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { works } from "@/data/works";
 
 export default function BackLink() {
   const searchParams = useSearchParams();
-  const from = searchParams.get("from");
-  const work = works.find((w) => w.slug === from);
-  const back = work
-    ? { href: `/works/${work.slug}`, label: work.title }
-    : { href: "/works", label: "Works" };
+  const [back, setBack] = useState({ href: "/works", label: "Works" });
+
+  useEffect(() => {
+    const from = searchParams.get("from");
+    const work = works.find((w) => w.slug === from);
+    if (work) {
+      setBack({ href: `/works/${work.slug}`, label: work.title });
+      return;
+    }
+    try {
+      const raw = sessionStorage.getItem("works-filter");
+      if (!raw) return;
+      const f = JSON.parse(raw) as {
+        view?: string;
+        genre?: string;
+        item?: string;
+      };
+      const params = new URLSearchParams();
+      if (f.view === "item") params.set("view", "item");
+      if (f.genre && f.genre !== "all") params.set("genre", f.genre);
+      if (f.item && f.item !== "all") params.set("item", f.item);
+      const query = params.toString();
+      if (query) setBack({ href: `/works?${query}`, label: "Works" });
+    } catch {
+      /* 無視 */
+    }
+  }, [searchParams]);
 
   return (
     <Link

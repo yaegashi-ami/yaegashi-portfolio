@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import LpMock from "@/components/LpMock";
 
 export default function LpTabs({
@@ -10,14 +11,30 @@ export default function LpTabs({
   main: { src: string; title: string };
   comp: { src: string; label: string };
 }) {
-  const [tab, setTab] = useState<"main" | "comp">("main");
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [tab, setTab] = useState<"main" | "comp">(() =>
+    searchParams.get("tab") === "comp" ? "comp" : "main",
+  );
+
+  const changeTab = (t: "main" | "comp") => {
+    setTab(t);
+    const params = new URLSearchParams(searchParams.toString());
+    if (t === "comp") params.set("tab", "comp");
+    else params.delete("tab");
+    const query = params.toString();
+    router.replace(`${pathname}${query ? `?${query}` : ""}`, {
+      scroll: false,
+    });
+  };
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-center gap-2">
         <button
           type="button"
-          onClick={() => setTab("main")}
+          onClick={() => changeTab("main")}
           aria-pressed={tab === "main"}
           className={`rounded-full border px-5 py-1.5 text-xs font-bold tracking-widest transition-colors ${
             tab === "main"
@@ -29,7 +46,7 @@ export default function LpTabs({
         </button>
         <button
           type="button"
-          onClick={() => setTab("comp")}
+          onClick={() => changeTab("comp")}
           aria-pressed={tab === "comp"}
           className={`rounded-full border px-5 py-1.5 text-xs font-bold tracking-widest transition-colors ${
             tab === "comp"

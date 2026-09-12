@@ -7,18 +7,23 @@ export default function Splash() {
   const [phase, setPhase] = useState<"show" | "hide" | "done">("show");
 
   useEffect(() => {
-    if (sessionStorage.getItem("splash-shown")) {
-      setPhase("done");
-      return;
-    }
-    const t1 = setTimeout(() => setPhase("hide"), 1300);
-    const t2 = setTimeout(() => {
-      setPhase("done");
-      sessionStorage.setItem("splash-shown", "1");
-    }, 1900);
+    let t1: ReturnType<typeof setTimeout> | undefined;
+    let t2: ReturnType<typeof setTimeout> | undefined;
+    const raf = requestAnimationFrame(() => {
+      if (sessionStorage.getItem("splash-shown")) {
+        setPhase("done");
+        return;
+      }
+      t1 = setTimeout(() => setPhase("hide"), 1300);
+      t2 = setTimeout(() => {
+        setPhase("done");
+        sessionStorage.setItem("splash-shown", "1");
+      }, 1900);
+    });
     return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
+      cancelAnimationFrame(raf);
+      if (t1) clearTimeout(t1);
+      if (t2) clearTimeout(t2);
     };
   }, []);
 

@@ -22,7 +22,11 @@ export default function BackLink() {
       if (f.genre && f.genre !== "all") params.set("genre", f.genre);
       if (f.item && f.item !== "all") params.set("item", f.item);
       const query = params.toString();
-      if (query) setBack({ href: `/works?${query}`, label: "Works" });
+      if (query) {
+        queueMicrotask(() =>
+          setBack({ href: `/works?${query}`, label: "Works" }),
+        );
+      }
     } catch {
       /* 無視 */
     }
@@ -36,7 +40,7 @@ export default function BackLink() {
       <span aria-hidden="true" className="ms-fill text-[28px] text-main">
         arrow_circle_left
       </span>
-      <span className="group-hover:underline">{back.label}</span>
+      <span className="group-hover:underline font-['Alata']">{back.label}</span>
     </Link>
   );
 }

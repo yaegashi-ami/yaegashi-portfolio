@@ -1,29 +1,3 @@
-export type WorkLink = {
-  slug: string;
-  label: string;
-  href: string;
-};
-
-export const workLinks: WorkLink[] = [
-  { slug: "profile", label: "Profile", href: "/profile" },
-  { slug: "pinokio", label: "写真館ピノキオ", href: "/works/pinokio" },
-  { slug: "pinokio-web", label: "写真館ピノキオ-WEB", href: "/works/pinokio-web" },
-  { slug: "franny", label: "ジャズと喫茶 Franny", href: "/works/franny" },
-  { slug: "fadstart", label: "FAD STARt", href: "/works/fadstart" },
-  { slug: "vivotree", label: "大泉障害者支援施設 VIVOtree", href: "/works/vivotree" },
-  {
-    slug: "panasonic-beauty",
-    label: "Panasonic beauty",
-    href: "/works/panasonic-beauty",
-  },
-  { slug: "cadet", label: "GARB pintino / cadet", href: "/works/cadet" },
-  {
-    slug: "competition",
-    label: "コンペ作品-コーポレートサイト改修",
-    href: "/works/competition",
-  },
-  { slug: "yaegashi", label: "自主制作", href: "/works/yaegashi" },
-];
 export type Tool = {
   name: string;
   description: string;

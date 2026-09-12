@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import SubNav from "@/components/SubNav";
 import LpMock from "@/components/LpMock";
 import LpTabs from "@/components/LpTabs";
 import BackLink from "@/components/BackLink";
-import { lpDetails, getLPDetail } from "@/data/works";
+import SlashText from "@/components/SlashText";
+import { lpDetails, getLPDetail, thumbOf } from "@/data/works";
 
 export const dynamicParams = false;
 
@@ -37,24 +40,64 @@ export default async function Page({
   if (!detail) notFound();
 
   return (
-    <main className="mx-auto flex w-full max-w-[1100px] flex-1 flex-col gap-12 px-5 pb-12 pt-6">
+    <main className="mx-auto flex w-full max-w-[1000px] flex-1 flex-col gap-12 px-10 pb-12 pt-6">
       <SubNav />
-      <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-start">
+      <div className="grid grid-cols-1 gap-10 sm:grid-cols-1 md:grid-cols-2 lg:items-start lg:grid-cols-2">
         <section className="flex flex-col gap-4">
           <Suspense>
             <BackLink />
           </Suspense>
           <div className="flex flex-col gap-2">
-            <h1 className="text-xl font-bold tracking-wider">{detail.title}</h1>
+            <h1 className="text-md font-bold tracking-wider">{detail.title}</h1>
             <p className="text-xs font-semibold tracking-wider">
               client：{detail.client}
             </p>
           </div>
-          {detail.description.map((p, i) => (
-            <p key={i} className="max-w-3xl text-sm leading-6 whitespace-pre-line">
-              {p}
+{detail.description.map((p, i) => (
+            <p key={i} className="max-w-3xl text-xs leading-4.5 whitespace-pre-line">
+              <SlashText text={p} />
             </p>
           ))}
+          <div className="mt-2 flex flex-col gap-2">
+            <p className="text-xs tracking-widest text-muted">
+              他のキャンペーン
+            </p>
+            <div className="grid grid-cols-4 gap-2">
+              {lpDetails
+                .filter((d) => d.client === detail.client)
+                .map((d) =>
+                  d.id === id ? (
+                    <span
+                      key={d.id}
+                      className="relative block overflow-hidden rounded-lg border-2 border-main"
+                    >
+                      <Image
+                        src={thumbOf(d.src)}
+                        alt={d.title}
+                        width={300}
+                        height={300}
+                        className="aspect-[4/3] w-full object-cover object-top"
+                      />
+                    </span>
+                  ) : (
+                    <Link
+                      key={d.id}
+                      href={`/works/lp/${d.id}`}
+                      aria-label={`${d.title}のページへ`}
+                      className="group relative block overflow-hidden rounded-lg border-[0.5px] border-main"
+                    >
+                      <Image
+                        src={thumbOf(d.src)}
+                        alt={d.title}
+                        width={300}
+                        height={300}
+                        className="aspect-[4/3] w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </Link>
+                  ),
+                )}
+            </div>
+          </div>
         </section>
         {detail.comp ? (
           <Suspense>

@@ -22,7 +22,7 @@ export default function Page() {
   };
   
   return (
-    <main className="mx-auto flex w-full max-w-[1100px] flex-1 flex-col gap-12 px-5 pb-12 pt-6">
+    <main className="mx-auto flex w-full max-w-[1000px] flex-1 flex-col gap-12 px-5 pb-12 pt-6">
       <SubNav />
       <div>
         <h2 className="text-3xl font-bold tracking-[0.2rem] text-main">Other</h2>
@@ -111,11 +111,11 @@ export default function Page() {
           onClick={() => setModal(null)}
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
         >
-          <div className="relative max-h-[90vh] max-w-[90vw]" onClick={(e) => e.stopPropagation()}>
+          <div className="relative max-h-[90vh] max-w-[50vw]" onClick={(e) => e.stopPropagation()}>
             <img
               src={modal.src}
               alt="拡大画像"
-              className="max-h-[85vh] max-w-[85vw] rounded-lg object-contain shadow-2xl"
+              className="max-h-[85vh] max-w-[50vw] rounded-lg object-contain shadow-2xl"
             />
             <div className="absolute inset-x-0 top-1/2 flex -translate-y-1/2 items-center justify-between px-2">
               <button

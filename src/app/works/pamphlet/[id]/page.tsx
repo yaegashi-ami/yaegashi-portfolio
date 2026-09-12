@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import SubNav from "@/components/SubNav";
 import FlipBook from "@/components/FlipBook";
+import SlashText from "@/components/SlashText";
 import {
   pamphletDetails,
   getPamphlet,
@@ -44,7 +45,7 @@ export default async function Page({
   const images = group ? flatImages(group.images).map((img) => img.src) : [];
 
   return (
-    <main className="mx-auto flex w-full max-w-[1100px] flex-1 flex-col gap-12 px-5 pb-12 pt-6">
+    <main className="mx-auto flex w-full max-w-[1000px] flex-1 flex-col gap-12 px-5 pb-12 pt-6">
       <SubNav />
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_2fr] lg:items-start">
         <section className="flex flex-col gap-4">
@@ -55,7 +56,7 @@ export default async function Page({
             <span aria-hidden="true" className="ms-fill text-[28px] text-main">
               arrow_circle_left
             </span>
-            <span className="group-hover:underline">Works</span>
+            <span className="group-hover:underline font-['Alata']">Works</span>
           </Link>
           <div className="flex flex-col gap-2">
             <h1 className="text-xl font-bold tracking-wider">
@@ -70,7 +71,7 @@ export default async function Page({
               key={i}
               className="max-w-3xl text-sm leading-6 whitespace-pre-line"
             >
-              {p}
+              <SlashText text={p} />
             </p>
           ))}
         </section>

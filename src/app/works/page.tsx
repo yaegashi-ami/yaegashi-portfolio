@@ -4,6 +4,9 @@ import { Suspense, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import GalleryCarousel from "@/components/GalleryCarousel";
+import OpenBadge from "@/components/OpenBadge";
+import SlashText from "@/components/SlashText";
 import SubNav from "@/components/SubNav";
 import {
   works,
@@ -15,6 +18,7 @@ import {
   hiddenItemSrcs,
   type ItemTag,
   type GalleryImage,
+  type PamphletDetail,
 } from "@/data/works";
 
 const genreFilters = [
@@ -27,12 +31,43 @@ const genreFilters = [
 type GenreKey = (typeof genreFilters)[number]["key"];
 type View = "client" | "item";
 
+type CardImage = {
+  src: string;
+  item: ItemTag;
+  pamphlet?: PamphletDetail;
+};
+
 const pill = (isActive: boolean) =>
   `rounded-full border px-4 py-1.5 text-xs font-bold tracking-widest transition-colors ${
     isActive
       ? "border-main bg-main text-white"
       : "border-main text-main hover:bg-main hover:text-white"
   }`;
+
+/** 余白付き contain 表示するサムネ（FADSTARt ステッカー / franny のロゴ・バナー・カード・ステッカー） */
+const isContain = (src: string) =>
+  src.startsWith("/images/FADSTARt_Sticker_") ||
+  [
+    "/images/franny1.png",
+    "/images/franny2.png",
+    "/images/franny3.png",
+    "/images/franny4.png",
+    "/images/vivotree0.png",
+    "/images/vivotree1.png",
+  ].includes(src);
+
+/** 画像 → 個別ページ遷移先（LP / コンペサイト / パンフ等） */
+const detailOf = (
+  src: string,
+): { href: string; title: string } | undefined => {
+  const lp =
+    lpDetails.find((d) => d.src === src) ??
+    lpDetails.find((d) => d.comp?.src === src);
+  if (lp) return { href: `/works/lp/${lp.id}`, title: lp.title };
+  if (src === "/images/socoage_top.png")
+    return { href: "/works/competition", title: "Sokoage" };
+  return undefined;
+};
 
 export default function Page() {
   return (
@@ -168,7 +203,7 @@ function WorksInner() {
       : [];
 
   return (
-    <main className="mx-auto flex w-full max-w-[1100px] flex-1 flex-col px-5 pb-12 pt-6">
+    <main className="mx-auto flex w-full max-w-[1000px] flex-1 flex-col px-5 pb-12 pt-6">
       <SubNav />
       <div className="mt-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div className="flex gap-2 items-center">
@@ -219,7 +254,33 @@ function WorksInner() {
           <div className="flex flex-col gap-4">
             {clientWorks.map((work) => {
               const label = work.tags.map((tag) => tag.label).join(" / ");
-              const heroImages = flatImages(work.gallery[0]?.images ?? []);
+              const heroImages: CardImage[] = work.gallery.flatMap((group, gi) => {
+                const flat = flatImages(group.images);
+                const isBooklet =
+                  flat.length > 2 &&
+                  flat.every((img) => img.item === "パンフレット");
+                if (isBooklet) {
+                  const first = flat[0];
+                  if (!first) return [];
+                  const pamphlet = pamphletDetails.find(
+                    (p) => p.workSlug === work.slug && p.gi === gi,
+                  );
+                  return [
+                    {
+                      src: thumbOf(first.src),
+                      item: "パンフレット" as ItemTag,
+                      pamphlet,
+                    },
+                  ];
+                }
+                return flat.map(
+                  (img): CardImage => ({
+                    src: img.src,
+                    item: img.item,
+                    pamphlet: undefined,
+                  }),
+                );
+              });
               return (
                 <article
                   key={work.slug}
@@ -243,98 +304,49 @@ function WorksInner() {
                     </Link>
                   ))}
                   {work.description.map((p, i) => (
-                    <p key={i} className="w-full text-sm leading-6">
-                      {p}
+                    <p key={i} className="w-full text-sm leading-6 whitespace-pre-line">
+                      <SlashText text={p} />
                     </p>
                   ))}
                   {heroImages.length > 0 && (
-                    <div className="my-2 grid grid-cols-2 gap-2 md:grid-cols-2 lg:grid-cols-4">
-                      {heroImages.map((img) => (
-                        <button
-                          key={img.src}
-                          type="button"
-                          onClick={() =>
-                            setModal({
+                    <GalleryCarousel
+                      items={heroImages.map((img) => {
+                        const target = img.pamphlet
+                          ? {
+                              href: `/works/pamphlet/${img.pamphlet.id}`,
+                              title: img.pamphlet.title,
+                            }
+                          : detailOf(img.src);
+                        return target
+                          ? {
                               src: img.src,
-                              imgs: heroImages.map((i) => i.src),
-                            })
-                          }
-                          aria-label={`${work.title}の画像を拡大`}
-                          className="group relative aspect-[4/3] cursor-zoom-in overflow-hidden rounded-lg bg-gray-100 transition-all duration-300 hover:ring-2 hover:ring-main"
-                        >
-                          <Image
-                            src={img.src}
-                            alt=""
-                            width={600}
-                            height={450}
-                            className="aspect-[4/3] h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                          />
-                        </button>
-                      ))}
-                    </div>
+                              href: target.href,
+                              badge: true,
+                              tint:
+                                Boolean(img.pamphlet) ||
+                                target.href.startsWith("/works/lp") ||
+                                target.href === "/works/competition",
+                              label: img.pamphlet
+                                ? "パンフレットを開く"
+                                : "プレビューを開く",
+                            }
+                          : {
+                              src: img.src,
+                              contain: isContain(img.src),
+                            };
+                      })}
+                      onImageClick={(src) =>
+                        setModal({
+                          src,
+                          imgs: heroImages.map((i) => i.src),
+                        })
+                      }
+                    />
                   )}
                 </article>
               );
             })}
           </div>
-
-          {modal && (
-            <div
-              onClick={() => setModal(null)}
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
-            >
-              <div
-                className="relative max-h-[90vh] max-w-[90vw]"
-                onClick={(e) => e.stopPropagation()}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={modal.src}
-                  alt="拡大画像"
-                  className="max-h-[85vh] max-w-[85vw] rounded-lg object-contain shadow-2xl"
-                />
-                <div className="absolute inset-x-0 top-1/2 flex -translate-y-1/2 items-center justify-between px-2 w-[130%] left-[-15%]">
-                  <button
-                    type="button"
-                    onClick={() => move(-1)}
-                    aria-label="前の画像"
-                    className="flex h-10 w-10 items-center justify-center rounded-full bg-main text-2xl leading-none text-white shadow-md transition-colors hover:opacity-90"
-                  >
-                    <span className="ms-outlined text-[24px] leading-none">
-                      chevron_left
-                    </span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => move(1)}
-                    aria-label="次の画像"
-                    className="flex h-10 w-10 items-center justify-center rounded-full bg-main text-2xl leading-none text-white shadow-md transition-colors hover:opacity-90"
-                  >
-                    <span className="ms-outlined text-[24px] leading-none">
-                      chevron_right
-                    </span>
-                  </button>
-                </div>
-                <p className="absolute right-0 -bottom-7 text-xs font-semibold tracking-widest text-white/80">
-                  {modal.imgs.indexOf(modal.src) + 1} / {modal.imgs.length}
-                </p>
-                <button
-                  onClick={() => setModal(null)}
-                  className="absolute -top-4 -right-4 flex h-10 w-10 items-center justify-center rounded-full bg-white text-black shadow-md hover:bg-gray-200"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="24px"
-                    viewBox="0 -960 960 960"
-                    width="24px"
-                    fill="#32323c"
-                  >
-                    <path d="m177-120-57-57 184-183H200v-80h240v240h-80v-104L177-120Zm343-400v-240h80v104l183-184 57 57-184 183h104v80H520Z" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          )}
         </>
       ) : (
         <>
@@ -377,7 +389,7 @@ function WorksInner() {
                         : "/works?view=item&item=パンフレット"
                     }
                     aria-label={`${work.title} パンフレット`}
-                    className="group block overflow-hidden rounded-xl border-[0.5px] border-main"
+                    className="group relative block overflow-hidden rounded-xl border-[0.5px] border-main"
                     style={{ backgroundColor: work.bg }}
                   >
                     <Image
@@ -387,46 +399,134 @@ function WorksInner() {
                       height={600}
                       className="aspect-square h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
+                    {pamphlet && <OpenBadge label="パンフレットを開く" tint />}
                   </Link>
                 );
               })}
             </div>
           ) : (
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-            {visibleItems.map(({ work, img }) => {
-              const lp =
-                lpDetails.find((d) => d.src === img.src) ??
-                lpDetails.find((d) => d.comp?.src === img.src);
+            {visibleItems.map(({ work, gi, img }) => {
+              const contain = isContain(img.src);
+              const target = detailOf(img.src);
+              const pamphlet =
+                !target && img.item === "パンフレット"
+                  ? pamphletDetails.find(
+                      (d) => d.workSlug === work.slug && d.gi === gi,
+                    )
+                  : undefined;
+              const isPamphlet = Boolean(pamphlet);
+              const href =
+                target?.href ??
+                (pamphlet ? `/works/pamphlet/${pamphlet.id}` : undefined);
+              const title =
+                target?.title ?? pamphlet?.title ?? work.title;
+              const isLp = target?.href.startsWith("/works/lp") ?? false;
+              const isSokoage = href === "/works/competition";
               const image = (
                 <Image
                   src={img.src}
                   alt=""
                   width={600}
                   height={600}
-                  className="aspect-square h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  className={
+                    contain
+                      ? "aspect-square h-full w-full object-contain object-center p-2.5 transition-transform duration-300 group-hover:scale-105"
+                      : "aspect-square h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                  }
                 />
               );
-              return lp ? (
+              return href ? (
                 <Link
                   key={work.slug + img.src}
-                  href={`/works/lp/${lp.id}`}
-                  className="group block overflow-hidden rounded-xl border-[0.5px] border-main"
-                  aria-label={`${lp.title}のページへ`}
+                  href={href}
+                  className="group relative block overflow-hidden rounded-xl border-[0.5px] border-main"
+                  aria-label={`${title}のページへ`}
                 >
                   {image}
+                  <OpenBadge
+                    label={isPamphlet ? "パンフレットを開く" : "プレビューを開く"}
+                    tint={isPamphlet || isLp || isSokoage}
+                  />
                 </Link>
               ) : (
-                <div
+                <button
                   key={work.slug + img.src}
-                  className="block overflow-hidden rounded-xl border-[0.5px] border-main"
+                  type="button"
+                  onClick={() =>
+                    setModal({
+                      src: img.src,
+                      imgs: visibleItems.map((e) => e.img.src),
+                    })
+                  }
+                  aria-label={`${work.title}の画像を拡大`}
+                  className="group block cursor-zoom-in overflow-hidden rounded-xl border-[0.5px] border-main"
                 >
                   {image}
-                </div>
+                </button>
               );
             })}
           </div>
           )}
         </>
+      )}
+
+      {modal && (
+        <div
+          onClick={() => setModal(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+        >
+          <div
+            className="relative max-h-[90vh] max-w-[50vw]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={modal.src}
+              alt="拡大画像"
+              className="max-h-[85vh] max-w-[50vw] rounded-lg object-contain shadow-2xl"
+            />
+            <div className="absolute inset-x-0 top-1/2 flex -translate-y-1/2 items-center justify-between px-2 w-[130%] left-[-15%]">
+              <button
+                type="button"
+                onClick={() => move(-1)}
+                aria-label="前の画像"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-main text-2xl leading-none text-white shadow-md transition-colors hover:opacity-90"
+              >
+                <span className="ms-outlined text-[24px] leading-none">
+                  chevron_left
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => move(1)}
+                aria-label="次の画像"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-main text-2xl leading-none text-white shadow-md transition-colors hover:opacity-90"
+              >
+                <span className="ms-outlined text-[24px] leading-none">
+                  chevron_right
+                </span>
+              </button>
+            </div>
+            <p className="absolute right-0 -bottom-7 text-xs font-semibold tracking-widest text-white/80">
+              {modal.imgs.indexOf(modal.src) + 1} / {modal.imgs.length}
+            </p>
+            <button
+              onClick={() => setModal(null)}
+              className="absolute -top-4 -right-4 flex h-10 w-10 items-center justify-center rounded-full bg-white text-black shadow-md hover:bg-gray-200"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="#32323c"
+              >
+                <path d="m177-120-57-57 184-183H200v-80h240v240h-80v-104L177-120Zm343-400v-240h80v104l183-184 57 57-184 183h104v80H520Z" />
+              </svg>
+            </button>
+          </div>
+        </div>
       )}
     </main>
   );

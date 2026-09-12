@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import ContactCard from "@/components/ContactCard";
 import SocialIcons from "@/components/SocialIcons";
-import Splash from "@/components/Splash";
 import { services, policy } from "@/data/site";
 import { works, thumbOf, flatImages } from "@/data/works";
 

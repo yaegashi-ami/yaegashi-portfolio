@@ -24,7 +24,7 @@ export default function FlipBook({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [page, setPage] = useState(0);
-  const [count, setCount] = useState(0);
+  const [, setCount] = useState(0);
   const [orientation, setOrientation] = useState<"landscape" | "portrait">(
     "landscape",
   );

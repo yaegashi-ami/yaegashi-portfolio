@@ -1,12 +1,13 @@
 import Image from "next/image";
 import ExperienceYears from "@/components/ExperienceYears";
 import ContactCard from "@/components/ContactCard";
+import SlashText from "@/components/SlashText";
 import SubNav from "@/components/SubNav";
 import { tools, taskApps, chatApps } from "@/data/site";
 
 export default function Page() {
   return (
-    <main className="mx-auto flex w-full max-w-[1100px] flex-1 flex-col gap-12 px-5 pb-12 pt-6">
+    <main className="mx-auto flex w-full max-w-[1000px] flex-1 flex-col gap-12 px-5 pb-12 pt-6">
       <SubNav />
       <section className="flex flex-col gap-8">
         <h2 className="text-3xl font-bold tracking-[0.2rem] text-main">
@@ -58,7 +59,7 @@ export default function Page() {
                 <h3 className="text-lg font-semibold tracking-wider">
                   {tool.name}
                 </h3>
-                <p className="text-sm leading-6">{tool.description}</p>
+                <p className="text-sm leading-6 whitespace-pre-line"><SlashText text={tool.description} /></p>
                 <p className="text-xs text-muted">
                   {tool.experienceText ??
                     (tool.startDate ? (

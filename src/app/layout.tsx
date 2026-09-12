@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Alata, Noto_Sans } from "next/font/google";
 import "./globals.css";
 
-
-
 const alataFont = Alata({
   variable: "--font-alata",
   subsets: ["latin"],

@@ -15,13 +15,13 @@ export default function LpMock({ src, title }: { src: string; title: string }) {
   };
 
   return (
-    <div className="group/mock mx-auto w-[85%] max-w-[340px]">
-      <div className="rounded-[3rem] bg-[#141419] p-2 shadow-[0_0_16px_rgba(0,0,0,0.25)]">
+    <div className="group/mock mx-auto w-[95%] max-w-[272px]">
+      <div className="rounded-[3rem] bg-main shadow-[0_0_16px_rgba(0,0,0,0.25)]">
         <div className="relative overflow-hidden rounded-[2.5rem] bg-white">
           <div
             ref={ref}
             onScroll={onScroll}
-            className="lp-scroll aspect-[9/19.5] overflow-y-auto"
+            className="lp-scroll aspect-[9/18.16] overflow-y-auto"
           >
             <Image
               src={src}

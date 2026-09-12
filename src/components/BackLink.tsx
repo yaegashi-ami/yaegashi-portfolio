@@ -3,19 +3,12 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { works } from "@/data/works";
 
 export default function BackLink() {
   const searchParams = useSearchParams();
   const [back, setBack] = useState({ href: "/works", label: "Works" });
 
   useEffect(() => {
-    const from = searchParams.get("from");
-    const work = works.find((w) => w.slug === from);
-    if (work) {
-      setBack({ href: `/works/${work.slug}`, label: work.title });
-      return;
-    }
     try {
       const raw = sessionStorage.getItem("works-filter");
       if (!raw) return;

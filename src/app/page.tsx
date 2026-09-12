@@ -54,7 +54,7 @@ export default function Page() {
                 return (
                   <Link
                     key={work.slug}
-                    href={`/works/${work.slug}`}
+                    href="/works"
                     aria-label={work.title}
                     className="group block overflow-hidden rounded-xl border-[0.5px] border-main bg-white"
                     style={{ backgroundColor: work.bg }}

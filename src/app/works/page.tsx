@@ -8,6 +8,7 @@ import SubNav from "@/components/SubNav";
 import {
   works,
   itemTags,
+  lpDetails,
   pamphletDetails,
   thumbOf,
   flatImages,
@@ -228,12 +229,7 @@ function WorksInner() {
                     {label}
                   </p>
                   <h2 className="text-xl font-bold tracking-wider">
-                    <Link
-                      href={`/works/${work.slug}`}
-                      className="hover:underline"
-                    >
-                      {work.title}
-                    </Link>
+                    {work.title}
                   </h2>
                   {work.links?.map((link) => (
                     <Link
@@ -378,7 +374,7 @@ function WorksInner() {
                     href={
                       pamphlet
                         ? `/works/pamphlet/${pamphlet.id}`
-                        : `/works/${work.slug}#gallery-${gi}`
+                        : "/works?view=item&item=パンフレット"
                     }
                     aria-label={`${work.title} パンフレット`}
                     className="group block overflow-hidden rounded-xl border-[0.5px] border-main"
@@ -397,13 +393,11 @@ function WorksInner() {
             </div>
           ) : (
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-            {visibleItems.map(({ work, img }) => (
-              <Link
-                key={work.slug + img.src}
-                href={`/works/${work.slug}`}
-                className="group block overflow-hidden rounded-xl border-[0.5px] border-main"
-                aria-label={`${work.title}（${img.item}）へ`}
-              >
+            {visibleItems.map(({ work, img }) => {
+              const lp =
+                lpDetails.find((d) => d.src === img.src) ??
+                lpDetails.find((d) => d.comp?.src === img.src);
+              const image = (
                 <Image
                   src={img.src}
                   alt=""
@@ -411,8 +405,25 @@ function WorksInner() {
                   height={600}
                   className="aspect-square h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
-              </Link>
-            ))}
+              );
+              return lp ? (
+                <Link
+                  key={work.slug + img.src}
+                  href={`/works/lp/${lp.id}`}
+                  className="group block overflow-hidden rounded-xl border-[0.5px] border-main"
+                  aria-label={`${lp.title}のページへ`}
+                >
+                  {image}
+                </Link>
+              ) : (
+                <div
+                  key={work.slug + img.src}
+                  className="block overflow-hidden rounded-xl border-[0.5px] border-main"
+                >
+                  {image}
+                </div>
+              );
+            })}
           </div>
           )}
         </>

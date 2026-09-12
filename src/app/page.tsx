@@ -27,7 +27,6 @@ const isContain = (src: string) =>
     "/images/franny4.png",
     "/images/vivotree0.png",
     "/images/vivotree1.png",
-    "/images/screenshot01.png",
   ].includes(src);
 
 export default function Page() {

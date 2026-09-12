@@ -73,7 +73,6 @@ export const works: Work[] = [
       "キャンペーンごとに写真のレタッチや加工、LP制作、バナーやポスターの制作、印刷までを一貫して担当していました。加えて、新サービスや店舗のチラシ、季節のDM、パンフレット、Instagramでの告知画像の制作をしていました。",
     ],
     links: [
-      { label: "キャンペーンページの詳細はこちら", href: "/works/pinokio-web" },
       { label: "https://www.pinokio.co.jp", href: "https://www.pinokio.co.jp" },
     ],
     gallery: [

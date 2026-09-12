@@ -4,7 +4,6 @@ import { Suspense, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import WorkCard from "@/components/WorkCard";
 import SubNav from "@/components/SubNav";
 import {
   works,
@@ -65,6 +64,19 @@ function WorksInner() {
   const [item, setItem] = useState<ItemTag | "all">(() =>
     validItem(searchParams.get("item")),
   );
+  const [modal, setModal] = useState<{
+    src: string;
+    imgs: string[];
+  } | null>(null);
+
+  const move = (dir: 1 | -1) => {
+    setModal((m) => {
+      if (!m) return m;
+      const idx = m.imgs.indexOf(m.src);
+      const next = (idx + dir + m.imgs.length) % m.imgs.length;
+      return { ...m, src: m.imgs[next] };
+    });
+  };
 
   const changeView = (v: View) => {
     setView(v);
@@ -159,9 +171,9 @@ function WorksInner() {
       <SubNav />
       <div className="mt-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div className="flex gap-2 items-center">
-          <p className="text-3xl font-bold tracking-[0.2rem] text-main">
+          <h2 className="text-3xl font-bold tracking-[0.2rem] text-main">
             Works
-          </p>
+          </h2>
           <p className="mt-1 text-base font-medium tracking-widest text-muted">
             実績一覧
           </p>
@@ -189,7 +201,7 @@ function WorksInner() {
       {view === "client" ? (
         <>
           <div className="mt-[20px] border-t-[0.5px] border-main pt-4">
-            <div className="flex flex-wrap gap-2">
+            <div className="mb-4 flex flex-wrap gap-2">
               {genreFilters.map((f) => (
                 <button
                   key={f.key}
@@ -203,11 +215,130 @@ function WorksInner() {
               ))}
             </div>
           </div>
-          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {clientWorks.map((work) => (
-              <WorkCard key={work.slug} work={work} />
-            ))}
+          <div className="flex flex-col gap-4">
+            {clientWorks.map((work) => {
+              const label = work.tags.map((tag) => tag.label).join(" / ");
+              const heroImages = flatImages(work.gallery[0]?.images ?? []);
+              return (
+                <article
+                  key={work.slug}
+                  className="flex flex-col gap-3 rounded-2xl bg-white p-6 shadow-[0_0_8px_rgba(0,0,0,0.05)] md:p-8"
+                >
+                  <p className="text-xs font-bold tracking-widest text-main">
+                    {label}
+                  </p>
+                  <h2 className="text-xl font-bold tracking-wider">
+                    <Link
+                      href={`/works/${work.slug}`}
+                      className="hover:underline"
+                    >
+                      {work.title}
+                    </Link>
+                  </h2>
+                  {work.links?.map((link) => (
+                    <Link
+                      key={link.href + link.label}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-fit text-xs font-bold tracking-widest text-main hover:underline"
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                  {work.description.map((p, i) => (
+                    <p key={i} className="w-full text-sm leading-6">
+                      {p}
+                    </p>
+                  ))}
+                  {heroImages.length > 0 && (
+                    <div className="my-2 grid grid-cols-2 gap-2 md:grid-cols-2 lg:grid-cols-4">
+                      {heroImages.map((img) => (
+                        <button
+                          key={img.src}
+                          type="button"
+                          onClick={() =>
+                            setModal({
+                              src: img.src,
+                              imgs: heroImages.map((i) => i.src),
+                            })
+                          }
+                          aria-label={`${work.title}の画像を拡大`}
+                          className="group relative aspect-[4/3] cursor-zoom-in overflow-hidden rounded-lg bg-gray-100 transition-all duration-300 hover:ring-2 hover:ring-main"
+                        >
+                          <Image
+                            src={img.src}
+                            alt=""
+                            width={600}
+                            height={450}
+                            className="aspect-[4/3] h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </article>
+              );
+            })}
           </div>
+
+          {modal && (
+            <div
+              onClick={() => setModal(null)}
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+            >
+              <div
+                className="relative max-h-[90vh] max-w-[90vw]"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={modal.src}
+                  alt="拡大画像"
+                  className="max-h-[85vh] max-w-[85vw] rounded-lg object-contain shadow-2xl"
+                />
+                <div className="absolute inset-x-0 top-1/2 flex -translate-y-1/2 items-center justify-between px-2 w-[130%] left-[-15%]">
+                  <button
+                    type="button"
+                    onClick={() => move(-1)}
+                    aria-label="前の画像"
+                    className="flex h-10 w-10 items-center justify-center rounded-full bg-main text-2xl leading-none text-white shadow-md transition-colors hover:opacity-90"
+                  >
+                    <span className="ms-outlined text-[24px] leading-none">
+                      chevron_left
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => move(1)}
+                    aria-label="次の画像"
+                    className="flex h-10 w-10 items-center justify-center rounded-full bg-main text-2xl leading-none text-white shadow-md transition-colors hover:opacity-90"
+                  >
+                    <span className="ms-outlined text-[24px] leading-none">
+                      chevron_right
+                    </span>
+                  </button>
+                </div>
+                <p className="absolute right-0 -bottom-7 text-xs font-semibold tracking-widest text-white/80">
+                  {modal.imgs.indexOf(modal.src) + 1} / {modal.imgs.length}
+                </p>
+                <button
+                  onClick={() => setModal(null)}
+                  className="absolute -top-4 -right-4 flex h-10 w-10 items-center justify-center rounded-full bg-white text-black shadow-md hover:bg-gray-200"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#32323c"
+                  >
+                    <path d="m177-120-57-57 184-183H200v-80h240v240h-80v-104L177-120Zm343-400v-240h80v104l183-184 57 57-184 183h104v80H520Z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          )}
         </>
       ) : (
         <>

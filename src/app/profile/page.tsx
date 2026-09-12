@@ -9,9 +9,9 @@ export default function Page() {
     <main className="mx-auto flex w-full max-w-[1100px] flex-1 flex-col gap-12 px-5 pb-12 pt-6">
       <SubNav />
       <section className="flex flex-col gap-8">
-        <p className="text-3xl font-bold tracking-[0.2rem] text-main">
+        <h2 className="text-3xl font-bold tracking-[0.2rem] text-main">
           Profile
-        </p>
+        </h2>
         <section className="flex flex-col gap-4">
         <h1 className="text-3xl font-bold tracking-wider">八重樫 亜実</h1>
         <p className="text-sm leading-6">

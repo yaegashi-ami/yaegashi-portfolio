@@ -16,7 +16,7 @@ export default function SubNav() {
 
   return (
     <nav className="flex items-center justify-between gap-4">
-      <div className="flex gap-4 text-xs font-bold tracking-widest">
+      <div className="flex gap-4 font-['Alata'] text-xs font-bold tracking-widest">
         {links.map((item) => {
           const isActive =
             item.href === "/"

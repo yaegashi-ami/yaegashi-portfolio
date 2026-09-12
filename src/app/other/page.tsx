@@ -7,6 +7,9 @@ import SubNav from "@/components/SubNav";
 import { otherItems } from "@/data/site";
 import { assetPath } from "@/lib/assetPath";
 
+/** Tシャツ画像は全体が見えるように余白付きで表示する */
+const isContain = (src: string) => src.startsWith("/images/t-shirt");
+
 export default function Page() {
   const [modal, setModal] = useState<{
     src: string;
@@ -81,7 +84,11 @@ export default function Page() {
                       <img
                         src={assetPath(src)}
                         alt=""
-                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        className={
+                          isContain(src)
+                            ? "h-full w-full object-contain object-center p-2.5 transition-transform duration-300 group-hover:scale-105"
+                            : "h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                        }
                       />
                     </div>
                   );

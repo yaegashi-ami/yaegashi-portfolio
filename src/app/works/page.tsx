@@ -516,28 +516,6 @@ onClick={() => openModal(img.src, visibleItems.map((e) => e.img.src))}
                   : "animate-[modal-img-in_0.25s_ease-out]"
               }`}
             />
-            <div className="absolute inset-x-0 top-1/2 flex -translate-y-1/2 items-center justify-between px-2 w-[130%] left-[-15%]">
-              <button
-                type="button"
-                onClick={() => move(-1)}
-                aria-label="前の画像"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-main text-2xl leading-none text-white shadow-md transition-colors hover:opacity-90"
-              >
-                <span className="ms-outlined text-[24px] leading-none">
-                  chevron_left
-                </span>
-              </button>
-              <button
-                type="button"
-                onClick={() => move(1)}
-                aria-label="次の画像"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-main text-2xl leading-none text-white shadow-md transition-colors hover:opacity-90"
-              >
-                <span className="ms-outlined text-[24px] leading-none">
-                  chevron_right
-                </span>
-              </button>
-            </div>
             <p className="absolute right-0 -bottom-7 text-xs font-semibold tracking-widest text-white/80">
               {modal.imgs.indexOf(modal.src) + 1} / {modal.imgs.length}
             </p>
@@ -554,6 +532,31 @@ onClick={() => openModal(img.src, visibleItems.map((e) => e.img.src))}
               >
                 <path d="m177-120-57-57 184-183H200v-80h240v240h-80v-104L177-120Zm343-400v-240h80v104l183-184 57 57-184 183h104v80H520Z" />
               </svg>
+            </button>
+          </div>
+          <div
+            className="fixed inset-x-4 top-1/2 flex -translate-y-1/2 items-center justify-between md:inset-x-[15vw]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => move(-1)}
+              aria-label="前の画像"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-main text-2xl leading-none text-white shadow-md transition-colors hover:opacity-90"
+            >
+              <span className="ms-outlined text-[24px] leading-none">
+                chevron_left
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => move(1)}
+              aria-label="次の画像"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-main text-2xl leading-none text-white shadow-md transition-colors hover:opacity-90"
+            >
+              <span className="ms-outlined text-[24px] leading-none">
+                chevron_right
+              </span>
             </button>
           </div>
         </div>

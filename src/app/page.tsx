@@ -8,6 +8,8 @@ import SocialIcons from "@/components/SocialIcons";
 import { services, policy } from "@/data/site";
 import GalleryCarousel from "@/components/GalleryCarousel";
 
+const basePath = "/yaegashi-portfolio";
+
 const sideNav = [
   { label: "Works", href: "/works" },
   { label: "Other", href: "/other" },

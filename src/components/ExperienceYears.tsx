@@ -11,7 +11,7 @@ export default function ExperienceYears({ start }: { start: string }) {
     const y = Math.floor(
       (today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24 * 365.25),
     );
-    setYears(String(Math.max(y, 0)));
+    queueMicrotask(() => setYears(String(Math.max(y, 0))));
   }, [start]);
 
   return <>{years}</>;

@@ -3,10 +3,45 @@ export type WorkTag = {
   kind: "web" | "dtp" | "illust" | "date";
 };
 
-export type GalleryGroup = {
-  images: string[];
-  columns: 1 | 2 | 3 | 4;
+export const itemTags = [
+  "フライヤー・ポスター",
+  "パンフレット",
+  "ロゴ",
+  "カード",
+  "ステッカー",
+  "イラスト",
+  "Tシャツ",
+  "WEBサイト",
+  "バナー",
+] as const;
+
+export type ItemTag = (typeof itemTags)[number];
+
+export type GalleryImage = {
+  src: string;
+  item: ItemTag;
 };
+
+export type GalleryGroup = {
+  /** 入れ子配列は同一セル内の縦積み */
+  images: (GalleryImage | GalleryImage[])[];
+  columns: 1 | 2 | 3 | 4;
+  /** めくり順（画像indexの並び。省略時は格納順） */
+  order?: number[];
+  /** めくりビューのページ縦横比 [幅, 高さ]（省略時はA4縦） */
+  bookSize?: [number, number];
+  /** 入れ子セットの並び方向（省略時はrow） */
+  stackDir?: "row" | "col";
+  /** 縦長画像を枠内スクロールで見せる */
+  scrollView?: boolean;
+};
+
+/** ネストを平坦化 */
+export function flatImages(
+  images: (GalleryImage | GalleryImage[])[],
+): GalleryImage[] {
+  return images.flatMap((img) => (Array.isArray(img) ? img : [img]));
+}
 
 export type Work = {
   slug: string;
@@ -19,9 +54,45 @@ export type Work = {
   /** 右ペインの背景色（旧CSSのテーマ色を踏襲） */
   bg: string;
   padded?: boolean;
+  /** ギャラリー画像を高さ制限せず原寸比で出す */
+  naturalGallery?: boolean;
 };
 
 export const works: Work[] = [
+  {
+    slug: "franny",
+    title: "ジャズと喫茶 Franny",
+    subtitle: "ロゴデザイン/instagram告知画像/ショップカード/フライヤー/ステッカー",
+    tags: [
+      { label: "WEB", kind: "web" },
+      { label: "DTP", kind: "dtp" },
+      { label: "illust", kind: "illust" },
+      { label: "2022-", kind: "date" },
+    ],
+    description: [
+      "五線譜と喫茶店のテーブルのコーナーをイメージしたロゴを制作しました。\nお店の雰囲気に合うようモチーフやカラーの相談を重ね、ラフな雰囲気のステッカーを制作しました。フライヤーについては、爽やかな色合いと謎めいたイラストで目を引くようにデザインしました。",
+    ],
+    links: [
+      {
+        label: "ジャズと喫茶franny-instagram",
+        href: "https://www.instagram.com/jazztokissafranny/",
+      },
+    ],
+    gallery: [
+      {
+        columns: 2,
+        images: [
+          { src: "/images/franny1.png", item: "ロゴ" },
+          { src: "/images/franny2.png", item: "バナー" },
+          { src: "/images/franny3.png", item: "カード" },
+          { src: "/images/franny4.png", item: "ステッカー" },
+          { src: "/images/franny5.png", item: "フライヤー・ポスター" },
+        ],
+      },
+    ],
+    bg: "#3b5362",
+    padded: true,
+  },
   {
     slug: "pinokio",
     title: "写真館ピノキオ",
@@ -33,49 +104,46 @@ export const works: Work[] = [
       { label: "2022-2023", kind: "date" },
     ],
     description: [
-      "キャンペーンごとに写真のレタッチや加工、LP制作、バナーやポスターの制作、印刷までを一貫して担当していました。加えて、新サービスや店舗のチラシ、季節のDM、パンフレット、Instagramでの告知画像の制作をしていました。",
-    ],
-    links: [
-      { label: "キャンペーンページの詳細はこちら", href: "/works/pinokio-web" },
-      { label: "https://www.pinokio.co.jp", href: "https://www.pinokio.co.jp" },
+      "キャンペーンごとの制作物、店舗用POPなどの制作。\n担当：写真のレタッチ/加工/LP制作/バナー/ポスター/入稿/新サービスや店舗のチラシ/季節のDM/パンフレット/Instagram告知画像制作",
     ],
     gallery: [
       {
-        columns: 3,
+        columns: 4,
+        order: [1, 3, 2, 5, 4, 7, 6, 9, 8, 11, 10, 13, 12, 15, 14, 0],
         images: [
-          "/images/pinokio1.png",
-          "/images/pinokio2.png",
-          "/images/pinokio3.png",
-          "/images/pinokio4.png",
-          "/images/pinokio5.png",
-          "/images/pinokio6.png",
-          "/images/pinokio7.png",
-          "/images/pinokio8.png",
-          "/images/pinokio9.png",
-          "/images/pinokio10.png",
-          "/images/pinokio11.png",
-          "/images/pinokio12.png",
+          { src: "/images/pinokio-book1.png", item: "パンフレット" },
+          { src: "/images/pinokio-book2.png", item: "パンフレット" },
+          { src: "/images/pinokio-book3.png", item: "パンフレット" },
+          { src: "/images/pinokio-book4.png", item: "パンフレット" },
+          { src: "/images/pinokio-book5.png", item: "パンフレット" },
+          { src: "/images/pinokio-book6.png", item: "パンフレット" },
+          { src: "/images/pinokio-book7.png", item: "パンフレット" },
+          { src: "/images/pinokio-book8.png", item: "パンフレット" },
+          { src: "/images/pinokio-book9.png", item: "パンフレット" },
+          { src: "/images/pinokio-book10.png", item: "パンフレット" },
+          { src: "/images/pinokio-book11.png", item: "パンフレット" },
+          { src: "/images/pinokio-book12.png", item: "パンフレット" },
+          { src: "/images/pinokio-book13.png", item: "パンフレット" },
+          { src: "/images/pinokio-book14.png", item: "パンフレット" },
+          { src: "/images/pinokio-book15.png", item: "パンフレット" },
+          { src: "/images/pinokio-book16.png", item: "パンフレット" },
         ],
       },
       {
-        columns: 4,
+        columns: 3,
         images: [
-          "/images/pinokio-book1.png",
-          "/images/pinokio-book2.png",
-          "/images/pinokio-book3.png",
-          "/images/pinokio-book4.png",
-          "/images/pinokio-book5.png",
-          "/images/pinokio-book6.png",
-          "/images/pinokio-book7.png",
-          "/images/pinokio-book8.png",
-          "/images/pinokio-book9.png",
-          "/images/pinokio-book10.png",
-          "/images/pinokio-book11.png",
-          "/images/pinokio-book12.png",
-          "/images/pinokio-book13.png",
-          "/images/pinokio-book14.png",
-          "/images/pinokio-book15.png",
-          "/images/pinokio-book16.png",
+          { src: "/images/pinokio1.png", item: "フライヤー・ポスター" },
+          { src: "/images/pinokio2.png", item: "フライヤー・ポスター" },
+          { src: "/images/pinokio3.png", item: "フライヤー・ポスター" },
+          { src: "/images/pinokio4.png", item: "フライヤー・ポスター" },
+          { src: "/images/pinokio5.png", item: "フライヤー・ポスター" },
+          { src: "/images/pinokio6.png", item: "フライヤー・ポスター" },
+          { src: "/images/pinokio7.png", item: "フライヤー・ポスター" },
+          { src: "/images/pinokio8.png", item: "フライヤー・ポスター" },
+          { src: "/images/pinokio9.png", item: "フライヤー・ポスター" },
+          { src: "/images/pinokio10.png", item: "バナー" },
+          { src: "/images/pinokio11.png", item: "フライヤー・ポスター" },
+          { src: "/images/pinokio12.png", item: "バナー" },
         ],
       },
     ],
@@ -90,56 +158,21 @@ export const works: Work[] = [
       { label: "2022-2023", kind: "date" },
     ],
     description: [
-      "キャンペーンページのデザイン、コーディング、CMSでの更新、キャンペーンページ管理を一貫して行なっておりました。※サイトリニューアルやキャンペーン終了などの理由でサイト自体も残っていない状態のため、各URLは掲載できておりません。",
+      "ターゲットごとに目立たせたいポイントを変えるなどのUIの工夫を心がけて制作しました。\n担当：キャンペーンページのカンプ/デザイン/コーディング/CMSでの更新/キャンペーンページ管理",
     ],
     links: [{ label: "https://www.pinokio.co.jp", href: "https://www.pinokio.co.jp" }],
     gallery: [
       {
         columns: 4,
         images: [
-          "/images/lp_furisode-lental@2x.png",
-          "/images/lp_w-seijin@2x.png",
-          "/images/lp_furisode@2x.png",
-          "/images/lp_family@2x.png",
-          "/images/lp_furisode-rental-wf@2x.png",
+          { src: "/images/lp_furisode-lental@2x.png", item: "WEBサイト" },
+          { src: "/images/lp_w-seijin@2x.png", item: "WEBサイト" },
+          { src: "/images/lp_furisode@2x.png", item: "WEBサイト" },
+          { src: "/images/lp_family@2x.png", item: "WEBサイト" },
         ],
       },
     ],
     bg: "#eedacf",
-  },
-  {
-    slug: "franny",
-    title: "ジャズと喫茶 Franny",
-    subtitle: "ロゴデザイン/instagram告知画像/ショップカード/フライヤー/ステッカー",
-    tags: [
-      { label: "WEB", kind: "web" },
-      { label: "DTP", kind: "dtp" },
-      { label: "illust", kind: "illust" },
-      { label: "2022-", kind: "date" },
-    ],
-    description: [
-      "五線譜と喫茶店のテーブルのコーナーをイメージしたロゴを制作しました。開店後にステッカーの依頼を受け、お店の雰囲気に合うようモチーフやカラーの相談を重ね、ラフな雰囲気のステッカーを制作しました。初イベントのフライヤー制作も任せていただきました。爽やかな色合いと謎めいたイラストで目を引くようにデザインしました。",
-    ],
-    links: [
-      {
-        label: "ジャズと喫茶franny-instagram",
-        href: "https://www.instagram.com/jazztokissafranny/",
-      },
-    ],
-    gallery: [
-      {
-        columns: 2,
-        images: [
-          "/images/franny1.png",
-          "/images/franny2.png",
-          "/images/franny3.png",
-          "/images/franny4.png",
-          "/images/franny5.png",
-        ],
-      },
-    ],
-    bg: "#3b5362",
-    padded: true,
   },
   {
     slug: "fadstart",
@@ -151,18 +184,18 @@ export const works: Work[] = [
       { label: "2024-", kind: "date" },
     ],
     description: [
-      "ジャズと喫茶franny様での制作物を見て、ステッカーデザインのご依頼をいただきました。Jimnyのリペアやカスタムなどを行っている自動車整備工場で、デモ車の資料を頂いてイラストを描き起こしました。ポップ、アメリカン、ビンテージ、モダン、標識風など様々なテイストのデザイン案から相談と調整を重ねて選んでいただきました。追加でキャラクターデザインの依頼を頂き、鋭意制作中です。",
+      "Jimnyのリペアやカスタムなどを行っている自動車整備工場で、デモ車の資料を頂いてイラストを描き起こしました。\nポップ/アメリカン/ビンテージ/モダン/標識風など様々なテイストのデザイン案から相談と調整を重ねて選んでいただきました。",
     ],
     gallery: [
       {
-        columns: 2,
+        columns: 3,
         images: [
-          "/images/FADSTARt_Sticker_5.png",
-          "/images/FADSTARt_Sticker_2.png",
-          "/images/FADSTARt_Sticker_1.png",
-          "/images/FADSTARt_Sticker_4.png",
-          "/images/FADSTARt_Sticker_3.png",
-          "/images/FADSTARt_Sticker_6.png",
+          { src: "/images/FADSTARt_Sticker_5.png", item: "ステッカー" },
+          { src: "/images/FADSTARt_Sticker_2.png", item: "ステッカー" },
+          { src: "/images/FADSTARt_Sticker_1.png", item: "ステッカー" },
+          { src: "/images/FADSTARt_Sticker_4.png", item: "ステッカー" },
+          { src: "/images/FADSTARt_Sticker_3.png", item: "ステッカー" },
+          { src: "/images/FADSTARt_Sticker_6.png", item: "ステッカー" },
         ],
       },
     ],
@@ -179,18 +212,27 @@ export const works: Work[] = [
       { label: "2021-2022", kind: "date" },
     ],
     description: [
-      "vivo treeには、様々な種類の図形が相愛しあうことですばらしい力が発揮できるという意味が込められています。vivoは音楽用語で「生き生きした」を意味しており、個性的で元気な利用者さんの雰囲気をイメージしています。",
-      "メインロゴの他に施設内の部屋、併設カフェ、水耕栽培で仕様するためにカラーバリエーションを作成しました。色覚特性に配慮しつつ、活動的な印象になるよう作成しました。",
+      "vivoは音楽用語で「生き生きした」を意味しており、個性的で元気な利用者さんの雰囲気をイメージしています。\nメインロゴの他、施設内の部屋/併設カフェ/水耕栽培で仕様するためにカラーバリエーションを作成しました。色覚特性に配慮しつつ、活動的な印象になるよう作成しました。",
     ],
     gallery: [
       {
         columns: 1,
+        images:
+          [{ src: "/images/vivotree0.png", item: "ロゴ" },
+          { src: "/images/vivotree1.png", item: "ロゴ" }],
+      },
+      {
+        columns: 1,
+        bookSize: [500, 500],
         images: [
-          "/images/vivotree1.png",
-          "/images/vivotree2.png",
-          "/images/vivotree3.png",
-          "/images/vivotree4.png",
-          "/images/vivotree5.png",
+          { src: "/images/vivotree2.png", item: "パンフレット" },
+          { src: "/images/vivotree3.png", item: "パンフレット" },
+          { src: "/images/vivotree4.png", item: "パンフレット" },
+          { src: "/images/vivotree5.png", item: "パンフレット" },
+          { src: "/images/vivotree6.png", item: "パンフレット" },
+          { src: "/images/vivotree7.png", item: "パンフレット" },
+          { src: "/images/vivotree8.png", item: "パンフレット" },
+          { src: "/images/vivotree9.png", item: "パンフレット" },
         ],
       },
     ],
@@ -211,23 +253,21 @@ export const works: Work[] = [
     gallery: [
       {
         columns: 3,
+        stackDir: "col",
         images: [
-          "/images/panasonicbeauty1.png",
-          "/images/panasonicbeauty2.png",
-          "/images/panasonicbeauty6.png",
-          "/images/panasonicbeauty7.png",
-        ],
-      },
-      {
-        columns: 3,
-        images: [
-          "/images/panasonicbeauty3.png",
-          "/images/panasonicbeauty4.png",
-          "/images/panasonicbeauty5.png",
+          { src: "/images/panasonicbeauty1.png", item: "イラスト" },
+          { src: "/images/panasonicbeauty2.png", item: "イラスト" },
+          { src: "/images/panasonicbeauty3.png", item: "イラスト" },
+          { src: "/images/panasonicbeauty4.png", item: "イラスト" },
+          { src: "/images/panasonicbeauty5.png", item: "イラスト" }, 
+          { src: "/images/panasonicbeauty6.png", item: "イラスト" },
+          { src: "/images/panasonicbeauty7.png", item: "イラスト" },
+
         ],
       },
     ],
     bg: "#F0D9D9",
+    naturalGallery: true,
   },
   {
     slug: "cadet",
@@ -245,11 +285,15 @@ export const works: Work[] = [
       {
         columns: 2,
         images: [
-          "/images/garbpintino5.png",
-          "/images/garbpintino3.png",
-          "/images/garbpintino4.png",
-          "/images/garbpintino1.png",
-          "/images/garbpintino2.png",
+          { src: "/images/garbpintino5.png", item: "フライヤー・ポスター" },
+          [
+            { src: "/images/garbpintino3.png", item: "カード" },
+            { src: "/images/garbpintino4.png", item: "カード" },
+          ],
+          [
+            { src: "/images/garbpintino1.png", item: "カード" },
+            { src: "/images/garbpintino2.png", item: "カード" },
+          ],
         ],
       },
     ],
@@ -258,7 +302,7 @@ export const works: Work[] = [
   {
     slug: "competition",
     title: "Sokoage",
-    subtitle: "コーポレートサイト改修",
+    subtitle: "コーポレートサイト改修 - コンペ",
     tags: [
       { label: "WEB", kind: "web" },
       { label: "2025", kind: "date" },
@@ -266,33 +310,115 @@ export const works: Work[] = [
     description: [
       "コーポレートサイトのリデザインコンペに参加しました。工務店とマルチな制作という組み合わせを表現するため、ポップでありながら規則性の強いデザインに仕上げました。特にファーストビューではロゴマークを模ったパネルを浮遊させることで、軽やかで先進的な雰囲気を演出しました。",
     ],
-    gallery: [{ columns: 1, images: ["/images/socoage_top.png"] }],
-    bg: "lightsteelblue",
-  },
-  {
-    slug: "yaegashi",
-    title: "自主制作",
-    subtitle: "Tシャツデザイン/イラスト/グラフィック制作",
-    tags: [{ label: "illust", kind: "illust" }],
-    description: [],
     gallery: [
       {
-        columns: 2,
-        images: [
-          "/images/t-shirt_1.png",
-          "/images/t-shirt_2.png",
-          "/images/t-shirt_3.png",
-          "/images/t-shirt_4.png",
-          "/images/t-shirt_5.png",
-          "/images/t-shirt_6.png",
-        ],
+        columns: 1,
+        scrollView: true,
+        images: [{ src: "/images/socoage_top.png", item: "WEBサイト" }],
       },
     ],
-    bg: "#3b5362",
-    padded: true,
+    bg: "lightsteelblue",
   },
 ];
 
 export function getWork(slug: string): Work | undefined {
   return works.find((w) => w.slug === slug);
+}
+
+/** カード表示用の軽量サムネパス（*-thumb.jpg） */
+export function thumbOf(src: string): string {
+  return src.replace(/\.[^.]+$/, "-thumb.jpg");
+}
+
+export type LPDetail = {
+  id: string;
+  src: string;
+  title: string;
+  client: string;
+  description: string[];
+  /** カンプ（タブ切替で表示） */
+  comp?: { src: string; label: string };
+};
+
+export const lpDetails: LPDetail[] = [
+  {
+    id: "furisode-rental",
+    src: "/images/lp_furisode-lental@2x.png",
+    title: "振袖レンタルキャンペーンLP",
+    client: "写真館ピノキオ",
+    description: [
+      "振袖レンタルのキャンペーンページ。\nデザイン・コーディング・バナー制作・CMS更新まで一貫して担当。",
+    ],
+    comp: {
+      src: "/images/lp_furisode-rental-wf@2x.png",
+      label: "カンプ",
+    },
+  },
+  {
+    id: "w-seijin",
+    src: "/images/lp_w-seijin@2x.png",
+    title: "ダブル・トリプル成人式キャンペーンLP",
+    client: "写真館ピノキオ",
+    description: [
+      "ダブル・トリプル成人式のキャンペーンページ。\nデザイン・コーディング・バナー制作・CMS更新まで一貫して担当。",
+    ],
+  },
+  {
+    id: "furisode",
+    src: "/images/lp_furisode@2x.png",
+    title: "振袖撮影キャンペーンLP",
+    client: "写真館ピノキオ",
+    description: [
+      "振袖撮影のキャンペーンページ。\nデザイン・コーディング・バナー制作・CMS更新まで一貫して担当。",
+    ],
+  },
+  {
+    id: "family",
+    src: "/images/lp_family@2x.png",
+    title: "ファミリー撮影キャンペーンLP",
+    client: "写真館ピノキオ",
+    description: [
+      "ファミリー撮影のキャンペーンページ。\nデザイン・コーディング・バナー制作・CMS更新まで一貫して担当。",
+    ],
+  },
+];
+
+export function getLPDetail(id: string): LPDetail | undefined {
+  return lpDetails.find((d) => d.id === id);
+}
+
+/** 一覧・マソナリーに出さない画像（カンプ等） */
+export const hiddenItemSrcs: string[] = lpDetails.flatMap((d) =>
+  d.comp ? [d.comp.src] : [],
+);
+
+export type PamphletDetail = {
+  id: string;
+  workSlug: string;
+  gi: number;
+  title: string;
+  client: string;
+  description?: string[];
+};
+
+/** パンフ個別ページ用（説明はたたき。本人修正前提） */
+export const pamphletDetails: PamphletDetail[] = [
+  {
+    id: "pinokio-pamphlet",
+    workSlug: "pinokio",
+    gi: 0,
+    title: "写真館ピノキオ パンフレット",
+    client: "写真館ピノキオ",
+  },
+  {
+    id: "vivotree-pamphlet",
+    workSlug: "vivotree",
+    gi: 1,
+    title: "VIVOtree パンフレット",
+    client: "大泉障害者支援施設 VIVOtree",
+    },
+];
+
+export function getPamphlet(id: string): PamphletDetail | undefined {
+  return pamphletDetails.find((p) => p.id === id);
 }

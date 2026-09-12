@@ -4,6 +4,7 @@ import ContactCard from "@/components/ContactCard";
 import SlashText from "@/components/SlashText";
 import SubNav from "@/components/SubNav";
 import { tools, taskApps, chatApps } from "@/data/site";
+import { assetPath } from "@/lib/assetPath";
 
 export default function Page() {
   return (
@@ -41,7 +42,7 @@ export default function Page() {
             >
               <span className="absolute right-4 top-4 flex w-5">
                 <Image
-                  src={tool.icon}
+                  src={assetPath(tool.icon)}
                   alt=""
                   width={20}
                   height={20}
@@ -49,7 +50,7 @@ export default function Page() {
                 />
               </span>
               <Image
-                src={tool.image}
+                src={assetPath(tool.image)}
                 alt={tool.alt}
                 width={64}
                 height={64}
@@ -86,7 +87,7 @@ export default function Page() {
               className="grid grid-cols-[auto_1fr] items-center gap-3 rounded-xl bg-white p-3 shadow-[0_0_8px_rgba(0,0,0,0.05)]"
             >
               <Image
-                src={app.image}
+                src={assetPath(app.image)}
                 alt=""
                 width={40}
                 height={40}
@@ -111,7 +112,7 @@ export default function Page() {
               className="grid grid-cols-[auto_1fr] items-center gap-3 rounded-xl bg-white p-3 shadow-[0_0_8px_rgba(0,0,0,0.05)]"
             >
               <Image
-                src={app.image}
+                src={assetPath(app.image)}
                 alt=""
                 width={40}
                 height={40}

@@ -7,6 +7,7 @@ import SubNav from "@/components/SubNav";
 import FlipBook from "@/components/FlipBook";
 import SlashText from "@/components/SlashText";
 import { works, getWork, lpDetails, flatImages, thumbOf } from "@/data/works";
+import { assetPath } from "@/lib/assetPath";
 
 export const dynamicParams = false;
 
@@ -102,7 +103,7 @@ export default async function Page({
         // eslint-disable-next-line @next/next/no-img-element
         <img
           key={img.src}
-          src={img.src}
+          src={assetPath(img.src)}
           alt=""
           loading="lazy"
           className="h-auto w-full"
@@ -159,7 +160,7 @@ export default async function Page({
                         className="group block overflow-hidden rounded-xl border-[0.5px] border-main"
                       >
                         <Image
-                          src={thumbOf(img.src)}
+                          src={assetPath(thumbOf(img.src))}
                           alt=""
                           width={600}
                           height={600}
@@ -198,7 +199,7 @@ export default async function Page({
                             // eslint-disable-next-line @next/next/no-img-element
                             <img
                               key={img.src}
-                              src={img.src}
+                              src={assetPath(img.src)}
                               alt=""
                               loading="lazy"
                               className="h-auto w-full"
@@ -218,7 +219,7 @@ export default async function Page({
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
                         key={img.src}
-                        src={img.src}
+                        src={assetPath(img.src)}
                         alt={target?.title ?? ""}
                         loading="lazy"
                         className={

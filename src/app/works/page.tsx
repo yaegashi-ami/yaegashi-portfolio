@@ -20,6 +20,7 @@ import {
   type GalleryImage,
   type PamphletDetail,
 } from "@/data/works";
+import { assetPath } from "@/lib/assetPath";
 
 const genreFilters = [
   { key: "all", label: "すべて" },
@@ -414,7 +415,7 @@ function WorksInner() {
                     style={{ backgroundColor: work.bg }}
                   >
                     <Image
-                      src={thumbOf(pages[0]?.src ?? "")}
+                      src={assetPath(thumbOf(pages[0]?.src ?? ""))}
                       alt=""
                       width={600}
                       height={600}
@@ -446,7 +447,7 @@ function WorksInner() {
               const isSokoage = href === "/works/competition";
               const image = (
                 <Image
-                  src={img.src}
+                  src={assetPath(img.src)}
                   alt=""
                   width={600}
                   height={600}
@@ -507,7 +508,7 @@ onClick={() => openModal(img.src, visibleItems.map((e) => e.img.src))}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               key={modal.src}
-              src={modal.src}
+              src={assetPath(modal.src)}
               alt="拡大画像"
               className={`max-h-[85vh] max-w-[50vw] rounded-lg object-contain shadow-2xl ${
                 closing

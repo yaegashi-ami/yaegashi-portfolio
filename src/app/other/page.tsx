@@ -5,6 +5,7 @@ import ContactCard from "@/components/ContactCard";
 import { useState } from "react";
 import SubNav from "@/components/SubNav";
 import { otherItems } from "@/data/site";
+import { assetPath } from "@/lib/assetPath";
 
 export default function Page() {
   const [modal, setModal] = useState<{
@@ -38,7 +39,7 @@ export default function Page() {
               {item.subtitle}
             </p>
             <h2 className="text-xl font-bold tracking-wider flex items-center">{item.image && (
-              <img src={item.image} alt="" className="inline-block h-6 w-6 mr-2 object-cover" />
+              <img src={assetPath(item.image)} alt="" className="inline-block h-6 w-6 mr-2 object-cover" />
             )}{item.title}</h2>
             
             {/* 単体の画像がある場合
@@ -49,7 +50,7 @@ export default function Page() {
                   className="group relative cursor-zoom-in overflow-hidden rounded-lg bg-gray-100 aspect-[4/3] transition-all duration-300 hover:ring-2 hover:ring-main"
                 >
                   <img
-                    src={item.image}
+                    src={assetPath(item.image)}
                     alt=""
                     className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
@@ -78,7 +79,7 @@ export default function Page() {
                       className="group relative cursor-zoom-in overflow-hidden rounded-lg bg-gray-100 aspect-[4/3] transition-all duration-300 hover:ring-2 hover:ring-main"
                     >
                       <img
-                        src={src}
+                        src={assetPath(src)}
                         alt=""
                         className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                       />
@@ -113,7 +114,7 @@ export default function Page() {
         >
           <div className="relative max-h-[90vh] max-w-[50vw]" onClick={(e) => e.stopPropagation()}>
             <img
-              src={modal.src}
+              src={assetPath(modal.src)}
               alt="拡大画像"
               className="max-h-[85vh] max-w-[50vw] rounded-lg object-contain shadow-2xl"
             />

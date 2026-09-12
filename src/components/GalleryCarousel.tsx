@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import OpenBadge from "@/components/OpenBadge";
+import { assetPath } from "@/lib/assetPath";
 
 export type GalleryCarouselItem = {
   src: string;
@@ -107,7 +108,7 @@ export default function GalleryCarousel({
             const media = (
               <>
                 <Image
-                  src={img.src}
+                  src={assetPath(img.src)}
                   alt=""
                   width={600}
                   height={450}

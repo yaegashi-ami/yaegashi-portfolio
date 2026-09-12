@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import type { PageFlip } from "page-flip";
+import { assetPath } from "@/lib/assetPath";
 
 export default function FlipBook({
   images: rawImages,
@@ -113,7 +114,7 @@ export default function FlipBook({
               }
             >
               <Image
-                src={src}
+                src={assetPath(src)}
                 alt={`${title} ${i + 1}ページ目`}
                 width={550}
                 height={777}
@@ -155,7 +156,7 @@ export default function FlipBook({
             }`}
           >
             <Image
-              src={src}
+              src={assetPath(src)}
               alt=""
               width={80}
               height={112}

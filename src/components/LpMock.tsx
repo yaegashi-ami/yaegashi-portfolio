@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
+import { assetPath } from "@/lib/assetPath";
 
 export default function LpMock({ src, title }: { src: string; title: string }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -24,7 +25,7 @@ export default function LpMock({ src, title }: { src: string; title: string }) {
             className="lp-scroll aspect-[9/18.16] overflow-y-auto"
           >
             <Image
-              src={src}
+              src={assetPath(src)}
               alt={title}
               width={760}
               height={4000}

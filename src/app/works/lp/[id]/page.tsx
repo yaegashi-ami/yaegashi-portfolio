@@ -9,6 +9,7 @@ import LpTabs from "@/components/LpTabs";
 import BackLink from "@/components/BackLink";
 import SlashText from "@/components/SlashText";
 import { lpDetails, getLPDetail, thumbOf } from "@/data/works";
+import { assetPath } from "@/lib/assetPath";
 
 export const dynamicParams = false;
 
@@ -72,7 +73,7 @@ export default async function Page({
                       className="relative block overflow-hidden rounded-lg border-2 border-main"
                     >
                       <Image
-                        src={thumbOf(d.src)}
+                        src={assetPath(thumbOf(d.src))}
                         alt={d.title}
                         width={300}
                         height={300}
@@ -87,7 +88,7 @@ export default async function Page({
                       className="group relative block overflow-hidden rounded-lg border-[0.5px] border-main"
                     >
                       <Image
-                        src={thumbOf(d.src)}
+                        src={assetPath(thumbOf(d.src))}
                         alt={d.title}
                         width={300}
                         height={300}

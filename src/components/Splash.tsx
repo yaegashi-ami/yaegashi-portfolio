@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { assetPath } from "@/lib/assetPath";
 
 export default function Splash() {
   const [phase, setPhase] = useState<"show" | "hide" | "done">("show");
@@ -37,7 +38,7 @@ export default function Splash() {
       }`}
     >
       <Image
-        src="/images/signature.svg"
+        src={assetPath("/images/signature.svg")}
         alt=""
         width={928}
         height={200}

@@ -7,6 +7,7 @@ import ContactCard from "@/components/ContactCard";
 import SocialIcons from "@/components/SocialIcons";
 import { services, policy } from "@/data/site";
 import GalleryCarousel from "@/components/GalleryCarousel";
+import { assetPath } from "@/lib/assetPath";
 
 const sideNav = [
   { label: "Works", href: "/works" },
@@ -206,7 +207,7 @@ export default function Page() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               key={modal.src}
-              src={modal.src}
+              src={assetPath(modal.src)}
               alt="拡大画像"
               className={`max-h-[85vh] max-w-[50vw] rounded-lg object-contain shadow-2xl ${closing
                 ? "animate-[fade-out_0.15s_ease-in]"

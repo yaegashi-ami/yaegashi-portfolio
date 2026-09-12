@@ -171,7 +171,7 @@ export type OtherItem = {
     columns: number;
     images: { src: string }[];
   }[];
-  links: { label: string; href: string }[];
+  links?: { label: string; href: string }[];
 };
 
 export const otherItems: OtherItem[] = [
@@ -195,6 +195,25 @@ export const otherItems: OtherItem[] = [
       {
         label: "Chromeウェブストア",
         href: "https://chromewebstore.google.com/detail/now-playing-music-retro-p/holmmjmgkebncmfcigodefkneobbejbp",
+      },
+    ],
+  },
+  {
+    title: "Tシャツ",
+    subtitle: "original",
+    body: "オリジナルデザインのTシャツを制作しました。友人からの依頼、もしくは自分用。",
+    gallery: [
+      {
+        columns: 1,
+        images: [
+          { src: "/images/t-shirt_1.png"},
+          { src: "/images/t-shirt_2.png" },
+          { src: "/images/t-shirt_3.png" },
+          { src: "/images/t-shirt_4.png" },
+          { src: "/images/t-shirt_5.png" },
+          { src: "/images/t-shirt_6.png" },
+          
+        ],
       },
     ],
   },

@@ -60,90 +60,6 @@ export type Work = {
 
 export const works: Work[] = [
   {
-    slug: "pinokio",
-    title: "写真館ピノキオ",
-    subtitle: "パンフレット/リーフレット/バナー/HP/LP/コーディング/instagram etc.",
-    tags: [
-      { label: "WEB", kind: "web" },
-      { label: "DTP", kind: "dtp" },
-      { label: "illust", kind: "illust" },
-      { label: "2022-2023", kind: "date" },
-    ],
-    description: [
-      "キャンペーンごとの制作物、店舗用POPなどの制作をしておりました。\n写真のレタッチ/加工/LP制作/バナー/ポスター/入稿を一貫して担当していました。\n加えて、新サービスや店舗のチラシ/季節のDM/パンフレット/Instagramでの告知画像の制作をしていました。",
-    ],
-    links: [
-      { label: "https://www.pinokio.co.jp", href: "https://www.pinokio.co.jp" },
-    ],
-    gallery: [
-      {
-        columns: 3,
-        images: [
-          { src: "/images/pinokio1.png", item: "フライヤー・ポスター" },
-          { src: "/images/pinokio2.png", item: "フライヤー・ポスター" },
-          { src: "/images/pinokio3.png", item: "フライヤー・ポスター" },
-          { src: "/images/pinokio4.png", item: "フライヤー・ポスター" },
-          { src: "/images/pinokio5.png", item: "フライヤー・ポスター" },
-          { src: "/images/pinokio6.png", item: "フライヤー・ポスター" },
-          { src: "/images/pinokio7.png", item: "フライヤー・ポスター" },
-          { src: "/images/pinokio8.png", item: "フライヤー・ポスター" },
-          { src: "/images/pinokio9.png", item: "フライヤー・ポスター" },
-          { src: "/images/pinokio10.png", item: "バナー" },
-          { src: "/images/pinokio11.png", item: "フライヤー・ポスター" },
-          { src: "/images/pinokio12.png", item: "バナー" },
-        ],
-      },
-      {
-        columns: 4,
-        order: [1, 3, 2, 5, 4, 7, 6, 9, 8, 11, 10, 13, 12, 15, 14, 0],
-        images: [
-          { src: "/images/pinokio-book1.png", item: "パンフレット" },
-          { src: "/images/pinokio-book2.png", item: "パンフレット" },
-          { src: "/images/pinokio-book3.png", item: "パンフレット" },
-          { src: "/images/pinokio-book4.png", item: "パンフレット" },
-          { src: "/images/pinokio-book5.png", item: "パンフレット" },
-          { src: "/images/pinokio-book6.png", item: "パンフレット" },
-          { src: "/images/pinokio-book7.png", item: "パンフレット" },
-          { src: "/images/pinokio-book8.png", item: "パンフレット" },
-          { src: "/images/pinokio-book9.png", item: "パンフレット" },
-          { src: "/images/pinokio-book10.png", item: "パンフレット" },
-          { src: "/images/pinokio-book11.png", item: "パンフレット" },
-          { src: "/images/pinokio-book12.png", item: "パンフレット" },
-          { src: "/images/pinokio-book13.png", item: "パンフレット" },
-          { src: "/images/pinokio-book14.png", item: "パンフレット" },
-          { src: "/images/pinokio-book15.png", item: "パンフレット" },
-          { src: "/images/pinokio-book16.png", item: "パンフレット" },
-        ],
-      },
-    ],
-    bg: "#C4B49D",
-  },
-  {
-    slug: "pinokio-web",
-    title: "写真館ピノキオ-WEB",
-    subtitle: "LP/コーディング/バナー/CMS",
-    tags: [
-      { label: "WEB", kind: "web" },
-      { label: "2022-2023", kind: "date" },
-    ],
-    description: [
-      "キャンペーンページのカンプ/デザイン/コーディング/CMSでの更新/キャンペーンページ管理を一貫して行なっておりました。\nターゲットに合わせたデザイン、UIを心がけて制作しました。",
-    ],
-    links: [{ label: "https://www.pinokio.co.jp", href: "https://www.pinokio.co.jp" }],
-    gallery: [
-      {
-        columns: 4,
-        images: [
-          { src: "/images/lp_furisode-lental@2x.png", item: "WEBサイト" },
-          { src: "/images/lp_w-seijin@2x.png", item: "WEBサイト" },
-          { src: "/images/lp_furisode@2x.png", item: "WEBサイト" },
-          { src: "/images/lp_family@2x.png", item: "WEBサイト" },
-        ],
-      },
-    ],
-    bg: "#eedacf",
-  },
-  {
     slug: "franny",
     title: "ジャズと喫茶 Franny",
     subtitle: "ロゴデザイン/instagram告知画像/ショップカード/フライヤー/ステッカー",
@@ -154,7 +70,7 @@ export const works: Work[] = [
       { label: "2022-", kind: "date" },
     ],
     description: [
-      "五線譜と喫茶店のテーブルのコーナーをイメージしたロゴを制作しました。\nステッカーの依頼を受け、お店の雰囲気に合うようモチーフやカラーの相談を重ね、ラフな雰囲気のステッカーを制作しました。フライヤーについては、爽やかな色合いと謎めいたイラストで目を引くようにデザインしました。",
+      "五線譜と喫茶店のテーブルのコーナーをイメージしたロゴを制作しました。\nお店の雰囲気に合うようモチーフやカラーの相談を重ね、ラフな雰囲気のステッカーを制作しました。フライヤーについては、爽やかな色合いと謎めいたイラストで目を引くようにデザインしました。",
     ],
     links: [
       {
@@ -178,6 +94,87 @@ export const works: Work[] = [
     padded: true,
   },
   {
+    slug: "pinokio",
+    title: "写真館ピノキオ",
+    subtitle: "パンフレット/リーフレット/バナー/HP/LP/コーディング/instagram etc.",
+    tags: [
+      { label: "WEB", kind: "web" },
+      { label: "DTP", kind: "dtp" },
+      { label: "illust", kind: "illust" },
+      { label: "2022-2023", kind: "date" },
+    ],
+    description: [
+      "キャンペーンごとの制作物、店舗用POPなどの制作。\n担当：写真のレタッチ/加工/LP制作/バナー/ポスター/入稿/新サービスや店舗のチラシ/季節のDM/パンフレット/Instagram告知画像制作",
+    ],
+    gallery: [
+      {
+        columns: 4,
+        order: [1, 3, 2, 5, 4, 7, 6, 9, 8, 11, 10, 13, 12, 15, 14, 0],
+        images: [
+          { src: "/images/pinokio-book1.png", item: "パンフレット" },
+          { src: "/images/pinokio-book2.png", item: "パンフレット" },
+          { src: "/images/pinokio-book3.png", item: "パンフレット" },
+          { src: "/images/pinokio-book4.png", item: "パンフレット" },
+          { src: "/images/pinokio-book5.png", item: "パンフレット" },
+          { src: "/images/pinokio-book6.png", item: "パンフレット" },
+          { src: "/images/pinokio-book7.png", item: "パンフレット" },
+          { src: "/images/pinokio-book8.png", item: "パンフレット" },
+          { src: "/images/pinokio-book9.png", item: "パンフレット" },
+          { src: "/images/pinokio-book10.png", item: "パンフレット" },
+          { src: "/images/pinokio-book11.png", item: "パンフレット" },
+          { src: "/images/pinokio-book12.png", item: "パンフレット" },
+          { src: "/images/pinokio-book13.png", item: "パンフレット" },
+          { src: "/images/pinokio-book14.png", item: "パンフレット" },
+          { src: "/images/pinokio-book15.png", item: "パンフレット" },
+          { src: "/images/pinokio-book16.png", item: "パンフレット" },
+        ],
+      },
+      {
+        columns: 3,
+        images: [
+          { src: "/images/pinokio1.png", item: "フライヤー・ポスター" },
+          { src: "/images/pinokio2.png", item: "フライヤー・ポスター" },
+          { src: "/images/pinokio3.png", item: "フライヤー・ポスター" },
+          { src: "/images/pinokio4.png", item: "フライヤー・ポスター" },
+          { src: "/images/pinokio5.png", item: "フライヤー・ポスター" },
+          { src: "/images/pinokio6.png", item: "フライヤー・ポスター" },
+          { src: "/images/pinokio7.png", item: "フライヤー・ポスター" },
+          { src: "/images/pinokio8.png", item: "フライヤー・ポスター" },
+          { src: "/images/pinokio9.png", item: "フライヤー・ポスター" },
+          { src: "/images/pinokio10.png", item: "バナー" },
+          { src: "/images/pinokio11.png", item: "フライヤー・ポスター" },
+          { src: "/images/pinokio12.png", item: "バナー" },
+        ],
+      },
+    ],
+    bg: "#C4B49D",
+  },
+  {
+    slug: "pinokio-web",
+    title: "写真館ピノキオ-WEB",
+    subtitle: "LP/コーディング/バナー/CMS",
+    tags: [
+      { label: "WEB", kind: "web" },
+      { label: "2022-2023", kind: "date" },
+    ],
+    description: [
+      "ターゲットごとに目立たせたいポイントを変えるなどのUIの工夫を心がけて制作しました。\n担当：キャンペーンページのカンプ/デザイン/コーディング/CMSでの更新/キャンペーンページ管理",
+    ],
+    links: [{ label: "https://www.pinokio.co.jp", href: "https://www.pinokio.co.jp" }],
+    gallery: [
+      {
+        columns: 4,
+        images: [
+          { src: "/images/lp_furisode-lental@2x.png", item: "WEBサイト" },
+          { src: "/images/lp_w-seijin@2x.png", item: "WEBサイト" },
+          { src: "/images/lp_furisode@2x.png", item: "WEBサイト" },
+          { src: "/images/lp_family@2x.png", item: "WEBサイト" },
+        ],
+      },
+    ],
+    bg: "#eedacf",
+  },
+  {
     slug: "fadstart",
     title: "FAD STARt",
     subtitle: "ステッカー/イラスト/キャラクターデザイン",
@@ -187,7 +184,7 @@ export const works: Work[] = [
       { label: "2024-", kind: "date" },
     ],
     description: [
-      "ジャズと喫茶franny様での制作物を見て、ステッカーデザインのご依頼をいただきました。\nJimnyのリペアやカスタムなどを行っている自動車整備工場で、デモ車の資料を頂いてイラストを描き起こしました。\nポップ/アメリカン/ビンテージ/モダン/標識風など様々なテイストのデザイン案から相談と調整を重ねて選んでいただきました。",
+      "Jimnyのリペアやカスタムなどを行っている自動車整備工場で、デモ車の資料を頂いてイラストを描き起こしました。\nポップ/アメリカン/ビンテージ/モダン/標識風など様々なテイストのデザイン案から相談と調整を重ねて選んでいただきました。",
     ],
     gallery: [
       {
@@ -220,9 +217,9 @@ export const works: Work[] = [
     gallery: [
       {
         columns: 1,
-        images: 
-        [{ src: "/images/vivotree0.png", item: "ロゴ" },
-        { src: "/images/vivotree1.png", item: "ロゴ" }],
+        images:
+          [{ src: "/images/vivotree0.png", item: "ロゴ" },
+          { src: "/images/vivotree1.png", item: "ロゴ" }],
       },
       {
         columns: 1,
@@ -260,18 +257,12 @@ export const works: Work[] = [
         images: [
           { src: "/images/panasonicbeauty1.png", item: "イラスト" },
           { src: "/images/panasonicbeauty2.png", item: "イラスト" },
-          [
-            { src: "/images/panasonicbeauty6.png", item: "イラスト" },
-            { src: "/images/panasonicbeauty7.png", item: "イラスト" },
-          ],
-        ],
-      },
-      {
-        columns: 3,
-        images: [
           { src: "/images/panasonicbeauty3.png", item: "イラスト" },
           { src: "/images/panasonicbeauty4.png", item: "イラスト" },
-          { src: "/images/panasonicbeauty5.png", item: "イラスト" },
+          { src: "/images/panasonicbeauty5.png", item: "イラスト" }, 
+          { src: "/images/panasonicbeauty6.png", item: "イラスト" },
+          { src: "/images/panasonicbeauty7.png", item: "イラスト" },
+
         ],
       },
     ],
@@ -327,28 +318,6 @@ export const works: Work[] = [
       },
     ],
     bg: "lightsteelblue",
-  },
-  {
-    slug: "yaegashi",
-    title: "自主制作",
-    subtitle: "Tシャツデザイン/イラスト/グラフィック制作",
-    tags: [{ label: "illust", kind: "illust" }],
-    description: [],
-    gallery: [
-      {
-        columns: 2,
-        images: [
-          { src: "/images/t-shirt_1.png", item: "Tシャツ" },
-          { src: "/images/t-shirt_2.png", item: "Tシャツ" },
-          { src: "/images/t-shirt_3.png", item: "Tシャツ" },
-          { src: "/images/t-shirt_4.png", item: "Tシャツ" },
-          { src: "/images/t-shirt_5.png", item: "Tシャツ" },
-          { src: "/images/t-shirt_6.png", item: "Tシャツ" },
-        ],
-      },
-    ],
-    bg: "#3b5362",
-    padded: true,
   },
 ];
 
@@ -429,7 +398,7 @@ export type PamphletDetail = {
   gi: number;
   title: string;
   client: string;
-  description: string[];
+  description?: string[];
 };
 
 /** パンフ個別ページ用（説明はたたき。本人修正前提） */
@@ -437,12 +406,9 @@ export const pamphletDetails: PamphletDetail[] = [
   {
     id: "pinokio-pamphlet",
     workSlug: "pinokio",
-    gi: 1,
+    gi: 0,
     title: "写真館ピノキオ パンフレット",
     client: "写真館ピノキオ",
-    description: [
-      "写真館ピノキオのパンフレット。全16ページ。（説明文たたき）",
-    ],
   },
   {
     id: "vivotree-pamphlet",
@@ -450,8 +416,7 @@ export const pamphletDetails: PamphletDetail[] = [
     gi: 1,
     title: "VIVOtree パンフレット",
     client: "大泉障害者支援施設 VIVOtree",
-    description: ["施設案内のパンフレット。全8ページ。（説明文たたき）"],
-  },
+    },
 ];
 
 export function getPamphlet(id: string): PamphletDetail | undefined {

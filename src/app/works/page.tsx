@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -47,6 +47,8 @@ const pill = (isActive: boolean) =>
 /** 余白付き contain 表示するサムネ（FADSTARt ステッカー / franny のロゴ・バナー・カード・ステッカー） */
 const isContain = (src: string) =>
   src.startsWith("/images/FADSTARt_Sticker_") ||
+  src.startsWith("/images/t-shirt") ||  
+  src.startsWith("/images/garbpintino") ||
   [
     "/images/franny1.png",
     "/images/franny2.png",
@@ -104,8 +106,30 @@ function WorksInner() {
     src: string;
     imgs: string[];
   } | null>(null);
+  const [closing, setClosing] = useState(false);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openModal = (src: string, imgs: string[]) => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+    setClosing(false);
+    setModal({ src, imgs });
+  };
+
+  const closeModal = () => {
+    if (closeTimer.current) return;
+    setClosing(true);
+    closeTimer.current = setTimeout(() => {
+      setModal(null);
+      setClosing(false);
+      closeTimer.current = null;
+    }, 200);
+  };
 
   const move = (dir: 1 | -1) => {
+    if (closing) return;
     setModal((m) => {
       if (!m) return m;
       const idx = m.imgs.indexOf(m.src);
@@ -304,7 +328,7 @@ function WorksInner() {
                     </Link>
                   ))}
                   {work.description.map((p, i) => (
-                    <p key={i} className="w-full text-sm leading-6 whitespace-pre-line">
+                    <p key={i} className="w-full text-xs leading-4.5 md:text-sm md:leading-6 whitespace-pre-line">
                       <SlashText text={p} />
                     </p>
                   ))}
@@ -336,10 +360,7 @@ function WorksInner() {
                             };
                       })}
                       onImageClick={(src) =>
-                        setModal({
-                          src,
-                          imgs: heroImages.map((i) => i.src),
-                        })
+                        openModal(src, heroImages.map((i) => i.src))
                       }
                     />
                   )}
@@ -453,12 +474,7 @@ function WorksInner() {
                 <button
                   key={work.slug + img.src}
                   type="button"
-                  onClick={() =>
-                    setModal({
-                      src: img.src,
-                      imgs: visibleItems.map((e) => e.img.src),
-                    })
-                  }
+onClick={() => openModal(img.src, visibleItems.map((e) => e.img.src))}
                   aria-label={`${work.title}の画像を拡大`}
                   className="group block cursor-zoom-in overflow-hidden rounded-xl border-[0.5px] border-main"
                 >
@@ -473,18 +489,31 @@ function WorksInner() {
 
       {modal && (
         <div
-          onClick={() => setModal(null)}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+          onClick={closeModal}
+          className={`fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 ${
+            closing
+              ? "animate-[fade-out_0.2s_ease-in]"
+              : "animate-[fade-in_0.2s_ease-out]"
+          }`}
         >
           <div
-            className="relative max-h-[90vh] max-w-[50vw]"
+            className={`relative max-h-[90vh] max-w-[50vw] ${
+              closing
+                ? "animate-[modal-out_0.2s_ease-in]"
+                : "animate-[modal-in_0.25s_ease-out]"
+            }`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
+              key={modal.src}
               src={modal.src}
               alt="拡大画像"
-              className="max-h-[85vh] max-w-[50vw] rounded-lg object-contain shadow-2xl"
+              className={`max-h-[85vh] max-w-[50vw] rounded-lg object-contain shadow-2xl ${
+                closing
+                  ? "animate-[fade-out_0.15s_ease-in]"
+                  : "animate-[modal-img-in_0.25s_ease-out]"
+              }`}
             />
             <div className="absolute inset-x-0 top-1/2 flex -translate-y-1/2 items-center justify-between px-2 w-[130%] left-[-15%]">
               <button
@@ -512,7 +541,7 @@ function WorksInner() {
               {modal.imgs.indexOf(modal.src) + 1} / {modal.imgs.length}
             </p>
             <button
-              onClick={() => setModal(null)}
+              onClick={closeModal}
               className="absolute -top-4 -right-4 flex h-10 w-10 items-center justify-center rounded-full bg-white text-black shadow-md hover:bg-gray-200"
             >
               <svg

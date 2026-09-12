@@ -28,7 +28,6 @@ export async function generateMetadata({
   if (!pamphlet) return { title: "Not Found" };
   return {
     title: `${pamphlet.title} | AMI YAEGASHI PORTFOLIO`,
-    description: pamphlet.description[0] ?? pamphlet.title,
   };
 }
 
@@ -66,14 +65,6 @@ export default async function Page({
               client：{pamphlet.client}
             </p>
           </div>
-          {pamphlet.description.map((p, i) => (
-            <p
-              key={i}
-              className="max-w-3xl text-sm leading-6 whitespace-pre-line"
-            >
-              <SlashText text={p} />
-            </p>
-          ))}
         </section>
         {images.length > 0 && (
           <Suspense>

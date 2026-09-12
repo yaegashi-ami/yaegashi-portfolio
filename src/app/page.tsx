@@ -197,7 +197,7 @@ export default function Page() {
             }`}
         >
           <div
-            className={`relative max-h-[90vh] max-w-[50vw] ${closing
+            className={`relative max-h-[90vh] max-w-[70vw] ${closing
               ? "animate-[modal-out_0.2s_ease-in]"
               : "animate-[modal-in_0.25s_ease-out]"
               }`}
@@ -208,7 +208,7 @@ export default function Page() {
               key={modal.src}
               src={assetPath(modal.src)}
               alt="拡大画像"
-              className={`max-h-[85vh] max-w-[50vw] rounded-lg object-contain shadow-2xl ${closing
+              className={`max-h-[85vh] max-w-[70vw] rounded-lg object-contain shadow-2xl ${closing
                 ? "animate-[fade-out_0.15s_ease-in]"
                 : "animate-[modal-img-in_0.25s_ease-out]"
                 }`}

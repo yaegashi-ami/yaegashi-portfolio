@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import ContactCard from "@/components/ContactCard";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import SubNav from "@/components/SubNav";
 import { otherItems } from "@/data/site";
 import { assetPath } from "@/lib/assetPath";
@@ -11,12 +11,35 @@ import { assetPath } from "@/lib/assetPath";
 const isContain = (src: string) => src.startsWith("/images/t-shirt");
 
 export default function Page() {
+  // すべてのフックと状態管理はコンポーネントの中に置く！
   const [modal, setModal] = useState<{
     src: string;
     imgs: string[];
   } | null>(null);
+  const [closing, setClosing] = useState(false);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openModal = (src: string, imgs: string[]) => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+    setClosing(false);
+    setModal({ src, imgs });
+  };
+
+  const closeModal = () => {
+    if (closeTimer.current) return;
+    setClosing(true);
+    closeTimer.current = setTimeout(() => {
+      setModal(null);
+      setClosing(false);
+      closeTimer.current = null;
+    }, 200);
+  };
 
   const move = (dir: 1 | -1) => {
+    if (closing) return;
     setModal((m) => {
       if (!m) return m;
       const idx = m.imgs.indexOf(m.src);
@@ -44,22 +67,6 @@ export default function Page() {
             <h2 className="text-xl font-bold tracking-wider flex items-center">{item.image && (
               <img src={assetPath(item.image)} alt="" className="inline-block h-6 w-6 mr-2 object-cover" />
             )}{item.title}</h2>
-            
-            {/* 単体の画像がある場合
-            {item.image && (
-              <div className="my-2 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-                <div
-                  onClick={() => setActiveImage(item.image ?? null)}
-                  className="group relative cursor-zoom-in overflow-hidden rounded-lg bg-gray-100 aspect-[4/3] transition-all duration-300 hover:ring-2 hover:ring-main"
-                >
-                  <img
-                    src={assetPath(item.image)}
-                    alt=""
-                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                </div>
-              </div>
-            )} */}
 
             {/* ギャラリー画像がある場合 */}
             {item.gallery?.map((gallery, galleryIndex) => (
@@ -70,16 +77,20 @@ export default function Page() {
                     <div
                       key={imgIndex}
                       onClick={() =>
-                        setModal({
+                        openModal(
                           src,
-                          imgs: item.gallery.flatMap((g) =>
+                          item.gallery.flatMap((g) =>
                             g.images.map((im) =>
                               typeof im === "string" ? im : im.src,
                             ),
                           ),
-                        })
+                        )
                       }
-                      className="group relative cursor-zoom-in overflow-hidden rounded-lg bg-gray-100 aspect-[4/3] transition-all duration-300 hover:ring-2 hover:ring-main"
+                      className={
+                        isContain(src)
+                          ? "group relative cursor-zoom-in overflow-hidden rounded-lg bg-gray-100 aspect-[4/3] transition-all duration-300 hover:ring-2 hover:ring-main"
+                          : "group relative cursor-zoom-in overflow-hidden rounded-lg bg-gray-100 aspect-[5/3] transition-all duration-300 hover:ring-2 hover:ring-main"
+                      }
                     >
                       <img
                         src={assetPath(src)}
@@ -113,19 +124,33 @@ export default function Page() {
         ))}
       </div>
 
-      {/* 拡大表示用のモーダル */}
+      {/* 拡大モーダル表示部分 */}
       {modal && (
         <div
-          onClick={() => setModal(null)}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+          onClick={closeModal}
+          className={`fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 ${closing
+            ? "animate-[fade-out_0.2s_ease-in]"
+            : "animate-[fade-in_0.2s_ease-out]"
+            }`}
         >
-          <div className="relative max-h-[90vh] max-w-[50vw]" onClick={(e) => e.stopPropagation()}>
+          <div
+            className={`relative max-h-[90vh] max-w-[70vw] ${closing
+              ? "animate-[modal-out_0.2s_ease-in]"
+              : "animate-[modal-in_0.25s_ease-out]"
+              }`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
+              key={modal.src}
               src={assetPath(modal.src)}
               alt="拡大画像"
-              className="max-h-[85vh] max-w-[50vw] rounded-lg object-contain shadow-2xl"
+              className={`max-h-[85vh] max-w-[70vw] rounded-lg object-contain shadow-2xl ${closing
+                ? "animate-[fade-out_0.15s_ease-in]"
+                : "animate-[modal-img-in_0.25s_ease-out]"
+                }`}
             />
-            <div className="absolute inset-x-0 top-1/2 flex -translate-y-1/2 items-center justify-between px-2">
+            <div className="absolute inset-x-0 top-1/2 flex -translate-y-1/2 items-center justify-between px-2 w-[130%] left-[-15%]">
               <button
                 type="button"
                 onClick={() => move(-1)}
@@ -151,7 +176,7 @@ export default function Page() {
               {modal.imgs.indexOf(modal.src) + 1} / {modal.imgs.length}
             </p>
             <button
-              onClick={() => setModal(null)}
+              onClick={closeModal}
               className="absolute -top-4 -right-4 flex h-10 w-10 items-center justify-center rounded-full bg-white text-black shadow-md hover:bg-gray-200"
             >
               <svg

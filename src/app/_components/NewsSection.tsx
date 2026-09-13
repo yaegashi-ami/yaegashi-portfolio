@@ -39,7 +39,7 @@ export default function NewsSection() {
               </span>
             </span>
             <span className="shrink-0 text-right tabular-nums text-muted">
-              9/7
+              2026/9/7
             </span>
           </Link>
         </li>

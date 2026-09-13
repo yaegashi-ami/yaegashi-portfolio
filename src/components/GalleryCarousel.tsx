@@ -33,6 +33,7 @@ export default function GalleryCarousel({
   const [canScroll, setCanScroll] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [thumbWidthRatio, setThumbWidthRatio] = useState(0.25);
+  const [active, setActive] = useState(0);
 
   const goToProgress = (progress: number) => {
     const node = trackRef.current;
@@ -69,6 +70,17 @@ export default function GalleryCarousel({
 
       const progress = maxScrollLeft > 0 ? scrollLeft / maxScrollLeft : 0;
       setScrollProgress(progress);
+
+      const nodes = node.querySelectorAll<HTMLElement>(
+        "[data-carousel-item]",
+      );
+      const step =
+        nodes.length > 1
+          ? nodes[1].offsetLeft - nodes[0].offsetLeft
+          : node.clientWidth;
+      const idx =
+        step > 0 ? Math.round(scrollLeft / step) : 0;
+      setActive(Math.max(0, Math.min(nodes.length - 1, idx)));
     };
     update();
     node.addEventListener("scroll", update, { passive: true });
@@ -81,8 +93,8 @@ export default function GalleryCarousel({
 
   if (items.length === 0) return null;
 
-  const itemClass =
-  "group relative aspect-[4/3] shrink-0 snap-start overflow-hidden rounded-lg bg-gray-100 transition-colors duration-300 hover:border-main w-[100%] md:w-[calc(33.333%-6px)] lg:w-[calc(25%-6px)]";
+const itemClass =
+    "group relative aspect-[4/3] shrink-0 snap-start overflow-hidden rounded-lg bg-gray-100 border transition-colors duration-300 hover:border-main w-[100%] md:w-[calc(33.333%-6px)] lg:w-[calc(25%-6px)]";
 
   return (
     <div className="my-2 flex flex-col gap-3">
@@ -104,7 +116,7 @@ export default function GalleryCarousel({
           ref={trackRef}
           className="no-scrollbar flex flex-1 snap-x snap-mandatory gap-2 overflow-x-auto pr-2"
         >
-          {items.map((img) => {
+          {items.map((img, i) => {
             const media = (
               <>
                 <Image
@@ -133,7 +145,9 @@ export default function GalleryCarousel({
                 href={img.href}
                 data-carousel-item
                 aria-label="詳細ページを開く"
-                className={`${itemClass} cursor-pointer`}
+                className={`${itemClass} ${
+                i === active ? "border-main" : "border-neutral-300"
+              } cursor-pointer`}
               >
                 {media}
               </Link>
@@ -144,7 +158,9 @@ export default function GalleryCarousel({
                 data-carousel-item
                 onClick={() => onImageClick(img.src)}
                 aria-label="画像を拡大"
-                className={`${itemClass} cursor-zoom-in`}
+                className={`${itemClass} ${
+                i === active ? "border-main" : "border-neutral-300"
+              } cursor-zoom-in`}
               >
                 {media}
               </button>

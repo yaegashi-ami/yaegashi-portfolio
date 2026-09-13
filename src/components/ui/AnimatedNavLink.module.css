@@ -15,11 +15,16 @@
   transition: width 0.3s ease;
 }
 
-.link:not(.current):hover {
-  color: var(--color-main);
-}
-
-.link:not(.current):hover::before,
 .link:not(.current):focus-visible::before {
   width: 100%;
+}
+
+@media (min-width: 768px) and (hover: hover) {
+  .link:not(.current):hover {
+    color: var(--color-main);
+  }
+
+  .link:not(.current):hover::before {
+    width: 100%;
+  }
 }

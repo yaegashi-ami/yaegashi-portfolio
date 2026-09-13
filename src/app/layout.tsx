@@ -16,6 +16,10 @@ const notoSans = Noto_Sans({
 export const metadata: Metadata = {
   title: "AMI YAEGASHI PORTFOLIO",
   description: "八重樫亜実のポートフォリオ",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

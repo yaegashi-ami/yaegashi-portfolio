@@ -4,10 +4,10 @@ import { Suspense, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import GalleryCarousel from "@/components/GalleryCarousel";
-import OpenBadge from "@/components/OpenBadge";
-import SlashText from "@/components/SlashText";
-import SubNav from "@/components/SubNav";
+import GalleryCarousel from "@/components/works/GalleryCarousel";
+import OpenBadge from "@/components/ui/OpenBadge";
+import SlashText from "@/components/ui/SlashText";
+import PageShell from "@/components/layout/PageShell";
 import {
   works,
   itemTags,
@@ -48,7 +48,7 @@ const pill = (isActive: boolean) =>
 /** 余白付き contain 表示するサムネ（FADSTARt ステッカー / franny のロゴ・バナー・カード・ステッカー） */
 const isContain = (src: string) =>
   src.startsWith("/images/FADSTARt_Sticker_") ||
-  src.startsWith("/images/t-shirt") ||  
+  src.startsWith("/images/t-shirt") ||
   src.startsWith("/images/garbpintino") ||
   [
     "/images/franny1.png",
@@ -60,9 +60,7 @@ const isContain = (src: string) =>
   ].includes(src);
 
 /** 画像 → 個別ページ遷移先（LP / コンペサイト / パンフ等） */
-const detailOf = (
-  src: string,
-): { href: string; title: string } | undefined => {
+const detailOf = (src: string): { href: string; title: string } | undefined => {
   const lp =
     lpDetails.find((d) => d.src === src) ??
     lpDetails.find((d) => d.comp?.src === src);
@@ -189,9 +187,14 @@ function WorksInner() {
         .map((img) => ({ work, gi, img })),
     ),
   );
+  const availableItemTags = itemTags.filter((tag) =>
+    itemImages.some((entry) => entry.img.item === tag),
+  );
   const seenBooklets = new Set<string>();
   const visibleItems = (
-    item === "all" ? itemImages : itemImages.filter((entry) => entry.img.item === item)
+    item === "all"
+      ? itemImages
+      : itemImages.filter((entry) => entry.img.item === item)
   )
     .filter((entry) => {
       if (entry.img.item !== "パンフレット") return true;
@@ -207,7 +210,10 @@ function WorksInner() {
         (e): e is GalleryImage[] =>
           Array.isArray(e) && e.some((im) => im.src === entry.img.src),
       );
-      if (nested) return nested[0].src === entry.img.src ? { ...entry, img2: undefined } : null;
+      if (nested)
+        return nested[0].src === entry.img.src
+          ? { ...entry, img2: undefined }
+          : null;
       return { ...entry, img2: undefined };
     })
     .filter((entry) => entry !== null);
@@ -228,8 +234,7 @@ function WorksInner() {
       : [];
 
   return (
-    <main className="mx-auto flex w-full max-w-[1000px] flex-1 flex-col px-5 pb-12 pt-6">
-      <SubNav />
+    <PageShell spacing="none">
       <div className="mt-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div className="flex gap-2 items-center">
           <h2 className="text-3xl font-bold tracking-[0.2rem] text-main">
@@ -279,33 +284,33 @@ function WorksInner() {
           <div className="flex flex-col gap-4">
             {clientWorks.map((work) => {
               const label = work.tags.map((tag) => tag.label).join(" / ");
-              const heroImages: CardImage[] = work.gallery.flatMap((group, gi) => {
-                const flat = flatImages(group.images);
-                const isBooklet =
-                  flat.length > 2 &&
-                  flat.every((img) => img.item === "パンフレット");
-                if (isBooklet) {
-                  const first = flat[0];
-                  if (!first) return [];
-                  const pamphlet = pamphletDetails.find(
-                    (p) => p.workSlug === work.slug && p.gi === gi,
-                  );
-                  return [
-                    {
-                      src: thumbOf(first.src),
-                      item: "パンフレット" as ItemTag,
-                      pamphlet,
-                    },
-                  ];
-                }
-                return flat.map(
-                  (img): CardImage => ({
+              const heroImages: CardImage[] = work.gallery.flatMap(
+                (group, gi) => {
+                  const flat = flatImages(group.images);
+                  const isBooklet =
+                    flat.length > 2 &&
+                    flat.every((img) => img.item === "パンフレット");
+                  if (isBooklet) {
+                    const first = flat[0];
+                    if (!first) return [];
+                    const pamphlet = pamphletDetails.find(
+                      (p) => p.workSlug === work.slug && p.gi === gi,
+                    );
+                    return [
+                      {
+                        src: thumbOf(first.src),
+                        item: "パンフレット" as ItemTag,
+                        pamphlet,
+                      },
+                    ];
+                  }
+                  return flat.map((img): CardImage => ({
                     src: img.src,
                     item: img.item,
                     pamphlet: undefined,
-                  }),
-                );
-              });
+                  }));
+                },
+              );
               return (
                 <article
                   key={work.slug}
@@ -329,7 +334,10 @@ function WorksInner() {
                     </Link>
                   ))}
                   {work.description.map((p, i) => (
-                    <p key={i} className="w-full text-xs leading-4.5 md:text-sm md:leading-6 whitespace-pre-line">
+                    <p
+                      key={i}
+                      className="w-full text-xs leading-4.5 md:text-sm md:leading-6 whitespace-pre-line"
+                    >
                       <SlashText text={p} />
                     </p>
                   ))}
@@ -361,7 +369,10 @@ function WorksInner() {
                             };
                       })}
                       onImageClick={(src) =>
-                        openModal(src, heroImages.map((i) => i.src))
+                        openModal(
+                          src,
+                          heroImages.map((i) => i.src),
+                        )
                       }
                     />
                   )}
@@ -382,7 +393,7 @@ function WorksInner() {
               >
                 すべて
               </button>
-              {itemTags.map((tag) => (
+              {availableItemTags.map((tag) => (
                 <button
                   key={tag}
                   type="button"
@@ -427,63 +438,69 @@ function WorksInner() {
               })}
             </div>
           ) : (
-          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-            {visibleItems.map(({ work, gi, img }) => {
-              const contain = isContain(img.src);
-              const target = detailOf(img.src);
-              const pamphlet =
-                !target && img.item === "パンフレット"
-                  ? pamphletDetails.find(
-                      (d) => d.workSlug === work.slug && d.gi === gi,
-                    )
-                  : undefined;
-              const isPamphlet = Boolean(pamphlet);
-              const href =
-                target?.href ??
-                (pamphlet ? `/works/pamphlet/${pamphlet.id}` : undefined);
-              const title =
-                target?.title ?? pamphlet?.title ?? work.title;
-              const isLp = target?.href.startsWith("/works/lp") ?? false;
-              const isSokoage = href === "/works/competition";
-              const image = (
-                <Image
-                  src={assetPath(img.src)}
-                  alt=""
-                  width={600}
-                  height={600}
-                  className={
-                    contain
-                      ? "aspect-square h-full w-full object-contain object-center p-2.5 transition-transform duration-300 group-hover:scale-105"
-                      : "aspect-square h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
-                  }
-                />
-              );
-              return href ? (
-                <Link
-                  key={work.slug + img.src}
-                  href={href}
-                  className="group relative block overflow-hidden rounded-xl border-[0.5px] border-main"
-                  aria-label={`${title}のページへ`}
-                >
-                  {image}
-                  <OpenBadge
-                    label={isPamphlet ? "パンフレットを開く" : "プレビューを開く"}
-                    tint={isPamphlet || isLp || isSokoage}
+            <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+              {visibleItems.map(({ work, gi, img }) => {
+                const contain = isContain(img.src);
+                const target = detailOf(img.src);
+                const pamphlet =
+                  !target && img.item === "パンフレット"
+                    ? pamphletDetails.find(
+                        (d) => d.workSlug === work.slug && d.gi === gi,
+                      )
+                    : undefined;
+                const isPamphlet = Boolean(pamphlet);
+                const href =
+                  target?.href ??
+                  (pamphlet ? `/works/pamphlet/${pamphlet.id}` : undefined);
+                const title = target?.title ?? pamphlet?.title ?? work.title;
+                const isLp = target?.href.startsWith("/works/lp") ?? false;
+                const isSokoage = href === "/works/competition";
+                const image = (
+                  <Image
+                    src={assetPath(img.src)}
+                    alt=""
+                    width={600}
+                    height={600}
+                    className={
+                      contain
+                        ? "aspect-square h-full w-full object-contain object-center p-2.5 transition-transform duration-300 group-hover:scale-105"
+                        : "aspect-square h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                    }
                   />
-                </Link>
-              ) : (
-                <button
-                  key={work.slug + img.src}
-                  type="button"
-onClick={() => openModal(img.src, visibleItems.map((e) => e.img.src))}
-                  aria-label={`${work.title}の画像を拡大`}
-                  className="group block cursor-zoom-in overflow-hidden rounded-xl border-[0.5px] border-main"
-                >
-                  {image}
-                </button>
-              );
-            })}
-          </div>
+                );
+                return href ? (
+                  <Link
+                    key={work.slug + img.src}
+                    href={href}
+                    className="group relative block overflow-hidden rounded-xl border-[0.5px] border-main"
+                    aria-label={`${title}のページへ`}
+                  >
+                    {image}
+                    <OpenBadge
+                      label={
+                        isPamphlet ? "パンフレットを開く" : "プレビューを開く"
+                      }
+                      tint={isPamphlet || isLp || isSokoage}
+                    />
+                  </Link>
+                ) : (
+                  <button
+                    key={work.slug + img.src}
+                    type="button"
+                    onClick={() =>
+                      openModal(
+                        img.src,
+                        visibleItems.map((e) => e.img.src),
+                      )
+                    }
+                    aria-label={`${work.title}の画像を拡大`}
+                    className="group block cursor-zoom-in overflow-hidden rounded-xl border-[0.5px] border-main"
+                  >
+                    {image}
+                  </button>
+                );
+              })}
+            </div>
           )}
         </>
       )}
@@ -561,6 +578,6 @@ onClick={() => openModal(img.src, visibleItems.map((e) => e.img.src))}
           </div>
         </div>
       )}
-    </main>
+    </PageShell>
   );
 }

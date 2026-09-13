@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import SubNav from "@/components/SubNav";
-import FlipBook from "@/components/FlipBook";
-import SlashText from "@/components/SlashText";
+import PageShell from "@/components/layout/PageShell";
+import FlipBook from "@/components/works/FlipBook";
 import {
   pamphletDetails,
   getPamphlet,
@@ -44,8 +43,7 @@ export default async function Page({
   const images = group ? flatImages(group.images).map((img) => img.src) : [];
 
   return (
-    <main className="mx-auto flex w-full max-w-[1000px] flex-1 flex-col gap-12 px-5 pb-12 pt-6">
-      <SubNav />
+    <PageShell>
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_2fr] lg:items-start">
         <section className="flex flex-col gap-4">
           <Link
@@ -78,6 +76,6 @@ export default async function Page({
           </Suspense>
         )}
       </div>
-    </main>
+    </PageShell>
   );
 }

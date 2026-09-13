@@ -1,19 +1,16 @@
 "use client";
 
 import { useRef, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import ContactCard from "@/components/ContactCard";
-import SocialIcons from "@/components/SocialIcons";
-import { services, policy } from "@/data/site";
-import GalleryCarousel from "@/components/GalleryCarousel";
+import NewsSection from "./_components/NewsSection";
+import ContactCard from "@/components/layout/ContactCard";
+import SocialIcons from "@/components/layout/SocialIcons";
+import { services, policy, heroImages } from "@/data/home";
+import GalleryCarousel from "@/components/works/GalleryCarousel";
+import AnimatedNavLink from "@/components/ui/AnimatedNavLink";
 import { assetPath } from "@/lib/assetPath";
 
-const sideNav = [
-  { label: "Works", href: "/works" },
-  { label: "Other", href: "/other" },
-  { label: "Profile", href: "/profile" },
-];
+import { sideNavigationLinks } from "@/data/navigation";
 
 /** 余白付き contain 表示するサムネ判定 */
 const isContain = (src: string) =>
@@ -67,30 +64,24 @@ export default function Page() {
     });
   };
 
-  // トップページで表示したい画像リスト
-  const heroImages = [
-    { src: "/images/pinokio10.png" },
-    { src: "/images/franny3.png" },
-    { src: "/images/FADSTARt_Sticker_4.png" },
-    { src: "/images/screenshot01.png" },
-  ];
-
   return (
     <main className="mx-auto flex w-full max-w-[1280px] flex-1 flex-col gap-10 py-12 pl-10 pr-10 md:flex-row">
       {/* 左：署名＋ナビ（追従） */}
       <aside className="flex shrink-0 flex-col gap-6 md:sticky md:top-6 md:h-fit md:w-56 font-['Alata']">
         <div className="w-fit max-w-[220px]">
-          <h1 className="flex bg-main text-3xl font-bold tracking-widest text-white p-4">Yaegashi</h1>
+          <h1 className="flex bg-main text-3xl font-bold tracking-widest text-white p-4">
+            Yaegashi
+          </h1>
         </div>
-        <nav className="flex flex-row gap-4 md:flex-col pl-2">
-          {sideNav.map((item) => (
-            <Link
+        <nav className="flex flex-row items-start gap-4 pl-2 md:flex-col">
+          {sideNavigationLinks.map((item) => (
+            <AnimatedNavLink
               key={item.href}
               href={item.href}
-              className="text-xl font-bold tracking-widest transition-colors hover:text-main"
+              className="text-xl font-bold tracking-widest"
             >
               {item.label}
-            </Link>
+            </AnimatedNavLink>
           ))}
         </nav>
         <SocialIcons />
@@ -99,6 +90,8 @@ export default function Page() {
       {/* 右：中身 */}
       <div className="flex flex-1 flex-col gap-12">
         <div className="flex flex-col gap-8">
+          <NewsSection />
+
           {/* Works digest */}
           <section className="flex flex-col gap-3 rounded-2xl bg-white p-6 shadow-[0_0_8px_rgba(0,0,0,0.05)] md:p-8">
             <div className="flex items-end justify-between">
@@ -115,7 +108,7 @@ export default function Page() {
               onImageClick={(src) =>
                 openModal(
                   src,
-                  heroImages.map((i) => i.src)
+                  heroImages.map((i) => i.src),
                 )
               }
             />
@@ -124,14 +117,19 @@ export default function Page() {
                 className="group w-full flex items-center w-fit text-md font-bold tracking-widest text-main justify-end underline-offset-2"
                 href="/works"
               >
-                <span className="group-hover:underline font-['Alata']">View all --&gt;</span>
+                <span className="group-hover:underline font-['Alata']">
+                  View all --&gt;
+                </span>
               </Link>
             </div>
           </section>
 
           <section className="flex flex-col gap-4 whitespace-pre-line">
             <h2 className="text-3xl font-bold tracking-wider text-main flex items-center gap-1">
-              Service<span className="text-ink text-xs pt-2 tracking-[0.05rem]">できること</span>
+              Service
+              <span className="text-ink text-xs pt-2 tracking-[0.05rem]">
+                できること
+              </span>
             </h2>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
               {services.map((s) => (
@@ -142,13 +140,13 @@ export default function Page() {
                   <section className="grid items-center gap-3 grid-cols-[auto_1fr]">
                     <span
                       aria-hidden="true"
-                      className="flex h-14 w-14 items-center justify-center rounded-full bg-white"
+                      className="flex h-14 w-14 items-center justify-center rounded-full bg-white lg:h-10 lg:w-10"
                     >
-                      <span className="ms-fill text-[32px] text-main">
+                      <span className="ms-fill text-[32px] text-main lg:text-[28px]">
                         {s.icon}
                       </span>
                     </span>
-                    <h3 className="text-base font-bold tracking-[0.15rem] font-['Alata'] text-xl">
+                    <h3 className="min-w-0 text-base font-bold tracking-[0.15rem] font-['Alata'] text-xl lg:text-lg lg:tracking-[0.2rem]">
                       {s.en}
                     </h3>
                   </section>
@@ -165,22 +163,30 @@ export default function Page() {
             <h2 className="text-3xl font-bold tracking-wider text-main">
               {policy.heading}
             </h2>
-            <p className="text-sm leading-6 whitespace-pre-line">{policy.body}</p>
+            <p className="text-sm leading-6 whitespace-pre-line">
+              {policy.body}
+            </p>
           </section>
           {/* About digest */}
           <section className="flex flex-col gap-2 rounded-2xl border-[0.5px] border-main bg-white p-8 md:p-10">
-            <h2 className="text-3xl font-bold tracking-wider text-main">About</h2>
+            <h2 className="text-3xl font-bold tracking-wider text-main">
+              About
+            </h2>
             <h2 className="text-lg font-bold tracking-wider">八重樫 亜実</h2>
             <p className="text-sm leading-6">
-              桑沢デザイン研究所ビジュアルデザイン科卒。<br />
-              WEB、コーディング、DTPなど、デザインにまつわることをいろいろやってきました。<br />
+              桑沢デザイン研究所ビジュアルデザイン科卒。
+              <br />
+              WEB、コーディング、DTPなど、デザインにまつわることをいろいろやってきました。
+              <br />
               デザインからWordPressのテーマ編集、ちょっとしたコーディングまで、なんでも屋寄りのデザイナーです。
             </p>
             <Link
               className="group w-full flex items-center w-fit text-md font-bold tracking-widest text-main justify-end"
               href="/profile"
             >
-              <span className="group-hover:underline font-['Alata']">Profile --&gt;</span>
+              <span className="group-hover:underline font-['Alata']">
+                Profile --&gt;
+              </span>
             </Link>
           </section>
           <ContactCard />
@@ -191,16 +197,18 @@ export default function Page() {
       {modal && (
         <div
           onClick={closeModal}
-          className={`fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 ${closing
-            ? "animate-[fade-out_0.2s_ease-in]"
-            : "animate-[fade-in_0.2s_ease-out]"
-            }`}
+          className={`fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 ${
+            closing
+              ? "animate-[fade-out_0.2s_ease-in]"
+              : "animate-[fade-in_0.2s_ease-out]"
+          }`}
         >
           <div
-            className={`relative max-h-[90vh] max-w-[70vw] ${closing
-              ? "animate-[modal-out_0.2s_ease-in]"
-              : "animate-[modal-in_0.25s_ease-out]"
-              }`}
+            className={`relative max-h-[90vh] max-w-[70vw] ${
+              closing
+                ? "animate-[modal-out_0.2s_ease-in]"
+                : "animate-[modal-in_0.25s_ease-out]"
+            }`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -208,10 +216,11 @@ export default function Page() {
               key={modal.src}
               src={assetPath(modal.src)}
               alt="拡大画像"
-              className={`max-h-[85vh] max-w-[70vw] rounded-lg object-contain shadow-2xl ${closing
-                ? "animate-[fade-out_0.15s_ease-in]"
-                : "animate-[modal-img-in_0.25s_ease-out]"
-                }`}
+              className={`max-h-[85vh] max-w-[70vw] rounded-lg object-contain shadow-2xl ${
+                closing
+                  ? "animate-[fade-out_0.15s_ease-in]"
+                  : "animate-[modal-img-in_0.25s_ease-out]"
+              }`}
             />
             <div className="absolute inset-x-0 top-1/2 flex -translate-y-1/2 items-center justify-between px-2 w-[130%] left-[-15%]">
               <button

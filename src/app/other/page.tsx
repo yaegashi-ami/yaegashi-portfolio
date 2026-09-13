@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import ContactCard from "@/components/ContactCard";
+import ContactCard from "@/components/layout/ContactCard";
 import { useRef, useState } from "react";
-import SubNav from "@/components/SubNav";
-import { otherItems } from "@/data/site";
+import PageShell from "@/components/layout/PageShell";
+import { otherItems } from "@/data/other";
 import { assetPath } from "@/lib/assetPath";
 
 /** Tシャツ画像は全体が見えるように余白付きで表示する */
@@ -47,30 +47,42 @@ export default function Page() {
       return { ...m, src: m.imgs[next] };
     });
   };
-  
+
   return (
-    <main className="mx-auto flex w-full max-w-[1000px] flex-1 flex-col gap-12 px-5 pb-12 pt-6">
-      <SubNav />
+    <PageShell>
       <div>
-        <h2 className="text-3xl font-bold tracking-[0.2rem] text-main">Other</h2>
+        <h2 className="text-3xl font-bold tracking-[0.2rem] text-main">
+          Other
+        </h2>
       </div>
 
       <div className="flex flex-col gap-4">
         {otherItems.map((item) => (
           <article
             key={item.title}
-            className="flex flex-col gap-3 rounded-2xl bg-white p-6 shadow-[0_0_8px_rgba(0,0,0,0.05)] md:p-8"
+            id={item.id}
+            className="flex scroll-mt-6 flex-col gap-3 rounded-2xl bg-white p-6 shadow-[0_0_8px_rgba(0,0,0,0.05)] md:p-8"
           >
             <p className="text-xs font-bold tracking-widest text-main">
               {item.subtitle}
             </p>
-            <h2 className="text-xl font-bold tracking-wider flex items-center">{item.image && (
-              <img src={assetPath(item.image)} alt="" className="inline-block h-6 w-6 mr-2 object-cover" />
-            )}{item.title}</h2>
+            <h2 className="text-xl font-bold tracking-wider flex items-center">
+              {item.image && (
+                <img
+                  src={assetPath(item.image)}
+                  alt=""
+                  className="inline-block h-6 w-6 mr-2 object-cover"
+                />
+              )}
+              {item.title}
+            </h2>
 
             {/* ギャラリー画像がある場合 */}
             {item.gallery?.map((gallery, galleryIndex) => (
-              <div key={galleryIndex} className="my-2 grid grid-cols-2 gap-2 md:grid-cols-2 lg:grid-cols-4">
+              <div
+                key={galleryIndex}
+                className="my-2 grid grid-cols-2 gap-2 md:grid-cols-2 lg:grid-cols-4"
+              >
                 {gallery.images.map((image, imgIndex) => {
                   const src = typeof image === "string" ? image : image.src;
                   return (
@@ -108,7 +120,7 @@ export default function Page() {
             ))}
 
             <p className="w-full text-sm leading-6">{item.body}</p>
-            
+
             {item.links?.map((link) => (
               <Link
                 key={link.href}
@@ -128,16 +140,18 @@ export default function Page() {
       {modal && (
         <div
           onClick={closeModal}
-          className={`fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 ${closing
-            ? "animate-[fade-out_0.2s_ease-in]"
-            : "animate-[fade-in_0.2s_ease-out]"
-            }`}
+          className={`fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 ${
+            closing
+              ? "animate-[fade-out_0.2s_ease-in]"
+              : "animate-[fade-in_0.2s_ease-out]"
+          }`}
         >
           <div
-            className={`relative max-h-[90vh] max-w-[70vw] ${closing
-              ? "animate-[modal-out_0.2s_ease-in]"
-              : "animate-[modal-in_0.25s_ease-out]"
-              }`}
+            className={`relative max-h-[90vh] max-w-[70vw] ${
+              closing
+                ? "animate-[modal-out_0.2s_ease-in]"
+                : "animate-[modal-in_0.25s_ease-out]"
+            }`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -145,10 +159,11 @@ export default function Page() {
               key={modal.src}
               src={assetPath(modal.src)}
               alt="拡大画像"
-              className={`max-h-[85vh] max-w-[70vw] rounded-lg object-contain shadow-2xl ${closing
-                ? "animate-[fade-out_0.15s_ease-in]"
-                : "animate-[modal-img-in_0.25s_ease-out]"
-                }`}
+              className={`max-h-[85vh] max-w-[70vw] rounded-lg object-contain shadow-2xl ${
+                closing
+                  ? "animate-[fade-out_0.15s_ease-in]"
+                  : "animate-[modal-img-in_0.25s_ease-out]"
+              }`}
             />
             <div className="absolute inset-x-0 top-1/2 flex -translate-y-1/2 items-center justify-between px-2 w-[130%] left-[-15%]">
               <button
@@ -194,6 +209,6 @@ export default function Page() {
       )}
 
       <ContactCard />
-    </main>
+    </PageShell>
   );
 }

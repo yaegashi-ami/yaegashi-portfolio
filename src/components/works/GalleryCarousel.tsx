@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import OpenBadge from "@/components/OpenBadge";
+import OpenBadge from "@/components/ui/OpenBadge";
 import { assetPath } from "@/lib/assetPath";
 
 export type GalleryCarouselItem = {
@@ -60,26 +60,24 @@ export default function GalleryCarousel({
     const update = () => {
       const { scrollLeft, scrollWidth, clientWidth } = node;
       const maxScrollLeft = scrollWidth - clientWidth;
-      
+
       setCanPrev(scrollLeft > 2);
       setCanNext(maxScrollLeft - scrollLeft > 2);
       setCanScroll(maxScrollLeft > 8);
 
-      const ratio = scrollWidth > 0 ? Math.min(1, clientWidth / scrollWidth) : 1;
+      const ratio =
+        scrollWidth > 0 ? Math.min(1, clientWidth / scrollWidth) : 1;
       setThumbWidthRatio(ratio);
 
       const progress = maxScrollLeft > 0 ? scrollLeft / maxScrollLeft : 0;
       setScrollProgress(progress);
 
-      const nodes = node.querySelectorAll<HTMLElement>(
-        "[data-carousel-item]",
-      );
+      const nodes = node.querySelectorAll<HTMLElement>("[data-carousel-item]");
       const step =
         nodes.length > 1
           ? nodes[1].offsetLeft - nodes[0].offsetLeft
           : node.clientWidth;
-      const idx =
-        step > 0 ? Math.round(scrollLeft / step) : 0;
+      const idx = step > 0 ? Math.round(scrollLeft / step) : 0;
       setActive(Math.max(0, Math.min(nodes.length - 1, idx)));
     };
     update();
@@ -93,7 +91,7 @@ export default function GalleryCarousel({
 
   if (items.length === 0) return null;
 
-const itemClass =
+  const itemClass =
     "group relative aspect-[4/3] shrink-0 snap-start overflow-hidden rounded-lg bg-gray-100 border transition-colors duration-300 hover:border-main w-[100%] md:w-[calc(33.333%-6px)] lg:w-[calc(25%-6px)]";
 
   return (
@@ -146,8 +144,8 @@ const itemClass =
                 data-carousel-item
                 aria-label="詳細ページを開く"
                 className={`${itemClass} ${
-                i === active ? "border-main" : "border-neutral-300"
-              } cursor-pointer`}
+                  i === active ? "border-main" : "border-neutral-300"
+                } cursor-pointer`}
               >
                 {media}
               </Link>
@@ -159,8 +157,8 @@ const itemClass =
                 onClick={() => onImageClick(img.src)}
                 aria-label="画像を拡大"
                 className={`${itemClass} ${
-                i === active ? "border-main" : "border-neutral-300"
-              } cursor-zoom-in`}
+                  i === active ? "border-main" : "border-neutral-300"
+                } cursor-zoom-in`}
               >
                 {media}
               </button>
@@ -184,7 +182,7 @@ const itemClass =
 
       {/* スクロールバー部分（アニメーションのラグをなくして追従） */}
       {canScroll && (
-        <div 
+        <div
           className="relative mx-auto h-1.5 w-40 cursor-pointer rounded-full bg-neutral-200"
           onClick={(e) => {
             const rect = e.currentTarget.getBoundingClientRect();
@@ -197,7 +195,7 @@ const itemClass =
             className="absolute top-0 h-full rounded-full bg-main"
             style={{
               width: `${thumbWidthRatio * 100}%`,
-              transform: `translateX(${scrollProgress * (100 - thumbWidthRatio * 100) / thumbWidthRatio}%)`,
+              transform: `translateX(${(scrollProgress * (100 - thumbWidthRatio * 100)) / thumbWidthRatio}%)`,
               // ツマミ側の transition-transform を外すことで、スマホやタップ時のカクつき（遅延）を完全に無くす
             }}
           />

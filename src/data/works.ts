@@ -62,7 +62,8 @@ export const works: Work[] = [
   {
     slug: "franny",
     title: "ジャズと喫茶 Franny",
-    subtitle: "ロゴデザイン/instagram告知画像/ショップカード/フライヤー/ステッカー",
+    subtitle:
+      "ロゴデザイン/instagram告知画像/ショップカード/フライヤー/ステッカー",
     tags: [
       { label: "WEB", kind: "web" },
       { label: "DTP", kind: "dtp" },
@@ -96,7 +97,8 @@ export const works: Work[] = [
   {
     slug: "pinokio",
     title: "写真館ピノキオ",
-    subtitle: "パンフレット/リーフレット/バナー/HP/LP/コーディング/instagram etc.",
+    subtitle:
+      "パンフレット/リーフレット/バナー/HP/LP/コーディング/instagram etc.",
     tags: [
       { label: "WEB", kind: "web" },
       { label: "DTP", kind: "dtp" },
@@ -160,7 +162,9 @@ export const works: Work[] = [
     description: [
       "ターゲットごとに目立たせたいポイントを変えるなどのUIの工夫を心がけて制作しました。\n担当：キャンペーンページのカンプ/デザイン/コーディング/CMSでの更新/キャンペーンページ管理",
     ],
-    links: [{ label: "https://www.pinokio.co.jp", href: "https://www.pinokio.co.jp" }],
+    links: [
+      { label: "https://www.pinokio.co.jp", href: "https://www.pinokio.co.jp" },
+    ],
     gallery: [
       {
         columns: 4,
@@ -205,7 +209,8 @@ export const works: Work[] = [
   {
     slug: "vivotree",
     title: "大泉障害者支援施設 VIVOtree",
-    subtitle: "ロゴタイポグラフィ/ロゴカラーリング/パンフレット/キャラクターデザイン",
+    subtitle:
+      "ロゴタイポグラフィ/ロゴカラーリング/パンフレット/キャラクターデザイン",
     tags: [
       { label: "DTP", kind: "dtp" },
       { label: "illust", kind: "illust" },
@@ -217,9 +222,10 @@ export const works: Work[] = [
     gallery: [
       {
         columns: 1,
-        images:
-          [{ src: "/images/vivotree0.png", item: "ロゴ" },
-          { src: "/images/vivotree1.png", item: "ロゴ" }],
+        images: [
+          { src: "/images/vivotree0.png", item: "ロゴ" },
+          { src: "/images/vivotree1.png", item: "ロゴ" },
+        ],
       },
       {
         columns: 1,
@@ -259,10 +265,9 @@ export const works: Work[] = [
           { src: "/images/panasonicbeauty2.png", item: "イラスト" },
           { src: "/images/panasonicbeauty3.png", item: "イラスト" },
           { src: "/images/panasonicbeauty4.png", item: "イラスト" },
-          { src: "/images/panasonicbeauty5.png", item: "イラスト" }, 
+          { src: "/images/panasonicbeauty5.png", item: "イラスト" },
           { src: "/images/panasonicbeauty6.png", item: "イラスト" },
           { src: "/images/panasonicbeauty7.png", item: "イラスト" },
-
         ],
       },
     ],
@@ -416,7 +421,7 @@ export const pamphletDetails: PamphletDetail[] = [
     gi: 1,
     title: "VIVOtree パンフレット",
     client: "大泉障害者支援施設 VIVOtree",
-    },
+  },
 ];
 
 export function getPamphlet(id: string): PamphletDetail | undefined {

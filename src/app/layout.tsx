@@ -11,7 +11,7 @@ const notoSans = Noto_Sans({
   variable: "--font-noto-sans",
   subsets: ["latin"],
   weight: ["400", "600", "700"],
-}); 
+});
 
 export const metadata: Metadata = {
   title: "AMI YAEGASHI PORTFOLIO",

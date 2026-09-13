@@ -1,32 +1,30 @@
 import Image from "next/image";
-import ExperienceYears from "@/components/ExperienceYears";
-import ContactCard from "@/components/ContactCard";
-import SlashText from "@/components/SlashText";
-import SubNav from "@/components/SubNav";
-import { tools, taskApps, chatApps } from "@/data/site";
+import ExperienceYears from "@/components/profile/ExperienceYears";
+import ContactCard from "@/components/layout/ContactCard";
+import SlashText from "@/components/ui/SlashText";
+import PageShell from "@/components/layout/PageShell";
+import { tools, taskApps, chatApps } from "@/data/profile";
 import { assetPath } from "@/lib/assetPath";
 
 export default function Page() {
   return (
-    <main className="mx-auto flex w-full max-w-[1000px] flex-1 flex-col gap-12 px-5 pb-12 pt-6">
-      <SubNav />
+    <PageShell>
       <section className="flex flex-col gap-8">
         <h2 className="text-3xl font-bold tracking-[0.2rem] text-main">
           Profile
         </h2>
         <section className="flex flex-col gap-4">
-        <h1 className="text-3xl font-bold tracking-wider">八重樫 亜実</h1>
-        <p className="text-sm leading-6">
-          桑沢デザイン研究所卒。
-          Adobe
-          CCソフトを中心に、近年はFigmaを主に利用してデザイン制作に取り組んでいます。
-          <br />
-          WordPressのテーマ編集、軽微なコーディングなどの業務も行ってます。
-        </p>
-        <p className="max-w-2xl text-sm leading-6">
-          趣味：ローグライクゲーム、麻雀、ソフビ集め、勘料理 <br />
-          好きなもの：鰻、コーラ、お湯、タオルケット
-        </p>
+          <h1 className="text-3xl font-bold tracking-wider">八重樫 亜実</h1>
+          <p className="text-sm leading-6">
+            桑沢デザイン研究所卒。 Adobe
+            CCソフトを中心に、近年はFigmaを主に利用してデザイン制作に取り組んでいます。
+            <br />
+            WordPressのテーマ編集、軽微なコーディングなどの業務も行ってます。
+          </p>
+          <p className="max-w-2xl text-sm leading-6">
+            趣味：ローグライクゲーム、麻雀、ソフビ集め、勘料理 <br />
+            好きなもの：鰻、コーラ、お湯、タオルケット
+          </p>
         </section>
       </section>
 
@@ -60,7 +58,9 @@ export default function Page() {
                 <h3 className="text-lg font-semibold tracking-wider">
                   {tool.name}
                 </h3>
-                <p className="text-sm leading-6 whitespace-pre-line"><SlashText text={tool.description} /></p>
+                <p className="text-sm leading-6 whitespace-pre-line">
+                  <SlashText text={tool.description} />
+                </p>
                 <p className="text-xs text-muted">
                   {tool.experienceText ??
                     (tool.startDate ? (
@@ -127,6 +127,6 @@ export default function Page() {
       </section>
 
       <ContactCard />
-    </main>
+    </PageShell>
   );
 }

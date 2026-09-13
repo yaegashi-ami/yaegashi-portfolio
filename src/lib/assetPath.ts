@@ -3,7 +3,11 @@ const basePath =
 
 /** Add the GitHub Pages base path to root-relative public assets in production. */
 export function assetPath(path: string) {
-  if (!path.startsWith("/") || path === basePath || path.startsWith(`${basePath}/`)) {
+  if (
+    !path.startsWith("/") ||
+    path === basePath ||
+    path.startsWith(`${basePath}/`)
+  ) {
     return path;
   }
 

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import LpMock from "@/components/LpMock";
+import LpMock from "@/components/works/LpMock";
 
 export default function LpTabs({
   main,

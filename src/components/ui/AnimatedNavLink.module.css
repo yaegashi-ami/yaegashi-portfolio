@@ -1,0 +1,25 @@
+.link {
+  position: relative;
+  width: fit-content;
+  padding-bottom: 5px;
+}
+
+.link::before {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  content: "";
+  background-color: var(--color-main);
+  transition: width 0.3s ease;
+}
+
+.link:not(.current):hover {
+  color: var(--color-main);
+}
+
+.link:not(.current):hover::before,
+.link:not(.current):focus-visible::before {
+  width: 100%;
+}

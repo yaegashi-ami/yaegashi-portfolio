@@ -1,14 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const links = [
-  { label: "Top", href: "/" },
-  { label: "Works", href: "/works" },
-  { label: "Other", href: "/other" },
-  { label: "Profile", href: "/profile" },
-];
+import AnimatedNavLink from "@/components/ui/AnimatedNavLink";
+import { navigationLinks } from "@/data/navigation";
 
 export default function SubNav() {
   const pathname = usePathname();
@@ -16,22 +11,19 @@ export default function SubNav() {
   return (
     <nav className="flex items-center justify-between gap-4">
       <div className="flex gap-4 font-['Alata'] text-xs font-bold tracking-widest">
-        {links.map((item) => {
+        {navigationLinks.map((item) => {
           const isActive =
             item.href === "/"
               ? pathname === "/"
-              : pathname === item.href ||
-              pathname.startsWith(`${item.href}/`);
+              : pathname === item.href || pathname.startsWith(`${item.href}/`);
           return (
-            <Link
+            <AnimatedNavLink
               key={item.href}
               href={item.href}
-              aria-current={isActive ? "page" : undefined}
-              className={`transition-colors hover:text-main ${isActive ? "text-main" : ""
-                }`}
+              isCurrent={isActive}
             >
               {item.label}
-            </Link>
+            </AnimatedNavLink>
           );
         })}
       </div>

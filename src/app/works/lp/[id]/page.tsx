@@ -3,11 +3,11 @@ import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import SubNav from "@/components/SubNav";
-import LpMock from "@/components/LpMock";
-import LpTabs from "@/components/LpTabs";
-import BackLink from "@/components/BackLink";
-import SlashText from "@/components/SlashText";
+import PageShell from "@/components/layout/PageShell";
+import LpMock from "@/components/works/LpMock";
+import LpTabs from "@/components/works/LpTabs";
+import BackLink from "@/components/works/BackLink";
+import SlashText from "@/components/ui/SlashText";
 import { lpDetails, getLPDetail, thumbOf } from "@/data/works";
 import { assetPath } from "@/lib/assetPath";
 
@@ -41,8 +41,7 @@ export default async function Page({
   if (!detail) notFound();
 
   return (
-    <main className="mx-auto flex w-full max-w-[1000px] flex-1 flex-col gap-12 px-10 pb-12 pt-6">
-      <SubNav />
+    <PageShell horizontalPadding="wide">
       <div className="grid grid-cols-1 gap-10 sm:grid-cols-1 md:grid-cols-2 lg:items-start lg:grid-cols-2">
         <section className="flex flex-col gap-4">
           <Suspense>
@@ -54,8 +53,11 @@ export default async function Page({
               client：{detail.client}
             </p>
           </div>
-{detail.description.map((p, i) => (
-            <p key={i} className="max-w-3xl text-xs leading-4.5 whitespace-pre-line">
+          {detail.description.map((p, i) => (
+            <p
+              key={i}
+              className="max-w-3xl text-xs leading-4.5 whitespace-pre-line"
+            >
               <SlashText text={p} />
             </p>
           ))}
@@ -111,6 +113,6 @@ export default async function Page({
           <LpMock src={detail.src} title={detail.title} />
         )}
       </div>
-    </main>
+    </PageShell>
   );
 }

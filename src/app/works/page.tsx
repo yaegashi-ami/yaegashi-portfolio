@@ -107,6 +107,7 @@ function WorksInner() {
   } | null>(null);
   const [closing, setClosing] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
 
   const openModal = (src: string, imgs: string[]) => {
     if (closeTimer.current) {
@@ -135,6 +136,24 @@ function WorksInner() {
       const next = (idx + dir + m.imgs.length) % m.imgs.length;
       return { ...m, src: m.imgs[next] };
     });
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    touchStart.current = { x: touch.clientX, y: touch.clientY };
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const start = touchStart.current;
+    touchStart.current = null;
+    if (!start) return;
+
+    const touch = e.changedTouches[0];
+    const deltaX = touch.clientX - start.x;
+    const deltaY = touch.clientY - start.y;
+
+    if (Math.abs(deltaX) < 50 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+    move(deltaX < 0 ? 1 : -1);
   };
 
   const changeView = (v: View) => {
@@ -241,7 +260,7 @@ function WorksInner() {
             Works
           </h2>
           <p className="mt-1 text-base font-medium tracking-widest text-muted">
-            実績一覧
+            制作物
           </p>
         </div>
         <div className="flex shrink-0 flex-wrap gap-2">
@@ -508,7 +527,9 @@ function WorksInner() {
       {modal && (
         <div
           onClick={closeModal}
-          className={`fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 ${
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          className={`fixed inset-0 z-50 flex touch-pan-y items-center justify-center bg-black/80 p-4 ${
             closing
               ? "animate-[fade-out_0.2s_ease-in]"
               : "animate-[fade-in_0.2s_ease-out]"

@@ -4,6 +4,7 @@ import Link from "next/link";
 import ContactCard from "@/components/layout/ContactCard";
 import { useRef, useState } from "react";
 import PageShell from "@/components/layout/PageShell";
+import WordPressEditingFlow from "@/components/other/WordPressEditingFlow";
 import { otherItems } from "@/data/other";
 import { assetPath } from "@/lib/assetPath";
 
@@ -96,6 +97,12 @@ export default function Page() {
               {item.title}
             </h2>
 
+            {item.caseStudyHref && (
+              <div className="my-2">
+                <WordPressEditingFlow compact />
+              </div>
+            )}
+
             {/* ギャラリー画像がある場合 */}
             {item.gallery?.map((gallery, galleryIndex) => (
               <div
@@ -139,6 +146,16 @@ export default function Page() {
             ))}
 
             <p className="w-full text-sm leading-6">{item.body}</p>
+
+            {item.caseStudyHref && (
+              <Link
+                href={item.caseStudyHref}
+                className="mt-2 flex min-h-11 w-fit items-center gap-5 rounded-full bg-main px-5 py-3 text-xs font-bold tracking-wider text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-main"
+              >
+                改善プロセスを見る
+                <span aria-hidden="true">→</span>
+              </Link>
+            )}
 
             {item.links?.map((link) => (
               <Link

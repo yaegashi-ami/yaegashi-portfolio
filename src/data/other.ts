@@ -4,6 +4,7 @@ export type OtherItem = {
   subtitle: string;
   body: string;
   image?: string;
+  caseStudyHref?: string;
   gallery: {
     columns: number;
     images: { src: string }[];
@@ -12,6 +13,14 @@ export type OtherItem = {
 };
 
 export const otherItems: OtherItem[] = [
+  {
+    id: "wordpress-ux",
+    title: "WordPress管理画面のUI/UX改善",
+    subtitle: "UI/UX・情報設計・WordPress",
+    body: "エージェント比較サイトの管理画面を、更新する方が迷わず使えるように改善しました。ページごとに表示内容を選び、並べ替えや表示切り替えまで行えるようにしています。",
+    gallery: [],
+    caseStudyHref: "/other/wordpress-ux",
+  },
   {
     title: "Now Playing Music - Retro Player",
     id: "now-playing-music",

@@ -148,12 +148,12 @@ export default function Page() {
             <p className="w-full text-sm leading-6">{item.body}</p>
 
             {item.caseStudyHref && (
+
               <Link
                 href={item.caseStudyHref}
-                className="mt-2 flex min-h-11 w-fit items-center gap-5 rounded-full bg-main px-5 py-3 text-xs font-bold tracking-wider text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-main"
+                className="mt-2 flex min-h-11 w-fit items-center gap-2 rounded-full bg-main px-5 py-2 text-xs font-bold tracking-wider text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-main"
               >
                 改善プロセスを見る
-                <span aria-hidden="true">→</span>
               </Link>
             )}
 
@@ -163,7 +163,7 @@ export default function Page() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="h-[1rem] pb-1 underline-offset-3 w-fit text-xs font-bold tracking-widest text-main hover:underline"
+                className="mt-2 flex min-h-11 w-fit items-center gap-2 rounded-full bg-main px-5 py-2 text-xs font-bold tracking-wider text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-main"
               >
                 {link.label}
               </Link>
@@ -178,18 +178,16 @@ export default function Page() {
           onClick={closeModal}
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
-          className={`fixed inset-0 z-50 flex touch-pan-y items-center justify-center bg-black/80 p-4 ${
-            closing
-              ? "animate-[fade-out_0.2s_ease-in]"
-              : "animate-[fade-in_0.2s_ease-out]"
-          }`}
+          className={`fixed inset-0 z-50 flex touch-pan-y items-center justify-center bg-black/80 p-4 ${closing
+            ? "animate-[fade-out_0.2s_ease-in]"
+            : "animate-[fade-in_0.2s_ease-out]"
+            }`}
         >
           <div
-            className={`relative max-h-[90vh] max-w-[70vw] ${
-              closing
-                ? "animate-[modal-out_0.2s_ease-in]"
-                : "animate-[modal-in_0.25s_ease-out]"
-            }`}
+            className={`relative max-h-[90vh] max-w-[70vw] ${closing
+              ? "animate-[modal-out_0.2s_ease-in]"
+              : "animate-[modal-in_0.25s_ease-out]"
+              }`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -197,11 +195,10 @@ export default function Page() {
               key={modal.src}
               src={assetPath(modal.src)}
               alt="拡大画像"
-              className={`max-h-[85vh] max-w-[70vw] rounded-lg object-contain shadow-2xl ${
-                closing
-                  ? "animate-[fade-out_0.15s_ease-in]"
-                  : "animate-[modal-img-in_0.25s_ease-out]"
-              }`}
+              className={`max-h-[85vh] max-w-[70vw] rounded-lg object-contain shadow-2xl ${closing
+                ? "animate-[fade-out_0.15s_ease-in]"
+                : "animate-[modal-img-in_0.25s_ease-out]"
+                }`}
             />
             <div className="absolute inset-x-0 top-1/2 flex -translate-y-1/2 items-center justify-between px-2 w-[130%] left-[-15%]">
               <button

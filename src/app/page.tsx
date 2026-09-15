@@ -174,9 +174,8 @@ export default function Page() {
             </h2>
             <h2 className="text-lg font-bold tracking-wider">八重樫 亜実</h2>
             <p className="text-sm leading-6">
-              桑沢デザイン研究所ビジュアルデザイン科卒。
-              <br />
-              WEB、コーディング、DTPなど、デザインにまつわることをいろいろやってきました。
+              桑沢デザイン研究所ビジュアルデザイン科卒。WEB、コーディング、DTPなど、デザインにまつわることをいろいろやってきました。<br />
+              伝わりやすく作りたい、作る人の苦労やタイムロス/ミスを減らしたい気持ちが強いです。
               <br />
               デザインからWordPressのテーマ編集、ちょっとしたコーディングまで、なんでも屋寄りのデザイナーです。
             </p>

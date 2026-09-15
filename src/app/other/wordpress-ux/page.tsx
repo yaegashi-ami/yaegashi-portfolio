@@ -250,7 +250,7 @@ export default function Page() {
         <Chapter
           number="05"
           label="RESULT"
-          title="迷わず更新できる形に整いました。"
+          title="迷わず更新できる形に整えました。"
         >
           <div className="grid gap-3 md:grid-cols-3">
             <section className="rounded-2xl bg-white p-6">

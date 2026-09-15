@@ -1,156 +1,247 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useState } from "react";
 
-const initialRanking = ["エージェントA", "エージェントB", "エージェントC"];
-const manualSelection = ["エージェントC", "エージェントA"];
+const initialRanking = [
+  "エージェントA",
+  "エージェントB",
+  "エージェントC",
+];
 
-type Direction = "up" | "down";
+const manualSelection = [
+  "エージェントC",
+  "エージェントA",
+];
+
+const agentData = {
+  "エージェントA": {
+    cost: "◎",
+    projects: "○",
+    support: "△",
+  },
+  "エージェントB": {
+    cost: "○",
+    projects: "◎",
+    support: "○",
+  },
+  "エージェントC": {
+    cost: "△",
+    projects: "○",
+    support: "◎",
+  },
+};
 
 export default function RankingSyncDemo() {
   const [ranking, setRanking] = useState(initialRanking);
   const [synced, setSynced] = useState(true);
-  const [announcement, setAnnouncement] = useState("");
-  const titleId = useId();
-  const noteId = useId();
-  const buttons = useRef(new Map<string, HTMLButtonElement>());
-  const pendingFocus = useRef<{
-    agent: string;
-    direction: Direction;
-  } | null>(null);
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
 
-  useEffect(() => {
-    const target = pendingFocus.current;
-    if (!target) return;
-
-    const button = buttons.current.get(`${target.agent}-${target.direction}`);
-    const oppositeDirection = target.direction === "up" ? "down" : "up";
-    const focusTarget = button?.disabled
-      ? buttons.current.get(`${target.agent}-${oppositeDirection}`)
-      : button;
-
-    focusTarget?.focus({ preventScroll: true });
-    pendingFocus.current = null;
-  }, [ranking]);
-
-  function moveAgent(agent: string, direction: Direction) {
-    const currentIndex = ranking.indexOf(agent);
-    const nextIndex = currentIndex + (direction === "up" ? -1 : 1);
-    if (nextIndex < 0 || nextIndex >= ranking.length) return;
+  function handleDrop(targetIndex: number) {
+    if (draggedIndex === null || draggedIndex === targetIndex) {
+      setDraggedIndex(null);
+      return;
+    }
 
     const nextRanking = [...ranking];
-    [nextRanking[currentIndex], nextRanking[nextIndex]] = [
-      nextRanking[nextIndex],
-      nextRanking[currentIndex],
-    ];
+    const [draggedItem] = nextRanking.splice(draggedIndex, 1);
 
-    pendingFocus.current = { agent, direction };
+    nextRanking.splice(targetIndex, 0, draggedItem);
+
     setRanking(nextRanking);
-    setAnnouncement(`${agent}を${nextIndex + 1}位に移動しました。`);
+    setDraggedIndex(null);
   }
 
   const comparison = synced ? ranking : manualSelection;
 
   return (
-    <div className="min-w-0 rounded-2xl border border-ink/15 bg-white p-4 text-ink sm:p-6">
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-        <p id={titleId} className="text-sm font-bold">
-          エージェントランキング
-        </p>
-        <span className="rounded-full bg-cream px-2.5 py-1 text-[11px] font-medium text-ink/70">
-          操作デモ
-        </span>
-      </div>
+    <div className="overflow-hidden rounded-2xl border border-ink/15 bg-white">
+      <div className="grid md:grid-cols-2">
+        {/* 左：操作 */}
+        <section className="border-b border-ink/10 p-6 md:border-b-0 md:border-r md:p-8">
+          <div className="mb-4">
+            <p className="font-['Alata'] text-[10px] tracking-widest text-main">
+              CONTROL
+            </p>
 
-      <ol aria-labelledby={titleId} className="space-y-2">
-        {ranking.map((agent, index) => (
-          <li
-            key={agent}
-            className="flex items-center gap-2 rounded-xl bg-cream px-2 py-2 sm:px-3"
+            <h3 className="mt-2 text-lg font-semibold leading-snug">
+              ランキングを編集
+            </h3>
+            <p className="mt-2 text-sm leading-6 text-ink/65">
+              項目をドラッグして、表示する順番を変更できます。
+            </p>
+            <div className="mt-3 border-t border-ink/10 pt-3">
+              <label className="flex cursor-pointer items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={synced}
+                  onChange={(event) => setSynced(event.target.checked)}
+                  className="size-4 shrink-0 cursor-pointer accent-main"
+                />
+                <span className="block text-sm font-semibold">
+                  ランキングを比較表に反映
+                </span>
+              </label>
+            </div>
+          </div>
+          <div
+            className={`
+    transition-opacity
+    ${synced ? "opacity-100" : "pointer-events-none opacity-40"}
+  `}
           >
-            <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-bold tabular-nums">
-              <span className="sr-only">順位：</span>
-              {index + 1}
-            </span>
-            <span className="min-w-0 flex-1 text-[13px] font-medium sm:text-sm">
-              {agent}
-            </span>
-            <div className="flex shrink-0 gap-1">
-              {(["up", "down"] as const).map((direction) => (
-                <button
-                  key={direction}
-                  ref={(element) => {
-                    const key = `${agent}-${direction}`;
-                    if (element) buttons.current.set(key, element);
-                    else buttons.current.delete(key);
+            <ol className="space-y-2">
+              {ranking.map((agent, index) => (
+                <li
+                  key={agent}
+                  draggable={synced}
+                  onDragStart={() => {
+                    if (!synced) return;
+                    setDraggedIndex(index);
                   }}
-                  type="button"
-                  aria-label={`${agent}の順位を一つ${direction === "up" ? "上げる" : "下げる"}`}
-                  disabled={
-                    direction === "up"
-                      ? index === 0
-                      : index === ranking.length - 1
-                  }
-                  onClick={() => moveAgent(agent, direction)}
-                  className="flex size-10 items-center justify-center rounded-lg border border-ink/20 bg-white transition-colors hover:border-main hover:bg-main/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main disabled:cursor-not-allowed disabled:border-ink/10 disabled:bg-transparent disabled:text-ink/25 disabled:hover:border-ink/10"
+                  onDragEnd={() => setDraggedIndex(null)}
+                  onDragOver={(event) => {
+                    if (!synced) return;
+                    event.preventDefault();
+                  }}
+                  onDrop={() => {
+                    if (!synced) return;
+                    handleDrop(index);
+                  }}
+                  className={`
+          flex items-center gap-3 rounded-xl border px-4 py-3
+          transition
+          ${synced
+                      ? "cursor-grab active:cursor-grabbing"
+                      : "cursor-not-allowed"
+                    }
+          ${draggedIndex === index
+                      ? "border-main bg-main/5"
+                      : "border-ink/10 bg-white"}
+                      `}
                 >
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                  <span
                     aria-hidden="true"
-                    className={direction === "down" ? "rotate-180" : undefined}
+                    className="ms-fill shrink-0 text-[22px] text-ink/35"
                   >
-                    <path d="M12 19V5m-6 6 6-6 6 6" />
-                  </svg>
-                </button>
+                    drag_indicator
+                  </span>
+
+                  <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-main/10 text-xs font-bold text-main">
+                    {index + 1}
+                  </span>
+
+                  <span className="min-w-0 flex-1 text-sm font-medium">
+                    {agent}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </div>
+          <div className={`mt-3 border-t border-ink/10 pt-5 transition-opacity ${synced ? "opacity-50" : "opacity-100"}`}>
+            <p className="text-xs font-semibold text-ink">
+              比較表：デフォルト設定
+            </p>
+            <div className="mt-3 flex flex-col flex-wrap gap-2">
+              {manualSelection.map((agent) => (
+                <span
+                  key={agent}
+                  className="rounded-md border border-ink/10 bg-white px-3 py-1.5 text-xs text-ink/70"
+                >
+                  {agent}
+                </span>
               ))}
             </div>
-          </li>
-        ))}
-      </ol>
+          </div>
+        </section>
 
-      <p role="status" className="sr-only">
-        {announcement}
-      </p>
+        {/* 右：結果 */}
+        <section className="bg-main/[0.025] p-6 md:p-8">
+          <div className="mb-3 flex items-start justify-between gap-4">
+            <div>
+              <p className="font-['Alata'] text-[10px] tracking-widest text-main">
+                RESULT
+              </p>
 
-      <label className="my-4 flex min-h-10 cursor-pointer items-start gap-2.5 rounded-lg py-2 text-[13px] leading-6 sm:text-sm">
-        <input
-          type="checkbox"
-          checked={synced}
-          onChange={(event) => setSynced(event.target.checked)}
-          aria-describedby={noteId}
-          className="mt-1 size-4 shrink-0 cursor-pointer accent-main focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main"
-        />
-        ランキングの内容を比較表に反映
-      </label>
+              <h3 className="mt-2 text-lg font-semibold leading-snug">
+                比較表の表示
+              </h3>
 
-      <div
-        aria-live="polite"
-        aria-atomic="true"
-        className="rounded-xl border border-main/25 bg-main/5 p-4"
-      >
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <p className="text-xs font-bold">比較表に表示する内容</p>
-          <span className="text-[11px] font-bold text-main">
-            {synced ? "ランキングと同期中" : "手動設定を使用中"}
-          </span>
-        </div>
-        <p className="mt-3 text-sm leading-6">{comparison.join(" → ")}</p>
+              <p className="mt-2 text-sm leading-6 text-ink/65">
+                設定に応じて、比較表の表示順が切り替わります。
+              </p>
+            </div>
+
+            <span
+              className={`
+        shrink-0 rounded-full px-3 py-1
+        text-[10px] font-bold
+        ${synced
+                  ? "bg-main text-white"
+                  : "border border-ink/15 bg-white text-ink/55"
+                }
+      `}
+            >
+              {synced ? "同期" : "手動"}
+            </span>
+          </div>
+
+          <div className="overflow-hidden rounded-xl border border-ink/10 bg-white">
+            <div className="grid grid-cols-[1.5fr_repeat(3,0.7fr)] border-b border-ink/10 bg-main/[0.035] px-4 py-3 text-xs font-semibold text-ink/60">
+              <span>エージェント</span>
+              <span className="text-center">費用</span>
+              <span className="text-center">案件数</span>
+              <span className="text-center">サポート</span>
+            </div>
+
+            <div>
+              {comparison.map((agent) => {
+                const data = agentData[agent as keyof typeof agentData];
+
+                return (
+                  <div
+                    key={agent}
+                    className="grid grid-cols-[1.5fr_repeat(3,0.7fr)] items-center border-b border-ink/10 px-4 py-4 last:border-b-0"
+                  >
+                    <span className="text-sm font-medium">
+                      {agent}
+                    </span>
+
+                    <span className="text-center text-lg font-semibold text-main">
+                      {data.cost}
+                    </span>
+
+                    <span className="text-center text-lg font-semibold text-main">
+                      {data.projects}
+                    </span>
+
+                    <span className="text-center text-lg font-semibold text-main">
+                      {data.support}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="relative mt-5 rounded-xl bg-main/20 px-4 py-3
+  after:absolute
+  after:-top-3
+  after:left-10
+  after:h-0
+  after:w-0
+  after:border-x-[8px]
+  after:border-b-[12px]
+  after:border-x-transparent
+  after:border-b-main/20
+">
+            <p className="text-xs leading-5 text-ink">
+              {synced
+                ? "ランキングの並び順が、そのまま比較表の表示順に反映されています。"
+                : "同期を外すと、デフォルト設定の内容に戻ります。"}
+            </p>
+          </div>
+        </section>
       </div>
-
-      <p id={noteId} className="mt-3 text-xs leading-6 text-ink/75">
-        保持されている手動設定：
-        <br />
-        {manualSelection.join(" → ")}
-        <br />
-        同期を外すと、この選択に戻ります。
-      </p>
     </div>
   );
 }

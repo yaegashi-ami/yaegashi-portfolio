@@ -42,31 +42,31 @@ const process = [
 const decisions = [
   {
     label: "PAGE SETTINGS",
-    title: "必要なページだけ、個別に設定できるように。",
-    body: "共通設定を残しながら、ページごとに表示内容や順番を変更できる仕組みにしました。",
+    title: "必要なページだけ、個別に設定。",
+    body: "共通設定とは別に、ページ単位で表示内容や順番を指定できるようにしました。",
     reason:
-      "既存の運用を維持しつつ、必要な箇所だけ変更できる構成です。",
+      "共通設定を基本にしながら、必要なページだけ上書きできます。",
   },
   {
     label: "CONTEXT",
     title: "必要な選択肢だけを表示。",
-    body: "設定内容に応じて、関連する選択肢だけが表示されるよう整理しました。",
+    body: "選んだ内容に応じて、次に必要な選択肢だけを表示するようにしました。",
     reason:
-      "その場で必要な情報に絞り、判断しやすい状態にしています。",
+      "関係のない候補を見せず、選択肢を絞っています。",
   },
   {
     label: "VISIBILITY",
-    title: "設定と表示の関係を分かりやすく。",
-    body: "関連する設定をまとめ、項目名や説明、配置を見直しました。",
+    title: "何が変わるかを分かりやすく。",
+    body: "関連する設定をまとめ、項目名・説明・配置を見直しました。",
     reason:
-      "操作と反映先の関係が追いやすい構成にしています。",
+      "操作と表示結果の関係を追いやすくしています。",
   },
   {
     label: "REVERSIBILITY",
-    title: "いつでも元の設定に戻せるように。",
-    body: "設定同士を連動させる場合も、それまでの選択内容は保持する設計にしました。",
+    title: "切り替えても、元の設定は保持。",
+    body: "設定を連動させている間も、それまで選んでいた内容は消さない設計にしました。",
     reason:
-      "切り替え前の状態を保持し、いつでも戻せるようにしています。",
+      "同期を外せば、以前の設定に戻せます。",
   },
 ];
 
@@ -136,7 +136,7 @@ export default function Page() {
             WordPress管理画面のUI/UX改善
           </p>
           <h1 className="mt-5 text-[clamp(1.8rem,4.5vw,3rem)] font-bold leading-[1.35] tracking-wide">
-            更新する方が迷わない、
+            更新する方が迷わない
             <br />
             <span className="text-main">管理画面に整えました。</span>
           </h1>
@@ -145,7 +145,7 @@ export default function Page() {
           </p>
           <p className="mt-6 text-xs leading-5 md:text-base md:leading-6">
             「このページだけ、ランキングを変えたい」というご相談から、<br />
-            既存の仕組みやデータを保ったまま、管理画面の構成と更新の流れを見直しました。
+            既存の仕組みやデータを保ったまま、管理画面を再設計しました。
           </p>
           <p className="mt-5 text-xs leading-5">
             担当：運用整理 / 情報・UI設計 / 実装・検証
@@ -162,26 +162,11 @@ export default function Page() {
           </div>
         </header>
 
-        {/* <div className="mb-10 grid gap-3 rounded-2xl border border-main bg-white p-6 text-main md:mb-12 md:grid-cols-[0.8fr_auto_1.2fr] md:items-center md:gap-8 md:p-8">
-          <p className="text-xl font-semibold leading-snug md:text-2xl">
-            更新する方が、
-            <br />
-            迷わず使えるように。
-          </p>
-          <div
-            aria-hidden="true"
-            className="hidden self-stretch bg-main md:block md:w-[1px]" />
-          <p className="text-sm leading-6 text-ink">
-            既存の仕組みやデータをそのまま保ちながら、更新する方が迷わず使えるよう、
-            設定と操作の流れを整理しました。
-          </p>
-        </div> */}
-
         <Chapter
           number="01"
           label="BEFORE / AFTER"
-          title="更新場所が分かれ、変更の影響が見えにくい状態でした。"
-          intro="設定が複数の場所に分かれており、内容を変更するにはサイトの仕組みを把握する必要がありました。"
+          title="変更するには、サイトの仕組みを把握する必要がありました。"
+          intro="更新場所が複数に分かれ、どこを変更すると何に反映されるのか分かりにくい状態でした。"
         >
           <WordPressEditingFlow />
           <p className="mt-3 text-xs leading-6 text-ink/65">
@@ -193,7 +178,7 @@ export default function Page() {
           number="02"
           label="PROCESS"
           title="実際の更新手順に沿って、少しずつ整えました。"
-          intro="これまでの仕組みを活かしながら、実際の操作で感じる迷いや分かりづらさを一つずつ確認し、画面を調整していきました。"
+          intro="既存の仕組みを確認しながら、必要な変更を段階的に整理していきました。"
         >
           <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {process.map(([title, body], index) => (
@@ -219,15 +204,15 @@ export default function Page() {
             {decisions.map((decision) => (
               <section
                 key={decision.label}
-                className="flex flex-col rounded-2xl bg-white p-6 md:p-8"
+                className="flex flex-col rounded-2xl bg-white p-5 md:p-7"
               >
                 <p className="font-['Alata'] text-[10px] tracking-widest text-main">
                   {decision.label}
                 </p>
-                <h3 className="mt-3 text-lg font-semibold leading-snug">
+                <h3 className="mt-2 text-lg font-semibold leading-snug">
                   {decision.title}
                 </h3>
-                <p className="mb-5 mt-4 text-sm leading-6 text-ink/80">
+                <p className="my-3 text-sm leading-6 text-ink/80">
                   {decision.body}
                 </p>
                 <p className="mt-auto border-t border-ink/10 pt-4 text-sm font-semibold leading-6 text-main">
@@ -263,12 +248,12 @@ export default function Page() {
                 </span>
 
                 <h3 className="text-base font-semibold">
-                  更新場所をまとめました
+                  更新の流れを一本化
                 </h3>
               </div>
 
               <p className="mt-3 text-sm leading-6 text-ink/80">
-                必要な設定を、ひとつの編集画面から変更できるようになりました。
+                ページを起点に、必要な設定へ迷わず進める構成になりました。
               </p>
             </section>
 
@@ -282,12 +267,12 @@ export default function Page() {
                 </span>
 
                 <h3 className="text-base font-semibold">
-                  既存データを保ったまま変更できます
+                  既存データを保持
                 </h3>
               </div>
 
               <p className="mt-3 text-sm leading-6 text-ink/80">
-                既存の設定を活かしながら、必要な部分だけ変更できるようにしました。
+                 これまでの設定や入力内容を消さずに、必要な部分だけ変更できます。
               </p>
             </section>
 
@@ -306,7 +291,7 @@ export default function Page() {
               </div>
 
               <p className="mt-3 text-sm leading-6 text-white/90">
-                運用担当者から感想をいただき、実運用でも使いやすさを確認できました。
+                運用担当者から、実際の操作について感想をいただきました。
               </p>
 
               <p className="mt-1 font-['Alata'] text-[10px] tracking-widest text-white/80">
@@ -326,7 +311,9 @@ export default function Page() {
             使う人に合わせて整理します。
           </h2>
           <p className="mt-3 text-sm leading-6 text-ink/80">
-            既存CMSの仕組みを読み解きながら、実際に更新する方の目線で情報と操作を整理しました。既存の仕組みやデータを保ちながら、使う方にとって分かりやすい形へ整えることを大切にしています。          </p>
+            既存のシステムをそのまま作り直すのではなく、
+            運用やデータを尊重しながら、必要な部分を整理して改善することを大切にしています。
+          </p>
         </section>
 
         <OtherLink />

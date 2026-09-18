@@ -115,7 +115,7 @@ export default function RankingSyncDemo() {
                       : "cursor-not-allowed"
                     }
           ${draggedIndex === index
-                      ? "border-main bg-main/5"
+                      ? "border-main bg-main-light"
                       : "border-ink/10 bg-white"}
                       `}
                 >
@@ -126,7 +126,7 @@ export default function RankingSyncDemo() {
                     drag_indicator
                   </span>
 
-                  <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-main/10 text-xs font-bold text-main">
+                  <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-main-light text-xs font-bold text-main">
                     {index + 1}
                   </span>
 
@@ -155,7 +155,7 @@ export default function RankingSyncDemo() {
         </section>
 
         {/* 右：結果 */}
-        <section className="bg-main/[0.025] p-6 md:p-8">
+        <section className="bg-main-light p-6 md:p-8">
           <div className="mb-3 flex items-start justify-between gap-4">
             <div>
               <p className="font-['Alata'] text-[10px] tracking-widest text-main">
@@ -186,7 +186,7 @@ export default function RankingSyncDemo() {
           </div>
 
           <div className="overflow-hidden rounded-xl border border-ink/10 bg-white">
-            <div className="grid grid-cols-[1.5fr_repeat(3,0.7fr)] border-b border-ink/10 bg-main/[0.035] px-4 py-3 text-xs font-semibold text-ink/60">
+            <div className="grid grid-cols-[1.5fr_repeat(3,0.7fr)] border-b border-ink/10 bg-main-light px-4 py-3 text-xs font-semibold text-ink/60">
               <span>エージェント</span>
               <span className="text-center">費用</span>
               <span className="text-center">案件数</span>
@@ -223,7 +223,7 @@ export default function RankingSyncDemo() {
             </div>
           </div>
 
-          <div className="relative mt-5 rounded-xl bg-main/20 px-4 py-3
+          <div className="relative mt-5 rounded-xl bg-main-light px-4 py-3
   after:absolute
   after:-top-3
   after:left-10
@@ -232,7 +232,7 @@ export default function RankingSyncDemo() {
   after:border-x-[8px]
   after:border-b-[12px]
   after:border-x-transparent
-  after:border-b-main/20
+  after:border-b-main-light
 ">
             <p className="text-xs leading-5 text-ink">
               {synced

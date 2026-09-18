@@ -2,7 +2,7 @@ import SocialIcons from "@/components/layout/SocialIcons";
 
 export default function ContactCard() {
   return (
-    <section className="flex flex-col gap-3 rounded-2xl border-[0.5px] border-main p-8 bg-main/5">
+    <section className="flex flex-col gap-3 rounded-2xl border-[0.5px] border-main p-8 bg-main-light">
       <h2 className="text-2xl font-bold tracking-wider text-main">Contact</h2>
       <p className="text-sm leading-6 whitespace-pre-line">
         {`ご依頼・ご相談を受け付けています。

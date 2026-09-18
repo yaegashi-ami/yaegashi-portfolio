@@ -35,7 +35,7 @@ export default function WordPressEditingFlow({
           </p>
         )}
       </div>
-      <div className={`rounded-xl bg-main/5 ${compact ? "p-5" : "p-6 md:p-8"}`}>
+      <div className={`rounded-xl bg-main-light ${compact ? "p-5" : "p-6 md:p-8"}`}>
         <p className="font-['Alata'] text-[10px] tracking-[0.18em] text-main">
           AFTER
         </p>
@@ -48,7 +48,7 @@ export default function WordPressEditingFlow({
           {after.map((item, index) => (
             <li
               key={item}
-              className="rounded-md border border-main/15 bg-white/80 px-3 py-2 text-xs leading-5"
+              className="rounded-md border border-main-light bg-white/80 px-3 py-2 text-xs leading-5"
             >
               <span className="mr-1.5 font-['Alata'] text-main">
                 {index + 1}.

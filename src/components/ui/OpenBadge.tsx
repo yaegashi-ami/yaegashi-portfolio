@@ -10,7 +10,7 @@ export default function OpenBadge({
       {tint && (
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-main/30 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          className="pointer-events-none absolute inset-0 bg-main-light opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         />
       )}
       <span className="absolute right-2 bottom-2 flex h-8 min-w-8 items-center gap-0 overflow-hidden rounded-full border border-main bg-white text-main shadow-md transition-all">

@@ -131,7 +131,7 @@ export default function GalleryCarousel({
                 {img.tint && (
                   <span
                     aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 bg-main/30 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    className="pointer-events-none absolute inset-0 bg-main-light opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                   />
                 )}
                 {img.badge && <OpenBadge label={img.label} />}

@@ -9,11 +9,11 @@ export default function SocialIcons() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`Instagram（${contact.instagram.account}）`}
-        className="group relative rounded-full border border-main p-2.5 text-main transition-colors hover:bg-main hover:text-white bg-cream"
+        className="group relative rounded-full border border-main p-2.5 text-main transition-colors hover:bg-main hover:text-white bg-white"
       >
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 border border-main bg-cream px-2 py-0.5 text-xs font-bold tracking-wider whitespace-nowrap text-main opacity-0 transition-opacity group-hover:opacity-100"
+          className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 border border-main bg-white px-2 py-0.5 text-xs font-bold tracking-wider whitespace-nowrap text-main opacity-0 transition-opacity group-hover:opacity-100"
         >
           Instagram
         </span>
@@ -36,7 +36,7 @@ export default function SocialIcons() {
       <Link
         href={contact.email.href}
         aria-label={`メール（${contact.email.account}）`}
-        className="group relative rounded-full border border-main p-2.5 text-main transition-colors hover:bg-main hover:text-white bg-cream"
+        className="group relative rounded-full border border-main p-2.5 text-main transition-colors hover:bg-main hover:text-white bg-white"
       >
         <span
           aria-hidden="true"

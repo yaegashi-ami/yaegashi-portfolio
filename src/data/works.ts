@@ -348,7 +348,7 @@ export type LPDetail = {
 export const lpDetails: LPDetail[] = [
   {
     id: "furisode-rental",
-    src: "/images/lp_furisode-lental@2x.png",
+    src: "/images/lp_furisode-lental@3x.png",
     title: "振袖レンタルキャンペーンLP",
     client: "写真館ピノキオ",
     description: [

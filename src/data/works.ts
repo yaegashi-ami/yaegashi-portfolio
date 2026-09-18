@@ -169,7 +169,7 @@ export const works: Work[] = [
       {
         columns: 4,
         images: [
-          { src: "/images/lp_furisode-lental@2x.png", item: "WEBサイト" },
+          { src: "/images/lp_furisode-lental@3x.png", item: "WEBサイト" },
           { src: "/images/lp_w-seijin@2x.png", item: "WEBサイト" },
           { src: "/images/lp_furisode@2x.png", item: "WEBサイト" },
           { src: "/images/lp_family@2x.png", item: "WEBサイト" },

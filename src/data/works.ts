@@ -142,7 +142,6 @@ export const works: Work[] = [
           { src: "/images/pinokio6.png", item: "フライヤー・ポスター" },
           { src: "/images/pinokio7.png", item: "フライヤー・ポスター" },
           { src: "/images/pinokio8.png", item: "フライヤー・ポスター" },
-          { src: "/images/pinokio9.png", item: "フライヤー・ポスター" },
           { src: "/images/pinokio10.png", item: "バナー" },
           { src: "/images/pinokio11.png", item: "フライヤー・ポスター" },
           { src: "/images/pinokio12.png", item: "バナー" },

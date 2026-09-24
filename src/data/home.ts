@@ -34,8 +34,8 @@ export const policy = {
 
 // トップページで表示したい画像リスト
 export const heroImages = [
-  { src: "/images/pinokio10.png" },
   { src: "/images/franny3.png" },
   { src: "/images/FADSTARt_Sticker_4.png" },
   { src: "/images/screenshot01.png" },
+  { src: "/images/pinokio10.png" },
 ];

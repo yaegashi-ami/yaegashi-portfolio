@@ -98,7 +98,7 @@ export default function Page() {
               {item.title}
             </h2>
 
-            {item.caseStudyHref && (
+            {item.caseStudyHref && item.id !== "period" && (
               <div className="my-2">
                 {item.id === "momiji" ? (
                   <MomijiBoard compact />
@@ -116,6 +116,12 @@ export default function Page() {
               >
                 {gallery.images.map((image, imgIndex) => {
                   const src = typeof image === "string" ? image : image.src;
+                  const isSquare = item.id === "period";
+                  const aspect = isSquare
+                    ? "aspect-square"
+                    : isContain(src)
+                      ? "aspect-[4/3]"
+                      : "aspect-[5/3]";
                   return (
                     <div
                       key={imgIndex}
@@ -129,11 +135,7 @@ export default function Page() {
                           ),
                         )
                       }
-                      className={
-                        isContain(src)
-                          ? "group relative cursor-zoom-in overflow-hidden rounded-lg bg-gray-100 aspect-[4/3] transition-all duration-300 hover:ring-2 hover:ring-main"
-                          : "group relative cursor-zoom-in overflow-hidden rounded-lg bg-gray-100 aspect-[5/3] transition-all duration-300 hover:ring-2 hover:ring-main"
-                      }
+                      className={`group relative cursor-zoom-in overflow-hidden rounded-lg bg-gray-100 ${aspect} transition-all duration-300 hover:ring-2 hover:ring-main`}
                     >
                       <img
                         src={assetPath(src)}

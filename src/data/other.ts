@@ -32,6 +32,25 @@ export const otherItems: OtherItem[] = [
     caseStudyLabel: "デザインシステムを見る",
   },
   {
+    id: "period",
+    title: "period - 生理管理アプリ",
+    subtitle: "UIデザイン・アプリ制作（自主制作）",
+    body: "周期と予測をシンプルに記録する生理管理アプリ。本命・対抗、2つの開始日予測と、排卵予定日・生理前の時期を表示します。登録不要でブラウザから使えます。",
+    gallery: [
+      {
+        columns:1,
+        images: [
+          { src: "/images/period-icon.png" },
+          { src: "/images/period_sscreen2.png" },
+          { src: "/images/period_sscreen4.png" },
+          { src: "/images/period_sscreen1.png" },
+        ],
+      },
+    ],
+    caseStudyHref: "/other/period",
+    caseStudyLabel: "periodの詳細を見る",
+  },
+  {
     title: "Now Playing Music - Retro Player",
     id: "now-playing-music",
     subtitle: "Chrome拡張機能",

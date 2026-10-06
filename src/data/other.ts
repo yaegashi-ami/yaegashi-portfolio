@@ -5,6 +5,7 @@ export type OtherItem = {
   body: string;
   image?: string;
   caseStudyHref?: string;
+  caseStudyLabel?: string;
   gallery: {
     columns: number;
     images: { src: string }[];
@@ -17,9 +18,18 @@ export const otherItems: OtherItem[] = [
     id: "wordpress-ux",
     title: "WordPress管理画面のUI/UX改善",
     subtitle: "UI/UX・情報設計・WordPress",
-    body: "エージェント比較サイトの管理画面を、更新する方が迷わず使えるように改善しました。ページごとに表示内容を選び、並べ替えや表示切り替えまで行えるようにしています。",
+    body: "エージェント比較サイトのWordPress管理画面を改修しました。ページごとに掲載内容と順位を設定できるようにし、ランキングと比較表の連動機能を追加しました。",
     gallery: [],
     caseStudyHref: "/other/wordpress-ux",
+  },
+  {
+    id: "momiji",
+    title: "momiji - 申請管理アプリ",
+    subtitle: "UIデザイン・デザインシステム・プロトタイプ（自主制作）",
+    body: "経費・発注・契約の申請を管理するアプリのUIを制作しました。カラー定義、共通パーツ、ダッシュボード、申請一覧のデザインとプロトタイプを作成しています。",
+    gallery: [],
+    caseStudyHref: "/other/momiji",
+    caseStudyLabel: "デザインシステムを見る",
   },
   {
     title: "Now Playing Music - Retro Player",

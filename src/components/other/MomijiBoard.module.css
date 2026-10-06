@@ -1,0 +1,271 @@
+.editor {
+  --coral: #fc575e;
+  color: #202728;
+  border: 1px solid #d4dad9;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f6f8f7;
+  font-family: Arial, "Noto Sans JP", sans-serif;
+  box-shadow: 0 16px 45px #2027280b;
+}
+.topbar {
+  height: 48px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  font-size: 12px;
+  border-bottom: 1px solid #d4dad9;
+}
+.muted {
+  color: #687173;
+}
+.fileBadge {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: #687173;
+}
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+.sideFoot {
+  margin-top: auto;
+  padding: 50px 8px 0;
+  color: #999;
+  line-height: 1.8;
+}
+.canvas {
+  min-width: 0;
+  padding: 30px;
+  background-image: radial-gradient(#d4dad9 0.65px, transparent 0.65px);
+  background-size: 12px 12px;
+}
+.boardIntro,
+.boardFooter {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #687173;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+.brand {
+  background: #fff5f4;
+  min-height: 230px;
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #ffe5e5;
+}
+.brand img {
+  width: 140px;
+  height: 48px;
+  object-fit: contain;
+  object-position: left;
+}
+.brand p {
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: 0.07em;
+  margin: 16px 0;
+  color: #202728;
+}
+.brand small {
+  font-size: 7px;
+  letter-spacing: 0.15em;
+  color: #687173;
+}
+.foundationGrid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 16px;
+  margin: 20px 0;
+}
+.frame {
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #d4dad9;
+  min-width: 0;
+}
+.frameTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.frameTitle h3 {
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: -0.03em;
+}
+.frameTitle > span {
+  font-size: 7px;
+  letter-spacing: 0.06em;
+  color: #687173;
+}
+.caption {
+  font-size: 8px;
+  color: #687173;
+  margin: 12px 0;
+}
+.palette,
+.inks {
+  display: flex;
+  gap: 4px;
+}
+.palette > div,
+.inks > div {
+  flex: 1;
+  min-width: 0;
+}
+.palette i,
+.inks i {
+  display: block;
+  height: 45px;
+  border-radius: 3px;
+  border: 1px solid #20272808;
+}
+.palette b,
+.palette small,
+.inks small {
+  display: block;
+  margin-top: 5px;
+  font-size: 7px;
+  font-weight: 400;
+}
+.palette small {
+  font-size: 5.5px;
+  color: #687173;
+}
+.inks i {
+  height: 22px;
+}
+.typeSample {
+  font-size: 50px;
+  line-height: 1.1;
+  margin-bottom: 12px;
+  letter-spacing: -0.05em;
+}
+.typeSample span {
+  font-size: 38px;
+  margin-left: 14px;
+}
+.typeSample ~ b {
+  font-size: 10px;
+}
+.typeRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+  border-top: 1px solid #e9eced;
+  font-size: 9px;
+}
+.typeRow small {
+  font-size: 7px;
+  color: #687173;
+}
+.screen {
+  margin-top: 20px;
+}
+.screen img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid #e9eced;
+  border-radius: 4px;
+}
+.boardFooter {
+  margin: 20px 0 0;
+  font-size: 7px;
+}
+@media (max-width: 700px) {
+  .workspace {
+    display: block;
+  }
+  .canvas {
+    padding: 16px;
+  }
+  .topbar {
+    padding: 0 12px;
+  }
+  .fileBadge {
+    display: none;
+  }
+  .foundationGrid {
+    grid-template-columns: 1fr;
+  }
+  .brand {
+    padding: 24px;
+    min-height: 200px;
+  }
+  .brand p {
+    font-size: 22px;
+  }
+  .frame {
+    padding: 16px;
+  }
+  .palette small {
+    font-size: 7px;
+  }
+  .boardFooter {
+    flex-wrap: wrap;
+  }
+  .typeSample {
+    font-size: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand {
+    align-items: flex-start;
+  }
+  .brand p {
+    position: relative;
+    z-index: 1;
+    font-size: 20px;
+  }
+  .brand > div:first-child {
+    min-width: 0;
+  }
+}
+
+.thumbnail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  color: #202728;
+}
+.thumbnail .brand {
+  min-height: 230px;
+  padding: 24px;
+}
+.thumbnail .brand p {
+  font-size: 22px;
+}
+.thumbnailPalette {
+  min-width: 0;
+}
+.thumbnailPalette > section {
+  height: 100%;
+}
+@media (max-width: 767px) {
+  .thumbnail {
+    grid-template-columns: 1fr;
+  }
+  .thumbnailPalette {
+    display: none;
+  }
+  .thumbnail .brand {
+    min-height: 220px;
+  }
+}

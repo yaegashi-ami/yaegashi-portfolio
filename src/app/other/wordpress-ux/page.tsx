@@ -9,17 +9,17 @@ import WordPressEditingFlow from "@/components/other/WordPressEditingFlow";
 export const metadata: Metadata = {
   title: "WordPress管理画面のUI/UX改善 | AMI YAEGASHI PORTFOLIO",
   description:
-    "エージェント比較サイトの管理画面を、更新する方が迷わず使えるように改善しました。調査から設計、実装、検証までをご紹介します。",
+    "エージェント比較サイトのWordPress管理画面を改修。ページ別の掲載設定、並べ替え、ランキングと比較表の連動機能を紹介します。",
 };
 
 const process = [
   [
     "ニーズの確認",
-    "LPごとに内容や順位を変えたい、というご要望を確認。運用者の交代もあり、非エンジニアの方でも扱いやすい形が必要だと分かりました。",
+    "LPごとに掲載内容や順位を変えたいというご要望を確認しました。運用担当者の交代に合わせて、管理画面の操作方法も見直しました。",
   ],
   [
     "構造を調査",
-    "投稿・分類・テンプレートと表示先の関係を確認。設定が複数箇所に分かれ、更新時に迷いやすい構造になっていました。",
+    "投稿・分類・テンプレートと表示先の関係を調査しました。設定が複数の画面に分かれていたため、更新に必要な箇所を確認しました。",
   ],
   [
     "既存データを整理",
@@ -31,7 +31,7 @@ const process = [
   ],
   [
     "操作方法を調整",
-    "選択・並べ替え・表示切り替えを中心に操作を整理。項目名や説明、配置も見直し、判断しやすい画面に整えました。",
+    "掲載内容の選択、並べ替え、表示切り替えの操作を実装しました。設定項目の名称と説明文も変更しました。",
   ],
   [
     "動作と影響を検証",
@@ -42,31 +42,23 @@ const process = [
 const decisions = [
   {
     label: "PAGE SETTINGS",
-    title: "必要なページだけ、個別に設定。",
+    title: "ページごとの掲載内容・順位の設定",
     body: "共通設定とは別に、ページ単位で表示内容や順番を指定できるようにしました。",
-    reason:
-      "共通設定を基本にしながら、必要なページだけ上書きできます。",
   },
   {
     label: "CONTEXT",
-    title: "必要な選択肢だけを表示。",
+    title: "選択内容に応じた項目の表示",
     body: "選んだ内容に応じて、次に必要な選択肢だけを表示するようにしました。",
-    reason:
-      "関係のない候補を見せず、選択肢を絞っています。",
   },
   {
     label: "VISIBILITY",
-    title: "何が変わるかを分かりやすく。",
+    title: "設定項目と説明の見直し",
     body: "関連する設定をまとめ、項目名・説明・配置を見直しました。",
-    reason:
-      "操作と表示結果の関係を追いやすくしています。",
   },
   {
     label: "REVERSIBILITY",
-    title: "切り替えても、元の設定は保持。",
+    title: "連動を解除したときの設定保持",
     body: "設定を連動させている間も、それまで選んでいた内容は消さない設計にしました。",
-    reason:
-      "同期を外せば、以前の設定に戻せます。",
   },
 ];
 
@@ -132,20 +124,15 @@ export default function Page() {
         <OtherLink />
 
         <header className="pb-10 pt-8 md:pb-14 md:pt-10">
-          <p className="text-xs font-bold tracking-widest text-main">
+          <h1 className="text-xl font-bold tracking-wider">
             WordPress管理画面のUI/UX改善
-          </p>
-          <h1 className="mt-5 text-[clamp(1.8rem,4.5vw,3rem)] font-bold leading-[1.35] tracking-wide">
-            更新する方が迷わない
-            <br />
-            <span className="text-main">管理画面に整えました。</span>
           </h1>
           <p className="mt-3 text-xs font-semibold tracking-wider text-muted">
             エージェント比較サイトの運用改善
           </p>
           <p className="mt-6 text-xs leading-5 md:text-base md:leading-6">
-            「このページだけ、ランキングを変えたい」というご相談から、<br />
-            既存の仕組みやデータを保ったまま、管理画面を再設計しました。
+            ページごとにランキングを変更できるよう、管理画面を改修しました。
+            既存の設定や入力データを残し、掲載内容の選択・並べ替え・比較表との連動機能を追加しています。
           </p>
           <p className="mt-5 text-xs leading-5">
             担当：運用整理 / 情報・UI設計 / 実装・検証
@@ -165,7 +152,7 @@ export default function Page() {
         <Chapter
           number="01"
           label="BEFORE / AFTER"
-          title="変更するには、サイトの仕組みを把握する必要がありました。"
+          title="改修前後の更新手順"
           intro="更新場所が複数に分かれ、どこを変更すると何に反映されるのか分かりにくい状態でした。"
         >
           <WordPressEditingFlow />
@@ -177,8 +164,8 @@ export default function Page() {
         <Chapter
           number="02"
           label="PROCESS"
-          title="実際の更新手順に沿って、少しずつ整えました。"
-          intro="既存の仕組みを確認しながら、必要な変更を段階的に整理していきました。"
+          title="調査・設計・実装の手順"
+          intro="既存の設定とデータを確認し、管理画面の設計、実装、動作確認を行いました。"
         >
           <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {process.map(([title, body], index) => (
@@ -195,11 +182,7 @@ export default function Page() {
           </ol>
         </Chapter>
 
-        <Chapter
-          number="03"
-          label="UI DESIGN"
-          title="迷わず使えるように、管理画面を見直しました。"
-        >
+        <Chapter number="03" label="UI DESIGN" title="管理画面の変更点">
           <div className="grid gap-4 md:grid-cols-2">
             {decisions.map((decision) => (
               <section
@@ -215,9 +198,6 @@ export default function Page() {
                 <p className="my-3 text-sm leading-6 text-ink/80">
                   {decision.body}
                 </p>
-                <p className="mt-auto border-t border-ink/10 pt-4 text-sm font-semibold leading-6 text-main">
-                  {decision.reason}
-                </p>
               </section>
             ))}
           </div>
@@ -226,8 +206,8 @@ export default function Page() {
         <Chapter
           number="04"
           label="DEMO"
-          title="ランキングと比較表の連動を試せます。"
-          intro="管理画面を直感的にする作業の一環で作成したパーツです。ランキングコンテナの内容がそのまま比較表に反映されます。"
+          title="ランキングと比較表の連動デモ"
+          intro="ランキングの掲載内容や順番を変更すると、比較表にも反映されます。下のデモで操作を試せます。"
         >
           <RankingSyncDemo />
         </Chapter>
@@ -235,7 +215,7 @@ export default function Page() {
         <Chapter
           number="05"
           label="RESULT"
-          title="迷わず更新できる形に整えました。"
+          title="改修後の操作と運用担当者の感想"
         >
           <div className="grid gap-3 md:grid-cols-3">
             <section className="rounded-2xl bg-white p-6">
@@ -248,12 +228,12 @@ export default function Page() {
                 </span>
 
                 <h3 className="text-base font-semibold">
-                  更新の流れを一本化
+                  ページごとに設定を集約
                 </h3>
               </div>
 
               <p className="mt-3 text-sm leading-6 text-ink/80">
-                ページを起点に、必要な設定へ迷わず進める構成になりました。
+                編集するページから、掲載内容や順位を設定できる構成に変更しました。
               </p>
             </section>
 
@@ -266,13 +246,11 @@ export default function Page() {
                   sync
                 </span>
 
-                <h3 className="text-base font-semibold">
-                  既存データを保持
-                </h3>
+                <h3 className="text-base font-semibold">既存データを保持</h3>
               </div>
 
               <p className="mt-3 text-sm leading-6 text-ink/80">
-                 これまでの設定や入力内容を消さずに、必要な部分だけ変更できます。
+                これまでの設定や入力内容を消さずに、必要な部分だけ変更できます。
               </p>
             </section>
 
@@ -300,21 +278,6 @@ export default function Page() {
             </section>
           </div>
         </Chapter>
-
-        <section className="border-t border-ink/15 py-10 md:py-14">
-          <p className="font-['Alata'] text-[10px] tracking-widest text-main">
-            TAKEAWAY
-          </p>
-          <h2 className="mt-4 text-xl font-bold leading-snug tracking-wider md:text-2xl">
-            複雑な仕組みも、
-            <br className="hidden sm:block" />
-            使う人に合わせて整理します。
-          </h2>
-          <p className="mt-3 text-sm leading-6 text-ink/80">
-            既存のシステムをそのまま作り直すのではなく、
-            運用やデータを尊重しながら、必要な部分を整理して改善することを大切にしています。
-          </p>
-        </section>
 
         <OtherLink />
       </article>

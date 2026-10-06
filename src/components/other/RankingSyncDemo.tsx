@@ -186,7 +186,7 @@ export default function RankingSyncDemo() {
           </div>
 
           <div className="overflow-hidden rounded-xl border border-ink/10 bg-white">
-            <div className="grid grid-cols-[1.5fr_repeat(3,0.7fr)] border-b border-ink/10 bg-main-light px-4 py-3 text-xs font-semibold text-ink/60">
+            <div className="grid grid-cols-[1.5fr_repeat(3,0.7fr)] border-b border-ink/10 bg-stone-50 px-4 py-3 text-xs font-semibold text-ink/60">
               <span>エージェント</span>
               <span className="text-center">費用</span>
               <span className="text-center">案件数</span>

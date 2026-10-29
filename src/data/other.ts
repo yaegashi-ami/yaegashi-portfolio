@@ -18,9 +18,10 @@ export const otherItems: OtherItem[] = [
     id: "wordpress-ux",
     title: "WordPress管理画面のUI/UX改善",
     subtitle: "UI/UX・情報設計・WordPress",
-    body: "エージェント比較サイトのWordPress管理画面を改修しました。ページごとに掲載内容と順位を設定できるようにし、ランキングと比較表の連動機能を追加しました。",
+    body: "WordPressの管理画面を、更新担当者が使いやすいように改修。画面の設計から、機能の追加・動作確認まで担当しました。",
     gallery: [],
     caseStudyHref: "/other/wordpress-ux",
+    caseStudyLabel: "操作デモを見る",
   },
   {
     id: "momiji",

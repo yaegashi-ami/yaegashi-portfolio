@@ -5,6 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import GalleryCarousel from "@/components/works/GalleryCarousel";
+import WorkResponsibilities from "@/components/works/WorkResponsibilities";
 import OpenBadge from "@/components/ui/OpenBadge";
 import SlashText from "@/components/ui/SlashText";
 import PageShell from "@/components/layout/PageShell";
@@ -333,6 +334,7 @@ function WorksInner() {
               return (
                 <article
                   key={work.slug}
+                  id={work.slug}
                   className="flex flex-col gap-3 rounded-2xl bg-white p-6 shadow-[0_0_8px_rgba(0,0,0,0.05)] md:p-8"
                 >
                   <p className="text-xs font-bold tracking-widest text-main">
@@ -360,8 +362,14 @@ function WorksInner() {
                       <SlashText text={p} />
                     </p>
                   ))}
+                  <WorkResponsibilities items={work.responsibilities} />
                   {heroImages.length > 0 && (
                     <GalleryCarousel
+                      aspectRatio={
+                        heroImages.every((img) => img.item === "バナー")
+                          ? "1/1"
+                          : "4/3"
+                      }
                       items={heroImages.map((img) => {
                         const target = img.pamphlet
                           ? {

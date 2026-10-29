@@ -20,7 +20,7 @@ export default function MomijiPage() {
           <span aria-hidden="true" className="ms-fill text-[28px]">
             arrow_circle_left
           </span>
-          <span className="font-['Alata'] group-hover:underline">Other</span>
+          <span className="font-['Alata'] group-hover:underline">Other Works</span>
         </Link>
         <div className="flex flex-col gap-2">
           <h1 className="text-xl font-bold tracking-wider">

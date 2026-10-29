@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SlashText from "@/components/ui/SlashText";
+import WorkResponsibilities from "@/components/works/WorkResponsibilities";
 import type { Work } from "@/data/works";
 
 const tagStyles: Record<string, string> = {
@@ -42,6 +43,7 @@ export default function WorkInfo({ work }: { work: Work }) {
           <SlashText text={p} />
         </p>
       ))}
+      <WorkResponsibilities items={work.responsibilities} />
       {work.links?.map((link) => (
         <Link
           key={link.href + link.label}

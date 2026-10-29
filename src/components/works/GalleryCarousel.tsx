@@ -23,9 +23,11 @@ export type GalleryCarouselItem = {
 export default function GalleryCarousel({
   items,
   onImageClick,
+  aspectRatio = "4/3",
 }: {
   items: GalleryCarouselItem[];
   onImageClick: (src: string) => void;
+  aspectRatio?: "4/3" | "1/1";
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [canPrev, setCanPrev] = useState(false);
@@ -91,8 +93,9 @@ export default function GalleryCarousel({
 
   if (items.length === 0) return null;
 
-  const itemClass =
-    "group relative aspect-[4/3] shrink-0 snap-start overflow-hidden rounded-lg bg-gray-100 border transition-colors duration-300 hover:border-main w-[100%] md:w-[calc(33.333%-6px)] lg:w-[calc(25%-6px)]";
+  const itemClass = `group relative ${
+    aspectRatio === "1/1" ? "aspect-square" : "aspect-[4/3]"
+  } shrink-0 snap-start overflow-hidden rounded-lg bg-gray-100 border transition-colors duration-300 hover:border-main w-[100%] md:w-[calc(33.333%-6px)] lg:w-[calc(25%-6px)]`;
 
   return (
     <div className="my-2 flex flex-col gap-3">
@@ -121,11 +124,11 @@ export default function GalleryCarousel({
                   src={assetPath(img.src)}
                   alt=""
                   width={600}
-                  height={450}
+                  height={aspectRatio === "1/1" ? 600 : 450}
                   className={
                     img.contain
-                      ? "aspect-[4/3] h-full w-full object-contain object-center p-2.5 transition-transform duration-300 group-hover:scale-105"
-                      : "aspect-[4/3] h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                      ? "h-full w-full object-contain object-center p-2.5 transition-transform duration-300 group-hover:scale-105"
+                      : "h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
                   }
                 />
                 {img.tint && (

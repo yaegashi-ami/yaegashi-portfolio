@@ -5,7 +5,7 @@ import ContactCard from "@/components/layout/ContactCard";
 import { useRef, useState } from "react";
 import PageShell from "@/components/layout/PageShell";
 import MomijiBoard from "@/components/other/MomijiBoard";
-import WordPressEditingFlow from "@/components/other/WordPressEditingFlow";
+import { RankingSyncPreview } from "@/components/other/RankingSyncDemo";
 import { otherItems } from "@/data/other";
 import { assetPath } from "@/lib/assetPath";
 
@@ -73,7 +73,7 @@ export default function Page() {
     <PageShell>
       <div>
         <h2 className="text-3xl font-bold tracking-[0.2rem] text-main">
-          Other
+          Other Works
         </h2>
       </div>
 
@@ -103,7 +103,7 @@ export default function Page() {
                 {item.id === "momiji" ? (
                   <MomijiBoard compact />
                 ) : (
-                  <WordPressEditingFlow compact />
+                  <RankingSyncPreview />
                 )}
               </div>
             )}

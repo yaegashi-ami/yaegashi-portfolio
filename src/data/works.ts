@@ -49,6 +49,7 @@ export type Work = {
   subtitle: string;
   tags: WorkTag[];
   description: string[];
+  responsibilities?: string[];
   links?: { label: string; href: string }[];
   gallery: GalleryGroup[];
   /** 右ペインの背景色（旧CSSのテーマ色を踏襲） */
@@ -59,6 +60,31 @@ export type Work = {
 };
 
 export const works: Work[] = [
+  {
+    slug: "banner",
+    title: "バナー制作",
+    subtitle: "バナーデザイン",
+    tags: [{ label: "WEB", kind: "web" }],
+    description: [],
+    responsibilities: [
+      "ヒアリング",
+      "構成",
+      "ラフ",
+      "画像選定",
+      "画像加工",
+      "デザイン",
+    ],
+    gallery: [
+      {
+        columns: 3,
+        images: Array.from({ length: 27 }, (_, i) => ({
+          src: `/images/banners/works_banner${i + 1}.png`,
+          item: "バナー" as const,
+        })),
+      },
+    ],
+    bg: "#f5f5f3",
+  },
   {
     slug: "franny",
     title: "ジャズと喫茶 Franny",
@@ -72,6 +98,17 @@ export const works: Work[] = [
     ],
     description: [
       "五線譜と喫茶店のテーブルのコーナーをイメージしたロゴを制作しました。\nお店の雰囲気に合うようモチーフやカラーの相談を重ね、ラフな雰囲気のステッカーを制作しました。フライヤーについては、爽やかな色合いと謎めいたイラストで目を引くようにデザインしました。",
+    ],
+    responsibilities: [
+      "ヒアリング",
+      "ロゴデザイン",
+      "イラスト",
+      "マップデザイン",
+      "バナー制作",
+      "ショップカード",
+      "フライヤー",
+      "ステッカー",
+      "入稿",
     ],
     links: [
       {
@@ -105,8 +142,18 @@ export const works: Work[] = [
       { label: "illust", kind: "illust" },
       { label: "2022-2023", kind: "date" },
     ],
-    description: [
-      "キャンペーンごとの制作物、店舗用POPなどの制作。\n担当：写真のレタッチ/加工/LP制作/バナー/ポスター/入稿/新サービスや店舗のチラシ/季節のDM/パンフレット/Instagram告知画像制作",
+    description: ["キャンペーンごとの制作物、店舗用POPなどの制作。"],
+    responsibilities: [
+      "写真のレタッチ",
+      "画像加工",
+      "LP制作",
+      "バナー",
+      "Instagram告知画像制作",
+      "パンフレット",
+      "ポスター",
+      "新サービスや店舗のチラシ",
+      "季節のDM",
+      "入稿",
     ],
     gallery: [
       {
@@ -161,7 +208,15 @@ export const works: Work[] = [
       { label: "2022-2023", kind: "date" },
     ],
     description: [
-      "ターゲットごとに目立たせたいポイントを変えるなどのUIの工夫を心がけて制作しました。\n担当：キャンペーンページのカンプ/デザイン/コーディング/CMSでの更新/キャンペーンページ管理",
+      "ターゲットごとに目立たせたいポイントを変えるなどのUIの工夫を心がけて制作しました。",
+    ],
+    responsibilities: [
+      "画像加工",
+      "デザイン",
+      "キャンペーンページのカンプ",
+      "コーディング",
+      "CMSでの更新",
+      "キャンペーンページ管理",
     ],
     links: [
       { label: "https://www.pinokio.co.jp", href: "https://www.pinokio.co.jp" },
@@ -191,6 +246,12 @@ export const works: Work[] = [
     description: [
       "Jimnyのリペアやカスタムなどを行っている自動車整備工場で、デモ車の資料を頂いてイラストを描き起こしました。\nポップ/アメリカン/ビンテージ/モダン/標識風など様々なテイストのデザイン案から相談と調整を重ねて選んでいただきました。",
     ],
+    responsibilities: [
+      "ヒアリング",
+      "キャラクターデザイン",
+      "イラスト",
+      "ステッカーデザイン",
+    ],
     gallery: [
       {
         columns: 3,
@@ -219,6 +280,13 @@ export const works: Work[] = [
     ],
     description: [
       "vivoは音楽用語で「生き生きした」を意味しており、個性的で元気な利用者さんの雰囲気をイメージしています。\nメインロゴの他、施設内の部屋/併設カフェ/水耕栽培で仕様するためにカラーバリエーションを作成しました。色覚特性に配慮しつつ、活動的な印象になるよう作成しました。",
+    ],
+    responsibilities: [
+      "ロゴタイプ",
+      "カラーリング展開",
+      "キャラクターデザイン",
+      "マップデザイン",
+      "パンフデザイン",
     ],
     gallery: [
       {
@@ -257,6 +325,7 @@ export const works: Work[] = [
     description: [
       "主にカラーリング調整、商品イラストの作成、その他イラスト素材の作成を担当しました。メインイラストに合わせたイラストの作成ということで、馴染むように、可愛さを底上げできるようにイラストを作成しました。また単調にならず、うるさくならないようバランスを取りながら制作しました。",
     ],
+    responsibilities: ["イラスト", "カラーリング", "データ修正"],
     gallery: [
       {
         columns: 3,
@@ -286,6 +355,12 @@ export const works: Work[] = [
     description: [
       "ショップカードのデザイン、名刺のデザインを担当しました。カジュアルにフレンチを楽しむことが出来るお店なので、ロゴに使われている松ぼっくりのシルエットで親しみやすさを押し出しました。",
       "忘新年会のフライヤーはゴールドカラーを基調にして安っぽさが出ないようにしつつ、ポップな雰囲気でお手頃価格で楽しめることが伝わるようデザインしました。",
+    ],
+    responsibilities: [
+      "ヒアリング",
+      "ショップカード・名刺デザイン",
+      "フライヤーデザイン",
+      "入稿",
     ],
     gallery: [
       {

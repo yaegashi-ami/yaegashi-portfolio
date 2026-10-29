@@ -1,7 +1,7 @@
 export const navigationLinks = [
   { label: "Top", href: "/" },
   { label: "Works", href: "/works" },
-  { label: "Other", href: "/other" },
+  { label: "Other Works", href: "/other" },
   { label: "Profile", href: "/profile" },
 ];
 

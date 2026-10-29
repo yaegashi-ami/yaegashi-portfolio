@@ -15,15 +15,6 @@ export type OtherItem = {
 
 export const otherItems: OtherItem[] = [
   {
-    id: "wordpress-ux",
-    title: "WordPress管理画面のUI/UX改善",
-    subtitle: "UI/UX・情報設計・WordPress",
-    body: "WordPressの管理画面を、更新担当者が使いやすいように改修。画面の設計から、機能の追加・動作確認まで担当しました。",
-    gallery: [],
-    caseStudyHref: "/other/wordpress-ux",
-    caseStudyLabel: "操作デモを見る",
-  },
-  {
     id: "momiji",
     title: "momiji - 申請管理アプリ",
     subtitle: "UIデザイン・デザインシステム・プロトタイプ（自主制作）",
@@ -50,6 +41,15 @@ export const otherItems: OtherItem[] = [
     ],
     caseStudyHref: "/other/period",
     caseStudyLabel: "periodの詳細を見る",
+  },
+  {
+    id: "wordpress-ux",
+    title: "WordPress管理画面のUI/UX改善",
+    subtitle: "UI/UX・情報設計・WordPress",
+    body: "WordPressの管理画面を、更新担当者が使いやすいように改修。画面の設計から、機能の追加・動作確認まで担当しました。",
+    gallery: [],
+    caseStudyHref: "/other/wordpress-ux",
+    caseStudyLabel: "操作デモを見る",
   },
   {
     title: "Now Playing Music - Retro Player",

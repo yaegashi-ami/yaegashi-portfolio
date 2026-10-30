@@ -29,13 +29,13 @@ export default function PeriodPage() {
     <PageShell>
       <section className="flex flex-col gap-4">
         <Link
-          href="/other#period"
+          href="/works#period"
           className="group flex w-fit items-center gap-2 text-2xl font-bold tracking-widest text-main"
         >
           <span aria-hidden="true" className="ms-fill text-[28px]">
             arrow_circle_left
           </span>
-          <span className="font-['Alata'] group-hover:underline">Other Works</span>
+          <span className="font-alata group-hover:underline">Works</span>
         </Link>
         <div className="flex flex-col gap-2">
           <h1 className="text-xl font-bold tracking-wider">

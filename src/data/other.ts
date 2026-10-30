@@ -30,7 +30,7 @@ export const otherItems: OtherItem[] = [
     body: "周期と予測をシンプルに記録する生理管理アプリ。本命・対抗、2つの開始日予測と、排卵予定日・生理前の時期を表示します。登録不要でブラウザから使えます。",
     gallery: [
       {
-        columns:1,
+        columns: 1,
         images: [
           { src: "/images/period-icon.png" },
           { src: "/images/period_sscreen2.png" },
@@ -77,6 +77,7 @@ export const otherItems: OtherItem[] = [
   },
   {
     title: "Tシャツ",
+    id: "t-shirts",
     subtitle: "original",
     body: "オリジナルデザインのTシャツを制作しました。友人からの依頼、もしくは自分用。",
     gallery: [

@@ -40,7 +40,7 @@ export default function BackLink() {
       <span aria-hidden="true" className="ms-fill text-[28px] text-main">
         arrow_circle_left
       </span>
-      <span className="group-hover:underline font-['Alata']">{back.label}</span>
+      <span className="group-hover:underline font-alata">{back.label}</span>
     </Link>
   );
 }

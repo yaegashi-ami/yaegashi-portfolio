@@ -10,6 +10,7 @@ import ScrollGallery from "@/components/works/ScrollGallery";
 import { gridCols } from "@/components/works/galleryStyles";
 import { works, getWork, lpDetails, flatImages, thumbOf } from "@/data/works";
 import { assetPath } from "@/lib/assetPath";
+import ThumbnailZoomBadge from "@/components/ui/ThumbnailZoomBadge";
 
 export const dynamicParams = false;
 
@@ -87,13 +88,16 @@ export default async function Page({
                             aria-label={`${lp.title}のページへ`}
                             className="group block overflow-hidden rounded-xl border-[0.5px] border-main"
                           >
-                            <Image
-                              src={assetPath(thumbOf(img.src))}
-                              alt=""
-                              width={600}
-                              height={600}
-                              className="aspect-square h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
-                            />
+                            <div className="relative">
+                              <Image
+                                src={assetPath(thumbOf(img.src))}
+                                alt=""
+                                width={600}
+                                height={600}
+                                className="aspect-square h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                              />
+                              <ThumbnailZoomBadge />
+                            </div>
                             <span className="block bg-white p-3 text-sm font-semibold tracking-wider">
                               {lp.title}
                             </span>
@@ -160,8 +164,9 @@ export default async function Page({
                           />
                         );
                         const frame = (
-                          <span className="block w-full overflow-hidden">
+                          <span className="relative block w-full overflow-hidden">
                             {image}
+                            {target && <ThumbnailZoomBadge />}
                           </span>
                         );
                         return target ? (

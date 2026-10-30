@@ -10,17 +10,17 @@ const newsItems: { title: string; date: string; href?: string }[] = [
     href: "/works#banner",
   },
   {
-    title: "Other Works - period 生理管理アプリ 追加",
+    title: "Works - period 生理管理アプリ 追加",
     date: "2026-10-06",
     href: "/other/period",
   },
   {
-    title: "Other Works - momiji UIデザイン・デザインシステム 追加",
+    title: "Works - momiji UIデザイン・デザインシステム 追加",
     date: "2026-10-06",
     href: "/other/momiji",
   },
   {
-    title: "Other Works - WordPress管理画面のUI/UX改善 追加",
+    title: "Works - WordPress管理画面のUI/UX改善 追加",
     date: "2026-09-15",
     href: "/other/wordpress-ux",
   },
@@ -28,7 +28,7 @@ const newsItems: { title: string; date: string; href?: string }[] = [
   {
     title: "Chrome拡張機能公開",
     date: "2026-09-07",
-    href: "/other#now-playing-music",
+    href: "/works#now-playing-music",
   },
 ];
 

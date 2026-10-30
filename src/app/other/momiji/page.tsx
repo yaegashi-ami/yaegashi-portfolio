@@ -14,13 +14,13 @@ export default function MomijiPage() {
     <PageShell>
       <section className="flex flex-col gap-4">
         <Link
-          href="/other#momiji"
+          href="/works#momiji"
           className="group flex w-fit items-center gap-2 text-2xl font-bold tracking-widest text-main"
         >
           <span aria-hidden="true" className="ms-fill text-[28px]">
             arrow_circle_left
           </span>
-          <span className="font-['Alata'] group-hover:underline">Other Works</span>
+          <span className="font-alata group-hover:underline">Works</span>
         </Link>
         <div className="flex flex-col gap-2">
           <h1 className="text-xl font-bold tracking-wider">
@@ -34,10 +34,6 @@ export default function MomijiPage() {
           経費・発注・契約の申請を管理するアプリのUIを制作しました。カラーと文字サイズを定義し、ボタンや入力欄などの共通パーツ、ダッシュボード、申請一覧を作成しています。
         </p>
       </section>
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap"
-      />
       <MomijiBoard />
       <section className="grid gap-4 border-t border-ink/15 pt-8 md:grid-cols-3">
         <div className="flex flex-col rounded-2xl bg-white p-5 md:p-7">

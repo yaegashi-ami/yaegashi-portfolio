@@ -1,6 +1,6 @@
 .specimens {
   font-family:
-    "Noto Sans JP",
+    var(--font-noto-sans-jp),
     -apple-system,
     BlinkMacSystemFont,
     "Segoe UI",

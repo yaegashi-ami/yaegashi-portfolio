@@ -67,7 +67,7 @@ export default function Page() {
   return (
     <main className="mx-auto flex w-full max-w-[1280px] flex-1 flex-col gap-10 py-12 pl-10 pr-10 md:flex-row">
       {/* 左：署名＋ナビ（追従） */}
-      <aside className="flex shrink-0 flex-col gap-6 md:sticky md:top-6 md:h-fit md:w-56 font-['Alata']">
+      <aside className="flex shrink-0 flex-col gap-6 md:sticky md:top-6 md:h-fit md:w-56 font-alata">
         <div className="w-fit max-w-[220px]">
           <h1 className="flex bg-main text-3xl font-bold tracking-widest text-white p-4">
             Yaegashi
@@ -117,7 +117,7 @@ export default function Page() {
                 className="group w-full flex items-center w-fit text-md font-bold tracking-widest text-main justify-end underline-offset-2"
                 href="/works"
               >
-                <span className="group-hover:underline font-['Alata']">
+                <span className="group-hover:underline font-alata">
                   View all --&gt;
                 </span>
               </Link>
@@ -146,7 +146,7 @@ export default function Page() {
                         {s.icon}
                       </span>
                     </span>
-                    <h3 className="min-w-0 text-base font-bold tracking-[0.15rem] font-['Alata'] text-xl lg:text-lg lg:tracking-[0.2rem]">
+                    <h3 className="min-w-0 text-base font-bold tracking-[0.15rem] font-alata text-xl lg:text-lg lg:tracking-[0.2rem]">
                       {s.en}
                     </h3>
                   </section>
@@ -183,7 +183,7 @@ export default function Page() {
               className="group w-full flex items-center w-fit text-md font-bold tracking-widest text-main justify-end"
               href="/profile"
             >
-              <span className="group-hover:underline font-['Alata']">
+              <span className="group-hover:underline font-alata">
                 Profile --&gt;
               </span>
             </Link>

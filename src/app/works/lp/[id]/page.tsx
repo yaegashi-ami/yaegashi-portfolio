@@ -10,6 +10,7 @@ import BackLink from "@/components/works/BackLink";
 import SlashText from "@/components/ui/SlashText";
 import { lpDetails, getLPDetail, thumbOf } from "@/data/works";
 import { assetPath } from "@/lib/assetPath";
+import ThumbnailZoomBadge from "@/components/ui/ThumbnailZoomBadge";
 
 export const dynamicParams = false;
 
@@ -96,6 +97,7 @@ export default async function Page({
                         height={300}
                         className="aspect-[4/3] w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
                       />
+                      <ThumbnailZoomBadge />
                     </Link>
                   ),
                 )}

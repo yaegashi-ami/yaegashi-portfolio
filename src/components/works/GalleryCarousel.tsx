@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import OpenBadge from "@/components/ui/OpenBadge";
+import ThumbnailZoomBadge from "@/components/ui/ThumbnailZoomBadge";
 import { assetPath } from "@/lib/assetPath";
 
 export type GalleryCarouselItem = {
@@ -83,9 +84,12 @@ export default function GalleryCarousel({
       setActive(Math.max(0, Math.min(nodes.length - 1, idx)));
     };
     update();
+    const observer = new ResizeObserver(update);
+    observer.observe(node);
     node.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
     return () => {
+      observer.disconnect();
       node.removeEventListener("scroll", update);
       window.removeEventListener("resize", update);
     };
@@ -93,9 +97,8 @@ export default function GalleryCarousel({
 
   if (items.length === 0) return null;
 
-  const itemClass = `group relative ${
-    aspectRatio === "1/1" ? "aspect-square" : "aspect-[4/3]"
-  } shrink-0 snap-start overflow-hidden rounded-lg bg-gray-100 border transition-colors duration-300 hover:border-main w-[100%] md:w-[calc(33.333%-6px)] lg:w-[calc(25%-6px)]`;
+  const itemClass =
+    "group relative block min-w-0 shrink-0 snap-start overflow-hidden rounded-lg bg-gray-100 border transition-colors duration-300 hover:border-main w-full md:w-[calc(33.333%_-_6px)] lg:w-[calc(25%_-_6px)]";
 
   return (
     <div className="my-2 flex flex-col gap-3">
@@ -115,16 +118,21 @@ export default function GalleryCarousel({
         )}
         <div
           ref={trackRef}
-          className="no-scrollbar flex flex-1 snap-x snap-mandatory gap-2 overflow-x-auto pr-2"
+          className="no-scrollbar flex min-w-0 flex-1 items-start snap-x snap-mandatory gap-2 overflow-x-auto pr-2"
         >
           {items.map((img, i) => {
             const media = (
               <>
+                <span
+                  aria-hidden="true"
+                  className="block"
+                  style={{ paddingTop: aspectRatio === "1/1" ? "100%" : "75%" }}
+                />
                 <Image
                   src={assetPath(img.src)}
                   alt=""
-                  width={600}
-                  height={aspectRatio === "1/1" ? 600 : 450}
+                  fill
+                  sizes="(min-width: 1024px) 240px, (min-width: 768px) 33vw, 80vw"
                   className={
                     img.contain
                       ? "h-full w-full object-contain object-center p-2.5 transition-transform duration-300 group-hover:scale-105"
@@ -137,7 +145,12 @@ export default function GalleryCarousel({
                     className="pointer-events-none absolute inset-0 bg-main/30 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                   />
                 )}
-                {img.badge && <OpenBadge label={img.label} />}
+                {img.href?.startsWith("/works/pamphlet/") ||
+                img.href === "/works/competition" ? (
+                  img.badge && <OpenBadge label={img.label} />
+                ) : (
+                  <ThumbnailZoomBadge />
+                )}
               </>
             );
             return img.href ? (

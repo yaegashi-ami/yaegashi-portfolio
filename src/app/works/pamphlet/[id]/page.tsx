@@ -53,7 +53,7 @@ export default async function Page({
             <span aria-hidden="true" className="ms-fill text-[28px] text-main">
               arrow_circle_left
             </span>
-            <span className="group-hover:underline font-['Alata']">Works</span>
+            <span className="group-hover:underline font-alata">Works</span>
           </Link>
           <div className="flex flex-col gap-2">
             <h1 className="text-xl font-bold tracking-wider">

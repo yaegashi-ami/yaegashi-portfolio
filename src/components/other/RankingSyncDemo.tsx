@@ -373,7 +373,7 @@ export default function RankingSyncDemo() {
               className={
                 "relative flex select-none items-center gap-2 rounded-xl border-[0.5px] border-ink/15 bg-white px-3 py-2 " +
                 (synced
-                  ? "touch-none cursor-grab active:cursor-grabbing "
+                  ? "touch-pinch-zoom cursor-grab active:cursor-grabbing "
                   : "") +
                 (drag?.from === index ? "opacity-40" : "")
               }

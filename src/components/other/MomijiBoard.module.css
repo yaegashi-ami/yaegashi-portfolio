@@ -5,7 +5,7 @@
   border-radius: 12px;
   overflow: hidden;
   background: #f6f8f7;
-  font-family: Arial, "Noto Sans JP", sans-serif;
+  font-family: Arial, var(--font-noto-sans-jp), sans-serif;
   box-shadow: 0 16px 45px #2027280b;
 }
 .topbar {

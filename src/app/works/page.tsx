@@ -6,11 +6,14 @@ import Image from "next/image";
 import Link from "next/link";
 import GalleryCarousel from "@/components/works/GalleryCarousel";
 import WorkResponsibilities from "@/components/works/WorkResponsibilities";
+import ProjectWorkCard from "@/components/works/ProjectWorkCard";
+import ContactCard from "@/components/layout/ContactCard";
+import { portfolioWorks as works, type PortfolioWork } from "@/data/portfolio";
 import OpenBadge from "@/components/ui/OpenBadge";
+import ThumbnailZoomBadge from "@/components/ui/ThumbnailZoomBadge";
 import SlashText from "@/components/ui/SlashText";
 import PageShell from "@/components/layout/PageShell";
 import {
-  works,
   itemTags,
   lpDetails,
   pamphletDetails,
@@ -26,12 +29,18 @@ import { assetPath } from "@/lib/assetPath";
 const genreFilters = [
   { key: "all", label: "すべて" },
   { key: "web", label: "WEB" },
+  { key: "uiux", label: "UI/UX" },
+  { key: "app", label: "アプリ" },
   { key: "dtp", label: "DTP" },
   { key: "illust", label: "illust" },
 ] as const;
 
 type GenreKey = (typeof genreFilters)[number]["key"];
 type View = "client" | "item";
+
+type ItemEntry =
+  | { kind: "project"; work: PortfolioWork; item: ItemTag }
+  | { kind: "image"; work: PortfolioWork; gi: number; img: GalleryImage };
 
 type CardImage = {
   src: string;
@@ -140,14 +149,27 @@ function WorksInner() {
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length !== 1 || (window.visualViewport?.scale ?? 1) > 1) {
+      touchStart.current = null;
+      return;
+    }
     const touch = e.touches[0];
     touchStart.current = { x: touch.clientX, y: touch.clientY };
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (e.touches.length !== 1) touchStart.current = null;
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
     const start = touchStart.current;
     touchStart.current = null;
-    if (!start) return;
+    if (
+      !start ||
+      e.touches.length > 0 ||
+      (window.visualViewport?.scale ?? 1) > 1
+    )
+      return;
 
     const touch = e.changedTouches[0];
     const deltaX = touch.clientX - start.x;
@@ -200,23 +222,33 @@ function WorksInner() {
       ? works
       : works.filter((work) => work.tags.some((tag) => tag.kind === genre));
 
-  const itemImages = works.flatMap((work) =>
-    work.gallery.flatMap((group, gi) =>
+  const itemImages: ItemEntry[] = works.flatMap((work): ItemEntry[] => {
+    if (work.overview && work.itemCategory && work.itemCategory !== "Tシャツ") {
+      return [{ kind: "project", work, item: work.itemCategory }];
+    }
+    return work.gallery.flatMap((group, gi) =>
       flatImages(group.images)
         .filter((img) => !hiddenItemSrcs.includes(img.src))
-        .map((img) => ({ work, gi, img })),
-    ),
-  );
+        .map((img) => ({ kind: "image" as const, work, gi, img })),
+    );
+  });
   const availableItemTags = itemTags.filter((tag) =>
-    itemImages.some((entry) => entry.img.item === tag),
+    itemImages.some(
+      (entry) =>
+        (entry.kind === "project" ? entry.item : entry.img.item) === tag,
+    ),
   );
   const seenBooklets = new Set<string>();
   const visibleItems = (
     item === "all"
       ? itemImages
-      : itemImages.filter((entry) => entry.img.item === item)
+      : itemImages.filter(
+          (entry) =>
+            (entry.kind === "project" ? entry.item : entry.img.item) === item,
+        )
   )
     .filter((entry) => {
+      if (entry.kind === "project") return true;
       if (entry.img.item !== "パンフレット") return true;
       const key = `${entry.work.slug}#${entry.gi}`;
       if (seenBooklets.has(key)) return false;
@@ -224,6 +256,7 @@ function WorksInner() {
       return true;
     })
     .map((entry) => {
+      if (entry.kind === "project") return entry;
       // 同一グループ内のネスト（表裏セット）は代表1枚だけ出す
       const group = entry.work.gallery[entry.gi];
       const nested = group.images.find(
@@ -271,7 +304,7 @@ function WorksInner() {
             aria-pressed={view === "client"}
             className={pill(view === "client")}
           >
-            企業/ジャンルで見る
+            作品/ジャンルで見る
           </button>
           <button
             type="button"
@@ -303,6 +336,15 @@ function WorksInner() {
           </div>
           <div className="flex flex-col gap-4">
             {clientWorks.map((work) => {
+              if (work.overview) {
+                return (
+                  <ProjectWorkCard
+                    key={work.slug}
+                    item={work.overview}
+                    onImageClick={openModal}
+                  />
+                );
+              }
               const label = work.tags.map((tag) => tag.label).join(" / ");
               const heroImages: CardImage[] = work.gallery.flatMap(
                 (group, gi) => {
@@ -466,7 +508,21 @@ function WorksInner() {
             </div>
           ) : (
             <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-              {visibleItems.map(({ work, gi, img }) => {
+              {visibleItems.map((entry) => {
+                if (entry.kind === "project") {
+                  return (
+                    <div
+                      key={entry.work.slug}
+                      className="col-span-2 min-w-0 lg:col-span-4"
+                    >
+                      <ProjectWorkCard
+                        item={entry.work.overview!}
+                        onImageClick={openModal}
+                      />
+                    </div>
+                  );
+                }
+                const { work, gi, img } = entry;
                 const contain = isContain(img.src);
                 const target = detailOf(img.src);
                 const pamphlet =
@@ -480,7 +536,6 @@ function WorksInner() {
                   target?.href ??
                   (pamphlet ? `/works/pamphlet/${pamphlet.id}` : undefined);
                 const title = target?.title ?? pamphlet?.title ?? work.title;
-                const isLp = target?.href.startsWith("/works/lp") ?? false;
                 const isSokoage = href === "/works/competition";
                 const image = (
                   <Image
@@ -503,12 +558,16 @@ function WorksInner() {
                     aria-label={`${title}のページへ`}
                   >
                     {image}
-                    <OpenBadge
-                      label={
-                        isPamphlet ? "パンフレットを開く" : "プレビューを開く"
-                      }
-                      tint={isPamphlet || isLp || isSokoage}
-                    />
+                    {isPamphlet || isSokoage ? (
+                      <OpenBadge
+                        label={
+                          isPamphlet ? "パンフレットを開く" : "プレビューを開く"
+                        }
+                        tint
+                      />
+                    ) : (
+                      <ThumbnailZoomBadge />
+                    )}
                   </Link>
                 ) : (
                   <button
@@ -517,13 +576,16 @@ function WorksInner() {
                     onClick={() =>
                       openModal(
                         img.src,
-                        visibleItems.map((e) => e.img.src),
+                        visibleItems.flatMap((e) =>
+                          e.kind === "image" ? [e.img.src] : [],
+                        ),
                       )
                     }
                     aria-label={`${work.title}の画像を拡大`}
-                    className="group block cursor-zoom-in overflow-hidden rounded-xl border-[0.5px] border-main"
+                    className="group relative block aspect-square min-w-0 cursor-zoom-in overflow-hidden rounded-xl border-[0.5px] border-main"
                   >
                     {image}
+                    <ThumbnailZoomBadge />
                   </button>
                 );
               })}
@@ -532,12 +594,20 @@ function WorksInner() {
         </>
       )}
 
+      <div className="mt-12">
+        <ContactCard />
+      </div>
+
       {modal && (
         <div
           onClick={closeModal}
           onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
-          className={`fixed inset-0 z-50 flex touch-pan-y items-center justify-center bg-black/80 p-4 ${
+          onTouchCancel={() => {
+            touchStart.current = null;
+          }}
+          className={`fixed inset-0 z-50 flex [touch-action:pan-y_pinch-zoom] items-center justify-center bg-black/80 p-4 ${
             closing
               ? "animate-[fade-out_0.2s_ease-in]"
               : "animate-[fade-in_0.2s_ease-out]"

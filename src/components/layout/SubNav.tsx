@@ -10,12 +10,14 @@ export default function SubNav() {
 
   return (
     <nav className="flex items-center justify-between gap-4">
-      <div className="flex gap-4 font-['Alata'] text-xs font-bold tracking-widest">
+      <div className="flex gap-4 font-alata text-xs font-bold tracking-widest">
         {navigationLinks.map((item) => {
           const isActive =
             item.href === "/"
               ? pathname === "/"
-              : pathname === item.href || pathname.startsWith(`${item.href}/`);
+              : pathname === item.href ||
+                pathname.startsWith(`${item.href}/`) ||
+                (item.href === "/works" && pathname.startsWith("/other"));
           return (
             <AnimatedNavLink
               key={item.href}

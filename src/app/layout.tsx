@@ -1,16 +1,21 @@
-import type { Metadata } from "next";
-import { Alata, Noto_Sans } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Alata, Noto_Sans, Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 
 const alataFont = Alata({
-  variable: "--font-alata",
+  variable: "--font-alata-face",
   subsets: ["latin"],
   weight: ["400"],
 });
 const notoSans = Noto_Sans({
   variable: "--font-noto-sans",
   subsets: ["latin"],
-  weight: ["400", "600", "700"],
+  weight: ["400", "500", "600", "700"],
+});
+const notoSansJP = Noto_Sans_JP({
+  variable: "--font-noto-sans-jp",
+  subsets: ["latin"],
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -22,9 +27,18 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  userScalable: true,
+};
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="ja" className={`${notoSans.variable} h-full scroll-smooth`}>
+    <html
+      lang="ja"
+      className={`${alataFont.variable} ${notoSans.variable} ${notoSansJP.variable} h-full scroll-smooth`}
+    >
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link

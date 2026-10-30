@@ -1,6 +1,6 @@
 export type WorkTag = {
   label: string;
-  kind: "web" | "dtp" | "illust" | "date";
+  kind: "web" | "dtp" | "illust" | "uiux" | "app" | "date";
 };
 
 export const itemTags = [
@@ -13,6 +13,8 @@ export const itemTags = [
   "Tシャツ",
   "WEBサイト",
   "バナー",
+  "UI/UX",
+  "アプリ",
 ] as const;
 
 export type ItemTag = (typeof itemTags)[number];

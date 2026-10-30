@@ -2,24 +2,30 @@
 
 @theme {
   --color-main: #0ba84a;
-  --color-main-bright: #7DD7A1;
+  --color-main-bright: #7dd7a1;
   --color-main-light: #e7f2e2;
   --color-ink: #32323c;
   --color-muted: #87869c;
   --color-cream: #f5f5f3;
   --color-profile: #ebe8e0;
-  --font-sans: "Noto Sans", sans-serif;
   --font-hand: "cursive";
+}
+
+@theme inline {
+  --font-sans: var(--font-noto-sans), var(--font-noto-sans-jp), sans-serif;
+  --font-alata: var(--font-alata-face), var(--font-noto-sans-jp), sans-serif;
 }
 
 html {
   font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
   background: var(--color-cream);
   color: var(--color-ink);
-  font-family: var(--font-sans);
+  font-family: var(--font-noto-sans), var(--font-noto-sans-jp), sans-serif;
 }
 
 img {
@@ -27,7 +33,7 @@ img {
 }
 
 h2 {
-  font-family: "Alata";
+  font-family: var(--font-alata-face), var(--font-noto-sans-jp), sans-serif;
 }
 
 /* マテリアルシンボル（fill） */

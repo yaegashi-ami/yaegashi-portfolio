@@ -11,7 +11,7 @@ export default function WordPressEditingFlow({
       <div
         className={`rounded-xl bg-[#efefec] ${compact ? "p-5" : "p-6 md:p-8"}`}
       >
-        <p className="font-['Alata'] text-[10px] tracking-[0.18em] text-ink/65">
+        <p className="font-alata text-[10px] tracking-[0.18em] text-ink/65">
           BEFORE
         </p>
         <p
@@ -36,7 +36,7 @@ export default function WordPressEditingFlow({
         )}
       </div>
       <div className={`rounded-xl bg-main-light ${compact ? "p-5" : "p-6 md:p-8"}`}>
-        <p className="font-['Alata'] text-[10px] tracking-[0.18em] text-main">
+        <p className="font-alata text-[10px] tracking-[0.18em] text-main">
           AFTER
         </p>
         <p
@@ -50,7 +50,7 @@ export default function WordPressEditingFlow({
               key={item}
               className="rounded-md border border-main-light bg-white/80 px-3 py-2 text-xs leading-5"
             >
-              <span className="mr-1.5 font-['Alata'] text-main">
+              <span className="mr-1.5 font-alata text-main">
                 {index + 1}.
               </span>
               {item}

@@ -94,7 +94,6 @@ export const works: Work[] = [
       { label: "WEB", kind: "web" },
       { label: "DTP", kind: "dtp" },
       { label: "illust", kind: "illust" },
-      { label: "2022-", kind: "date" },
     ],
     description: [
       "五線譜と喫茶店のテーブルのコーナーをイメージしたロゴを制作しました。\nお店の雰囲気に合うようモチーフやカラーの相談を重ね、ラフな雰囲気のステッカーを制作しました。フライヤーについては、爽やかな色合いと謎めいたイラストで目を引くようにデザインしました。",
@@ -140,7 +139,6 @@ export const works: Work[] = [
       { label: "WEB", kind: "web" },
       { label: "DTP", kind: "dtp" },
       { label: "illust", kind: "illust" },
-      { label: "2022-2023", kind: "date" },
     ],
     description: ["キャンペーンごとの制作物、店舗用POPなどの制作。"],
     responsibilities: [
@@ -205,7 +203,6 @@ export const works: Work[] = [
     subtitle: "LP/コーディング/バナー/CMS",
     tags: [
       { label: "WEB", kind: "web" },
-      { label: "2022-2023", kind: "date" },
     ],
     description: [
       "ターゲットごとに目立たせたいポイントを変えるなどのUIの工夫を心がけて制作しました。",
@@ -241,7 +238,6 @@ export const works: Work[] = [
     tags: [
       { label: "DTP", kind: "dtp" },
       { label: "illust", kind: "illust" },
-      { label: "2024-", kind: "date" },
     ],
     description: [
       "Jimnyのリペアやカスタムなどを行っている自動車整備工場で、デモ車の資料を頂いてイラストを描き起こしました。\nポップ/アメリカン/ビンテージ/モダン/標識風など様々なテイストのデザイン案から相談と調整を重ねて選んでいただきました。",
@@ -276,7 +272,6 @@ export const works: Work[] = [
     tags: [
       { label: "DTP", kind: "dtp" },
       { label: "illust", kind: "illust" },
-      { label: "2021-2022", kind: "date" },
     ],
     description: [
       "vivoは音楽用語で「生き生きした」を意味しており、個性的で元気な利用者さんの雰囲気をイメージしています。\nメインロゴの他、施設内の部屋/併設カフェ/水耕栽培で仕様するためにカラーバリエーションを作成しました。色覚特性に配慮しつつ、活動的な印象になるよう作成しました。",
@@ -320,7 +315,6 @@ export const works: Work[] = [
     tags: [
       { label: "DTP", kind: "dtp" },
       { label: "illust", kind: "illust" },
-      { label: "2021-2022", kind: "date" },
     ],
     description: [
       "主にカラーリング調整、商品イラストの作成、その他イラスト素材の作成を担当しました。メインイラストに合わせたイラストの作成ということで、馴染むように、可愛さを底上げできるようにイラストを作成しました。また単調にならず、うるさくならないようバランスを取りながら制作しました。",
@@ -350,7 +344,6 @@ export const works: Work[] = [
     subtitle: "ショップカードデザイン/名刺デザイン/チラシ",
     tags: [
       { label: "DTP", kind: "dtp" },
-      { label: "2021", kind: "date" },
     ],
     description: [
       "ショップカードのデザイン、名刺のデザインを担当しました。カジュアルにフレンチを楽しむことが出来るお店なので、ロゴに使われている松ぼっくりのシルエットで親しみやすさを押し出しました。",
@@ -386,7 +379,6 @@ export const works: Work[] = [
     subtitle: "コーポレートサイト改修 - コンペ",
     tags: [
       { label: "WEB", kind: "web" },
-      { label: "2025", kind: "date" },
     ],
     description: [
       "コーポレートサイトのリデザインコンペに参加しました。工務店とマルチな制作という組み合わせを表現するため、ポップでありながら規則性の強いデザインに仕上げました。特にファーストビューではロゴマークを模ったパネルを浮遊させることで、軽やかで先進的な雰囲気を演出しました。",
